@@ -10,9 +10,8 @@ pub struct AdbHostKillCommand {
 
 impl SyncHostCommand for AdbHostKillCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
-        let tcp_stream = connect(&self.connection_info)?;
-        let adb_command = BasicSyncHostCommand { tcp_stream };
-        match adb_command.exec_command(String::from("host:kill")) {
+        let mut tcp_stream = connect(&self.connection_info)?;
+        match BasicSyncHostCommand::exec_command(&mut tcp_stream,String::from("host:kill")) {
             Ok(resp) => Ok(resp),
             Err(error) => match error {
                 AdbError::TcpReadError { .. } => Ok(SyncProtocol::OKAY {

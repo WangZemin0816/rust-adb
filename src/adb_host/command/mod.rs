@@ -7,6 +7,7 @@ use crate::adb_host::command::host_version::AdbHostVersionCommand;
 use crate::adb_host::protocol::SyncProtocol;
 use crate::conn::connection::ConnectionInfo;
 use crate::error::adb::AdbError;
+use std::net::TcpStream;
 
 mod basic_async;
 mod basic_sync;
@@ -19,6 +20,10 @@ mod host_version;
 
 pub trait SyncHostCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError>;
+}
+
+pub trait SyncTransportCommand {
+    fn execute(&mut self) -> Result<TcpStream, AdbError>;
 }
 
 pub fn new_host_version_command(host: String, port: i32) -> impl SyncHostCommand {
@@ -67,7 +72,7 @@ pub fn new_host_transport_command(
     host: String,
     port: i32,
     serial_no: String,
-) -> impl SyncHostCommand {
+) -> impl SyncTransportCommand {
     let conn = ConnectionInfo::new(&host, port);
     AdbHostTransportCommand {
         serial_no: serial_no.clone(),

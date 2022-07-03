@@ -12,14 +12,13 @@ pub struct AdbHostDisconnectCommand {
 
 impl SyncHostCommand for AdbHostDisconnectCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
-        let tcp_stream = connect(&self.connection_info)?;
-        let adb_command = BasicSyncHostCommand { tcp_stream };
+        let mut tcp_stream = connect(&self.connection_info)?;
         let command = format!(
             "host:disconnect:{}:{}",
             self.host.clone(),
             self.port.clone()
         );
-        match adb_command.exec_command(command) {
+        match BasicSyncHostCommand::exec_command(&mut tcp_stream, command) {
             Ok(_) => {
                 let content = format!("{}:{}", self.host.clone(), self.port.clone());
                 let length = content.len();

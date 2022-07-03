@@ -7,37 +7,36 @@ use crate::adb_host::protocol::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct BasicSyncHostCommand {
-    pub tcp_stream: TcpStream,
+
 }
 
 impl BasicSyncHostCommand {
-    pub fn exec_command(self, command: String) -> Result<SyncProtocol, AdbError> {
+    pub fn exec_command(tcp_stream:&mut TcpStream, command: String) -> Result<SyncProtocol, AdbError> {
         trace!(
             "[exec_command]begin to exec command on host server: command={}",
             command.clone()
         );
-        let mut tcp_stream = self.tcp_stream;
 
-        BasicSyncHostCommand::write_command(&mut tcp_stream, &command)?;
+        BasicSyncHostCommand::write_command(tcp_stream, &command)?;
         trace!(
             "[exec_command]write command on host server: command={}",
             command.clone()
         );
 
-        let response_status = BasicSyncHostCommand::read_response_status(&mut tcp_stream)?;
+        let response_status = BasicSyncHostCommand::read_response_status(tcp_stream)?;
         trace!(
             "[exec_command]read adb response status: status={}",
             response_status.clone()
         );
 
-        let content_length = BasicSyncHostCommand::read_response_length(&mut tcp_stream)?;
+        let content_length = BasicSyncHostCommand::read_response_length(tcp_stream)?;
         trace!(
             "[exec_command]read adb response content length: length={}",
             content_length
         );
 
         let response_content =
-            BasicSyncHostCommand::read_response_content(&mut tcp_stream, content_length)?;
+            BasicSyncHostCommand::read_response_content(tcp_stream, content_length)?;
         trace!(
             "[exec_command]read adb response content: length={}",
             content_length

@@ -10,9 +10,8 @@ pub struct AdbHostVersionCommand {
 
 impl SyncHostCommand for AdbHostVersionCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
-        let tcp_stream = connect(&self.connection_info)?;
-        let adb_command = BasicSyncHostCommand { tcp_stream };
-        adb_command.exec_command(String::from("host:version"))
+        let mut tcp_stream = connect(&self.connection_info)?;
+        BasicSyncHostCommand::exec_command(&mut tcp_stream, String::from("host:version"))
     }
 }
 

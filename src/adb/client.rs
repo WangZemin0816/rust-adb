@@ -2,9 +2,14 @@ use log::{error, info};
 use std::net::TcpStream;
 
 use crate::adb::{Device, DeviceWithPath, HostServer};
-use crate::adb_device::{DeviceClient, new_device_client};
-use crate::adb_host::command::{new_host_disconnect_command, new_host_kill_command, new_host_list_device_command, new_host_transport_command, new_host_version_command};
-use crate::adb_host::command::{new_host_list_device_l_command, SyncHostCommand};
+use crate::adb_device::{new_device_client, DeviceClient};
+use crate::adb_host::command::{
+    new_host_disconnect_command, new_host_kill_command, new_host_list_device_command,
+    new_host_transport_command, new_host_version_command,
+};
+use crate::adb_host::command::{
+    new_host_list_device_l_command, SyncHostCommand, SyncTransportCommand,
+};
 use crate::adb_host::protocol::SyncProtocol;
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
@@ -120,9 +125,12 @@ impl HostServer for AdbClient {
     }
 
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceClient>, AdbError> {
-        let mut command = new_host_transport_command(self.host.clone(), self.port.clone(),serial_no);
-        command.execute()?;
-        Ok(new_device_client(command.))
+        let mut command =
+            new_host_transport_command(self.host.clone(), self.port.clone(), serial_no);
+        match command.execute() {
+            Ok(redirect_stream) => Ok(new_device_client(redirect_stream)),
+            Err(error) => Err(error),
+        }
     }
 }
 

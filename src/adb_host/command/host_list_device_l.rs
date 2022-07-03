@@ -10,9 +10,8 @@ pub struct AdbHostListDeviceLCommand {
 
 impl SyncHostCommand for AdbHostListDeviceLCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
-        let tcp_stream = connect(&self.connection_info)?;
-        let adb_command = BasicSyncHostCommand { tcp_stream };
-        adb_command.exec_command(String::from("host:devices-l"))
+        let mut tcp_stream = connect(&self.connection_info)?;
+        BasicSyncHostCommand::exec_command(&mut tcp_stream, String::from("host:devices-l"))
     }
 }
 
