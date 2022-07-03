@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
@@ -9,27 +12,39 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52cbf25e-38d1-44ff-a8f3-30fd6f6ff1bc" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/log4rs.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/adb/adb_parse.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/adb_basic.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/adb_devices.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/adb_kill.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/adb_track_device.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/adb_version.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cmd/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/error/adb.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/error/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/rust-adb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rust-adb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb/adb.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/adb.rs" afterDir="false" />
+    <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/adb_device/client.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_device/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/basic_async.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/basic_sync.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_kill.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_list_device.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_list_device_l.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_track_devices.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_transport.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/host_version.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/command/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_host/protocol.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/protocol/async.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/protocol/sync.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/adb.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/adb_parse.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/command.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/client.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/connection.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/device.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/adb_basic.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/connection.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/adb_devices.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/adb_devices.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/adb_kill.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/adb_kill.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/adb_track_device.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/adb_track_device.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/adb_version.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/adb_version.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cmd/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/conn/connection.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/connection.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/conn/connection_tcp.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/conn/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/error/adb.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/error/adb.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,6 +74,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="ProjectId" id="2BMurLB8DHKzvYYE8K3OiRkjaMo" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -68,31 +86,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/workspace-rust/rust-adb/src/cmd&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "code.cleanup.on.save": "true",
+    "last_opened_file_path": "/Users/bytedance/workspace/rust/rust-adb",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.disableDetachedFileInspection/Users/bytedance/workspace/rust/rust-adb/src/protocol/sync.rs": "true",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "language.rust.cargo.check",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/adb_host/command" />
+      <recent name="$PROJECT_DIR$/src/adb" />
+      <recent name="$PROJECT_DIR$/src/cmd" />
+      <recent name="$PROJECT_DIR$/src/adb_host" />
       <recent name="D:\workspace-rust\rust-adb\src\cmd" />
-      <recent name="D:\workspace-rust\rust-adb\src\error" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/conn" />
+      <recent name="$PROJECT_DIR$/src/adb_host" />
       <recent name="D:\workspace-rust\rust-adb\src\cmd" />
       <recent name="D:\workspace-rust\rust-adb\src\adb" />
       <recent name="D:\workspace-rust\rust-adb\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test cmd::adb_basic::tests::read_commands">
-    <configuration name="Test cmd::adb_basic::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib cmd::adb_basic::tests::read_commands -- --exact" />
+  <component name="RunManager" selected="Cargo.Test adb::client::tests::read_commands">
+    <configuration name="Test adb::client::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb::client::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -108,8 +140,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test cmd::adb_devices::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib cmd::adb_devices::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::command::host_disconnect::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::command::host_disconnect::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -125,8 +157,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test cmd::adb_kill::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib cmd::adb_kill::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::command::host_kill::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::command::host_kill::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -142,8 +174,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test cmd::adb_track_device::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib cmd::adb_track_device::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::command::host_version::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::command::host_version::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -159,8 +191,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test cmd::adb_version::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib cmd::adb_version::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -178,22 +210,22 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo.Test cmd::adb_basic::tests::read_commands" />
-        <item itemvalue="Cargo.Test cmd::adb_version::tests::read_commands" />
-        <item itemvalue="Cargo.Test cmd::adb_track_device::tests::read_commands" />
-        <item itemvalue="Cargo.Test cmd::adb_kill::tests::read_commands" />
-        <item itemvalue="Cargo.Test cmd::adb_devices::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb::client::tests::read_commands" />
       </list>
     </recent_temporary>
   </component>
   <component name="RustProjectSettings">
+    <option name="runExternalLinterOnTheFly" value="true" />
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
     <option name="version" value="2" />
+  </component>
+  <component name="RustfmtProjectSettings">
+    <option name="useRustfmt" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="52cbf25e-38d1-44ff-a8f3-30fd6f6ff1bc" name="Changes" comment="" />
+      <changelist id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="" />
       <created>1656728474121</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -204,6 +236,8 @@
       <workItem from="1656730517359" duration="608000" />
       <workItem from="1656731159920" duration="25453000" />
       <workItem from="1656816419482" duration="9645000" />
+      <workItem from="1656853098187" duration="1000" />
+      <workItem from="1656853272201" duration="2794000" />
     </task>
     <servers />
   </component>
