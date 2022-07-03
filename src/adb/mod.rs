@@ -1,5 +1,4 @@
 pub mod command;
+pub mod adb;
+pub mod adb_parse;
 
-pub trait AdbClient {
-    fn host_version() -> String;
-}

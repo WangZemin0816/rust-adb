@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="52cbf25e-38d1-44ff-a8f3-30fd6f6ff1bc" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/log4rs.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb/adb_parse.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/adb_basic.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/adb_devices.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/adb_kill.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/adb_track_device.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/adb_version.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cmd/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/error/adb.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/error/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/rust-adb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rust-adb.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/adb.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/adb.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/conn/connection.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/connection.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/conn/connection_tcp.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/conn/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KotlinMultiplatform">
+    <allAvailableExecutables />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="vic3xl6q" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2BMurLB8DHKzvYYE8K3OiRkjaMo" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/workspace-rust/rust-adb/src/cmd&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace-rust\rust-adb\src\cmd" />
+      <recent name="D:\workspace-rust\rust-adb\src\error" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace-rust\rust-adb\src\cmd" />
+      <recent name="D:\workspace-rust\rust-adb\src\adb" />
+      <recent name="D:\workspace-rust\rust-adb\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Cargo.Test cmd::adb_basic::tests::read_commands">
+    <configuration name="Test cmd::adb_basic::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib cmd::adb_basic::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test cmd::adb_devices::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib cmd::adb_devices::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test cmd::adb_kill::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib cmd::adb_kill::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test cmd::adb_track_device::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib cmd::adb_track_device::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test cmd::adb_version::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib cmd::adb_version::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cargo.Test cmd::adb_basic::tests::read_commands" />
+        <item itemvalue="Cargo.Test cmd::adb_version::tests::read_commands" />
+        <item itemvalue="Cargo.Test cmd::adb_track_device::tests::read_commands" />
+        <item itemvalue="Cargo.Test cmd::adb_kill::tests::read_commands" />
+        <item itemvalue="Cargo.Test cmd::adb_devices::tests::read_commands" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+    <option name="version" value="2" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52cbf25e-38d1-44ff-a8f3-30fd6f6ff1bc" name="Changes" comment="" />
+      <created>1656728474121</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1656728474121</updated>
+      <workItem from="1656728476893" duration="656000" />
+      <workItem from="1656729153123" duration="2000" />
+      <workItem from="1656729373179" duration="554000" />
+      <workItem from="1656730517359" duration="608000" />
+      <workItem from="1656731159920" duration="25453000" />
+      <workItem from="1656816419482" duration="9645000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
