@@ -2,8 +2,8 @@ use std::io::{Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
 
-use crate::basic::protocol::{AsyncProtocol, SyncProtocol};
 use log::{debug, trace};
+use crate::basic::{AsyncProtocol, SyncProtocol};
 
 use crate::error::adb::AdbError;
 
@@ -21,6 +21,17 @@ impl ConnectionInfo {
             port: port.clone(),
             read_timeout: Option::from(Duration::from_millis(1000)),
             write_timeout: Option::from(Duration::from_millis(1000)),
+        }
+    }
+}
+
+impl Clone for ConnectionInfo {
+    fn clone(&self) -> Self {
+        ConnectionInfo{
+            host:self.host.clone(),
+            port:self.port.clone(),
+            read_timeout:self.read_timeout.clone(),
+            write_timeout:self.write_timeout.clone(),
         }
     }
 }
@@ -109,7 +120,15 @@ pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncP
     let content = read_response_content(tcp_stream, length)?;
     trace!("[exec_command]response content: content={}", content);
 
-    return SyncProtocol::from_response(status, length, content);
+    if status == "OKAY" {
+        return Ok(SyncProtocol::OKAY { length, content });
+    }
+    if status == "FAIL" {
+        return Ok(SyncProtocol::FAIL { length, content });
+    }
+    Err(AdbError::ResponseStatusError {
+        message: String::from("unknown response status ") + &*status,
+    })
 }
 
 pub fn write_command(tcp_stream: &mut TcpStream, command: &String) -> Result<(), AdbError> {

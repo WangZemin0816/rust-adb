@@ -1,7 +1,7 @@
-use crate::adb_host::AsyncHostCommand;
+use crate::basic::AsyncCommand;
 use crate::basic::connection::exec_command_sync;
 use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::protocol::AsyncProtocol;
+use crate::basic::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostDisconnectCommand {
@@ -10,7 +10,7 @@ pub struct AdbHostDisconnectCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl AsyncHostCommand for AdbHostDisconnectCommand {
+impl AsyncCommand for AdbHostDisconnectCommand {
     fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let tcp_stream = connect(&self.connection_info)?;
         let command = format!("host:disconnect:{}:{}", self.host, self.port);
@@ -36,10 +36,10 @@ impl AdbHostDisconnectCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::AsyncHostCommand;
+    use crate::basic::AsyncCommand;
     use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
     use crate::basic::connection::ConnectionInfo;
-    use crate::basic::protocol::AsyncProtocol;
+    use crate::basic::AsyncProtocol;
 
     #[test]
     fn read_commands() {

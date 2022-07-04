@@ -12,10 +12,9 @@ use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
 use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
 use crate::adb_host::host_transport::AdbHostTransportCommand;
 use crate::adb_host::host_version::AdbHostVersionCommand;
-use crate::adb_host::{AsyncHostCommand, SyncHostCommand};
+use crate::basic::{AsyncCommand, AsyncProtocol, SyncCommand, SyncProtocol};
 use crate::basic::connection::{connect, ConnectionInfo};
 use crate::basic::connection::{read_response_content, read_response_length};
-use crate::basic::protocol::{AsyncProtocol, SyncProtocol};
 use crate::client::device_client::DeviceClient;
 use crate::error::adb::AdbError;
 

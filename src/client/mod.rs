@@ -28,7 +28,6 @@ pub trait HostServer {
 }
 
 pub trait DeviceService {
-    fn get_connection(&mut self) -> Result<TcpStream, AdbError>;
 }
 
 

@@ -1,14 +1,14 @@
-use crate::adb_host::AsyncHostCommand;
+use crate::basic::AsyncCommand;
 use crate::basic::connection::exec_command_sync;
 use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::protocol::AsyncProtocol;
+use crate::basic::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostKillCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl AsyncHostCommand for AdbHostKillCommand {
+impl AsyncCommand for AdbHostKillCommand {
     fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let tcp_stream = connect(&self.connection_info)?;
         exec_command_sync(tcp_stream, String::from("host:kill"))
@@ -26,10 +26,10 @@ impl AdbHostKillCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::AsyncHostCommand;
+    use crate::basic::AsyncCommand;
     use crate::adb_host::host_kill::AdbHostKillCommand;
     use crate::basic::connection::ConnectionInfo;
-    use crate::basic::protocol::AsyncProtocol;
+    use crate::basic::AsyncProtocol;
 
     #[test]
     fn read_commands() {

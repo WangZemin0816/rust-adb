@@ -1,7 +1,7 @@
-use crate::adb_host::AsyncHostCommand;
+use crate::basic::AsyncCommand;
 use crate::basic::connection::exec_command_sync;
 use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::protocol::AsyncProtocol;
+use crate::basic::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostTransportCommand {
@@ -9,7 +9,7 @@ pub struct AdbHostTransportCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl AsyncHostCommand for AdbHostTransportCommand {
+impl AsyncCommand for AdbHostTransportCommand {
     fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let tcp_stream = connect(&self.connection_info)?;
         let command = format!("host:transport:{}", self.serial_no.clone());
@@ -18,21 +18,27 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 }
 
 impl AdbHostTransportCommand {
-    pub(crate) fn new(host: &String, port: &i32, serial_no: &String) -> AdbHostTransportCommand {
-        let connect_info = ConnectionInfo::new(host, port);
+    pub fn new(host: &String, port: &i32, serial_no: &String) -> AdbHostTransportCommand {
+        let connection_info = ConnectionInfo::new(host, port);
         AdbHostTransportCommand {
             serial_no: serial_no.clone(),
-            connection_info: connect_info,
+            connection_info,
+        }
+    }
+    pub fn new0(connection_info:&ConnectionInfo, serial_no: &String) -> AdbHostTransportCommand {
+        AdbHostTransportCommand {
+            connection_info:connection_info.clone(),
+            serial_no: serial_no.clone(),
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::AsyncHostCommand;
+    use crate::basic::AsyncCommand;
     use crate::adb_host::host_transport::AdbHostTransportCommand;
     use crate::basic::connection::ConnectionInfo;
-    use crate::basic::protocol::AsyncProtocol;
+    use crate::basic::AsyncProtocol;
 
     #[test]
     fn read_commands() {

@@ -1,7 +1,7 @@
 use std::net::TcpStream;
-use crate::adb_host::AsyncHostCommand;
+use crate::basic::AsyncCommand;
 use crate::adb_host::host_transport::AdbHostTransportCommand;
-use crate::basic::protocol::AsyncProtocol;
+use crate::basic::AsyncProtocol;
 use crate::client::DeviceService;
 use crate::error::adb::AdbError;
 
@@ -22,14 +22,5 @@ impl DeviceClient {
 }
 
 impl DeviceService for DeviceClient {
-    fn get_connection(&mut self) -> Result<TcpStream, AdbError> {
-        let mut command = AdbHostTransportCommand::new(&self.host, &self.port, &self.serial_no);
-        let async_protocol = command.execute()?;
-        match async_protocol {
-            AsyncProtocol::OKAY { tcp_stream } => Ok(tcp_stream),
-            AsyncProtocol::FAIL { content, .. } => {
-                Err(AdbError::ResponseStatusError { message: content })
-            }
-        }
-    }
+
 }

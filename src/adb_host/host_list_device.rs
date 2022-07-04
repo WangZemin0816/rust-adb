@@ -1,15 +1,15 @@
 
-use crate::adb_host::SyncHostCommand;
+use crate::basic::SyncCommand;
 use crate::basic::connection::exec_command;
 use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::protocol::SyncProtocol;
+use crate::basic::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostListDevicesCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl SyncHostCommand for AdbHostListDevicesCommand {
+impl SyncCommand for AdbHostListDevicesCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
         exec_command(&mut tcp_stream, String::from("host:devices"))
@@ -28,9 +28,9 @@ impl AdbHostListDevicesCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
-    use crate::adb_host::SyncHostCommand;
+    use crate::basic::SyncCommand;
     use crate::basic::connection::ConnectionInfo;
-    use crate::basic::protocol::SyncProtocol;
+    use crate::basic::SyncProtocol;
 
     #[test]
     fn read_commands() {
