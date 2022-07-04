@@ -21,7 +21,7 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::host_transport::AdbHostTransportCommand;
-    use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+    use crate::adb_host::command::{AsyncHostCommand};
     use crate::adb_host::protocol::{AsyncProtocol};
     use crate::conn::connection::ConnectionInfo;
 

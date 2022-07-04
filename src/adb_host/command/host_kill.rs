@@ -18,7 +18,7 @@ impl AsyncHostCommand for AdbHostKillCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::host_kill::AdbHostKillCommand;
-    use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+    use crate::adb_host::command::{AsyncHostCommand};
     use crate::adb_host::protocol::{AsyncProtocol};
     use crate::conn::connection::ConnectionInfo;
 
