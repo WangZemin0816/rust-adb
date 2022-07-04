@@ -1,9 +1,9 @@
-use std::time::Duration;
-use crate::conn::connection::exec_command_sync;
 use crate::adb_host::command::AsyncHostCommand;
-use crate::conn::protocol::AsyncProtocol;
+use crate::conn::connection::exec_command_sync;
 use crate::conn::connection::{connect, ConnectionInfo};
+use crate::conn::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
+use std::time::Duration;
 
 pub struct AdbHostTrackDeviceCommand {
     pub connection_info: ConnectionInfo,
@@ -19,9 +19,9 @@ impl AsyncHostCommand for AdbHostTrackDeviceCommand {
 
 impl AdbHostTrackDeviceCommand {
     pub fn new(host: &String, port: &i32) -> AdbHostTrackDeviceCommand {
-        let connect_info = ConnectionInfo{
-            host:host.clone(),
-            port:port.clone(),
+        let connect_info = ConnectionInfo {
+            host: host.clone(),
+            port: port.clone(),
             read_timeout: None,
             write_timeout: Option::from(Duration::from_millis(1000)),
         };
@@ -31,14 +31,13 @@ impl AdbHostTrackDeviceCommand {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
 
     use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
     use crate::adb_host::command::AsyncHostCommand;
-    use crate::conn::protocol::AsyncProtocol;
     use crate::conn::connection::ConnectionInfo;
+    use crate::conn::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {

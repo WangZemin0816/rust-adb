@@ -167,7 +167,7 @@ impl HostServer for AdbClient {
         let mut command = AdbHostTransportCommand::new(&self.host, &self.port, &serial_no);
         match command.execute() {
             Ok(redirect_stream) => match redirect_stream {
-                AsyncProtocol::OKAY { tcp_stream } => {
+                AsyncProtocol::OKAY { tcp_stream: _ } => {
                     let device_service =
                         DeviceClient::new(self.host.clone(), self.port.clone(), serial_no.clone());
                     Ok(Box::new(device_service))

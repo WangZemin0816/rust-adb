@@ -1,4 +1,3 @@
-use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
 use crate::adb_host::command::AsyncHostCommand;
 use crate::conn::connection::exec_command_sync;
 use crate::conn::connection::{connect, ConnectionInfo};
@@ -22,7 +21,7 @@ impl AdbHostTransportCommand {
     pub(crate) fn new(host: &String, port: &i32, serial_no: &String) -> AdbHostTransportCommand {
         let connect_info = ConnectionInfo::new(host, port);
         AdbHostTransportCommand {
-            serial_no:serial_no.clone(),
+            serial_no: serial_no.clone(),
             connection_info: connect_info,
         }
     }

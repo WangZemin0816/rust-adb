@@ -1,7 +1,7 @@
-use crate::conn::connection::exec_command;
 use crate::adb_host::command::SyncHostCommand;
-use crate::conn::protocol::SyncProtocol;
+use crate::conn::connection::exec_command;
 use crate::conn::connection::{connect, ConnectionInfo};
+use crate::conn::protocol::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostVersionCommand {
@@ -14,7 +14,6 @@ impl SyncHostCommand for AdbHostVersionCommand {
         exec_command(&mut tcp_stream, String::from("host:version"))
     }
 }
-
 
 impl AdbHostVersionCommand {
     pub fn new(host: &String, port: &i32) -> AdbHostVersionCommand {
@@ -29,8 +28,8 @@ impl AdbHostVersionCommand {
 mod tests {
     use crate::adb_host::command::host_version::AdbHostVersionCommand;
     use crate::adb_host::command::SyncHostCommand;
-    use crate::conn::protocol::SyncProtocol;
     use crate::conn::connection::ConnectionInfo;
+    use crate::conn::protocol::SyncProtocol;
 
     #[test]
     fn read_commands() {

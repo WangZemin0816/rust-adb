@@ -24,11 +24,7 @@ impl DeviceClient {
 
 impl DeviceService for DeviceClient {
     fn get_connection(&mut self) -> Result<TcpStream, AdbError> {
-        let mut command = AdbHostTransportCommand::new(
-            &self.host,
-            &self.port,
-            &self.serial_no,
-        );
+        let mut command = AdbHostTransportCommand::new(&self.host, &self.port, &self.serial_no);
         let async_protocol = command.execute()?;
         match async_protocol {
             AsyncProtocol::OKAY { tcp_stream } => Ok(tcp_stream),
