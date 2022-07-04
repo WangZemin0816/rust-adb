@@ -1,6 +1,6 @@
-use crate::basic::AsyncCommand;
 use crate::basic::connection::exec_command_sync;
 use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::AsyncCommand;
 use crate::basic::AsyncProtocol;
 use crate::error::adb::AdbError;
 
@@ -25,9 +25,9 @@ impl AdbHostTransportCommand {
             connection_info,
         }
     }
-    pub fn new0(connection_info:&ConnectionInfo, serial_no: &String) -> AdbHostTransportCommand {
+    pub fn new0(connection_info: &ConnectionInfo, serial_no: &String) -> AdbHostTransportCommand {
         AdbHostTransportCommand {
-            connection_info:connection_info.clone(),
+            connection_info: connection_info.clone(),
             serial_no: serial_no.clone(),
         }
     }
@@ -35,9 +35,9 @@ impl AdbHostTransportCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::basic::AsyncCommand;
     use crate::adb_host::host_transport::AdbHostTransportCommand;
     use crate::basic::connection::ConnectionInfo;
+    use crate::basic::AsyncCommand;
     use crate::basic::AsyncProtocol;
 
     #[test]

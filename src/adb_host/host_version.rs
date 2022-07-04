@@ -1,6 +1,6 @@
-use crate::basic::SyncCommand;
 use crate::basic::connection::exec_command;
 use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::SyncCommand;
 use crate::basic::SyncProtocol;
 use crate::error::adb::AdbError;
 
@@ -27,8 +27,8 @@ impl AdbHostVersionCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_version::AdbHostVersionCommand;
-    use crate::basic::SyncCommand;
     use crate::basic::connection::ConnectionInfo;
+    use crate::basic::SyncCommand;
     use crate::basic::SyncProtocol;
 
     #[test]

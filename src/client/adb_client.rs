@@ -4,7 +4,6 @@ use std::thread::JoinHandle;
 
 use log::{info, trace};
 
-use crate::client::{Device, DeviceService, DeviceWithPath, HostServer};
 use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
 use crate::adb_host::host_kill::AdbHostKillCommand;
 use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
@@ -12,10 +11,11 @@ use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
 use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
 use crate::adb_host::host_transport::AdbHostTransportCommand;
 use crate::adb_host::host_version::AdbHostVersionCommand;
-use crate::basic::{AsyncCommand, AsyncProtocol, SyncCommand, SyncProtocol};
 use crate::basic::connection::{connect, ConnectionInfo};
 use crate::basic::connection::{read_response_content, read_response_length};
+use crate::basic::{AsyncCommand, AsyncProtocol, SyncCommand, SyncProtocol};
 use crate::client::device_client::DeviceClient;
+use crate::client::{Device, DeviceService, DeviceWithPath, HostServer};
 use crate::error::adb::AdbError;
 
 pub struct AdbClient {

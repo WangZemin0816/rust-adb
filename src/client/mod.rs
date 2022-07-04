@@ -27,9 +27,7 @@ pub trait HostServer {
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
 }
 
-pub trait DeviceService {
-}
-
+pub trait DeviceService {}
 
 #[derive(Debug)]
 pub struct Device {

@@ -1,7 +1,6 @@
-
-use crate::basic::SyncCommand;
 use crate::basic::connection::exec_command;
 use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::SyncCommand;
 use crate::basic::SyncProtocol;
 use crate::error::adb::AdbError;
 
@@ -28,8 +27,8 @@ impl AdbHostListDevicesCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
-    use crate::basic::SyncCommand;
     use crate::basic::connection::ConnectionInfo;
+    use crate::basic::SyncCommand;
     use crate::basic::SyncProtocol;
 
     #[test]

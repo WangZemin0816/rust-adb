@@ -2,8 +2,8 @@ use std::io::{Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
 
-use log::{debug, trace};
 use crate::basic::{AsyncProtocol, SyncProtocol};
+use log::{debug, trace};
 
 use crate::error::adb::AdbError;
 
@@ -27,11 +27,11 @@ impl ConnectionInfo {
 
 impl Clone for ConnectionInfo {
     fn clone(&self) -> Self {
-        ConnectionInfo{
-            host:self.host.clone(),
-            port:self.port.clone(),
-            read_timeout:self.read_timeout.clone(),
-            write_timeout:self.write_timeout.clone(),
+        ConnectionInfo {
+            host: self.host.clone(),
+            port: self.port.clone(),
+            read_timeout: self.read_timeout.clone(),
+            write_timeout: self.write_timeout.clone(),
         }
     }
 }

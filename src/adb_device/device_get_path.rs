@@ -12,7 +12,7 @@ pub struct DeviceGetPathCommand {
 impl SyncCommand for DeviceGetPathCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
         let mut tcp_stream = device_connection(&self.connection_info, &self.serial_no)?;
-        let command = format!("host-serial:{}:get-devpath",self.serial_no);
+        let command = format!("host-serial:{}:get-devpath", self.serial_no);
         exec_command(&mut tcp_stream, command)
     }
 }
@@ -21,8 +21,8 @@ impl SyncCommand for DeviceGetPathCommand {
 mod tests {
     use crate::adb_device::device_get_path::DeviceGetPathCommand;
     use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
-    use crate::basic::SyncCommand;
     use crate::basic::connection::ConnectionInfo;
+    use crate::basic::SyncCommand;
     use crate::basic::SyncProtocol;
 
     #[test]
