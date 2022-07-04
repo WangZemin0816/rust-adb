@@ -20,7 +20,7 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 
 #[cfg(test)]
 mod tests {
-    use std::io::Read;
+    
     use crate::adb_host::command::host_transport::AdbHostTransportCommand;
     use crate::adb_host::command::{AsyncHostCommand};
     use crate::adb_host::protocol::{AsyncProtocol};
@@ -37,7 +37,7 @@ mod tests {
         let resp = command.execute().unwrap();
         match resp {
             AsyncProtocol::OKAY { .. } => {println!("ok")}
-            AsyncProtocol::FAIL { content,length } => {
+            AsyncProtocol::FAIL { content,length: _ } => {
                 println!("adb transport FAIL {}",content)
             }
         }
