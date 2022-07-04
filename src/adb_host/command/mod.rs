@@ -37,7 +37,7 @@ pub fn new_host_disconnect_command(
     port: i32,
     dis_host: String,
     dis_port: i32,
-) -> impl SyncHostCommand {
+) -> impl AsyncHostCommand {
     let conn = ConnectionInfo::new(&host, port);
     AdbHostDisconnectCommand {
         host: dis_host,

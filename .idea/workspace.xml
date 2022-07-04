@@ -13,8 +13,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_kill.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_kill.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb/client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/client.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_transport.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_transport.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/command/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,9 +94,9 @@
       <recent name="D:\workspace-rust\rust-adb\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test adb_host::command::host_kill::tests::read_commands">
-    <configuration name="Test adb::client::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb::client::tests::read_commands -- --exact" />
+  <component name="RunManager" selected="Cargo.Test adb_host::command::host_transport::tests::read_commands">
+    <configuration name="Test adb_host::command::host_disconnect::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::command::host_disconnect::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -179,11 +182,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo.Test adb_host::command::host_kill::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_host::command::host_transport::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb_host::command::host_disconnect::tests::read_commands" />
         <item itemvalue="Cargo.Test host_transport::tests" />
+        <item itemvalue="Cargo.Test adb_host::command::host_kill::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_host::command::host_list_device_l::tests::read_commands" />
-        <item itemvalue="Cargo.Test adb::client::tests::read_commands" />
       </list>
     </recent_temporary>
   </component>
@@ -211,7 +214,7 @@
       <workItem from="1656816419482" duration="9645000" />
       <workItem from="1656853098187" duration="1000" />
       <workItem from="1656853272201" duration="2794000" />
-      <workItem from="1656900372233" duration="6493000" />
+      <workItem from="1656900372233" duration="7340000" />
     </task>
     <servers />
   </component>
@@ -233,33 +236,28 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs</url>
-          <line>41</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/adb/client.rs</url>
-          <line>167</line>
+          <line>162</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/adb/client.rs</url>
-          <line>85</line>
+          <line>83</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/adb/client.rs</url>
-          <line>86</line>
+          <line>84</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/adb/client.rs</url>
-          <line>87</line>
+          <line>85</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/adb/client.rs</url>
-          <line>88</line>
+          <line>86</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

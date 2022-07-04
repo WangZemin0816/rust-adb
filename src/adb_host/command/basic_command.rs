@@ -10,15 +10,30 @@ pub fn exec_command_sync(
     mut tcp_stream: TcpStream,
     command: String,
 ) -> Result<AsyncProtocol, AdbError> {
-    trace!("[exec_command]exec command: command={}", command);
+    trace!("[exec_command_sync]exec command: command={}", command);
 
     write_command(&mut tcp_stream, &command)?;
-    trace!("[exec_command]write command: command={}", command);
+    trace!("[exec_command_sync]write command: command={}", command);
 
     let status = read_response_status(&mut tcp_stream)?;
-    trace!("[exec_command]response status: status={}", status);
+    trace!("[exec_command_sync]response status: status={}", status);
 
-    return AsyncProtocol::from_response(status,tcp_stream)
+    if status == "OKAY" {
+        return Ok(AsyncProtocol::OKAY { tcp_stream });
+    }
+    
+    if status == "FAIL" {
+        let length = read_response_length(&mut tcp_stream)?;
+        trace!("[exec_command_sync]response length: length={}", length);
+
+        let content = read_response_content(&mut tcp_stream, length)?;
+        trace!("[exec_command_sync]response content: content={}", content);
+        return Ok(AsyncProtocol::FAIL { length,content });
+    }
+
+    Err(AdbError::ResponseStatusError {
+        message: String::from("unknown response status ") + &*status,
+    })
 }
 
 pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncProtocol, AdbError> {

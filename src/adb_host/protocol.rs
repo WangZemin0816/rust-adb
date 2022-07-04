@@ -9,7 +9,7 @@ pub enum SyncProtocol {
 
 pub enum AsyncProtocol {
     OKAY { tcp_stream: TcpStream },
-    FAIL { tcp_stream: TcpStream },
+    FAIL { length: usize, content: String },
 }
 
 impl SyncProtocol {
@@ -23,19 +23,6 @@ impl SyncProtocol {
         }
         if status == "FAIL" {
             return Ok(FAIL { length, content });
-        }
-        Err(AdbError::ResponseStatusError {
-            message: String::from("unknown response status ") + &*status,
-        })
-    }
-}
-impl AsyncProtocol {
-    pub fn from_response(status: String, tcp_stream: TcpStream) -> Result<AsyncProtocol, AdbError> {
-        if status == "OKAY" {
-            return Ok(AsyncProtocol::OKAY { tcp_stream });
-        }
-        if status == "FAIL" {
-            return Ok(AsyncProtocol::FAIL { tcp_stream });
         }
         Err(AdbError::ResponseStatusError {
             message: String::from("unknown response status ") + &*status,

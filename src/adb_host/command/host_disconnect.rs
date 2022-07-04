@@ -1,6 +1,6 @@
-use crate::adb_host::command::basic_command::exec_command;
-use crate::adb_host::command::SyncHostCommand;
-use crate::adb_host::protocol::SyncProtocol;
+use crate::adb_host::command::basic_command::{exec_command, exec_command_sync};
+use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 
@@ -10,30 +10,24 @@ pub struct AdbHostDisconnectCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl SyncHostCommand for AdbHostDisconnectCommand {
-    fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
+impl AsyncHostCommand for AdbHostDisconnectCommand {
+    fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
         let command = format!(
             "host:disconnect:{}:{}",
             self.host.clone(),
             self.port.clone()
         );
-        match exec_command(&mut tcp_stream, command) {
-            Ok(_) => {
-                let content = format!("{}:{}", self.host.clone(), self.port.clone());
-                let length = content.len();
-                Ok(SyncProtocol::OKAY { length, content })
-            }
-            Err(error) => Err(error),
-        }
+         exec_command_sync(tcp_stream, command)
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use std::io::Read;
     use crate::adb_host::command::host_disconnect::AdbHostDisconnectCommand;
-    use crate::adb_host::command::SyncHostCommand;
-    use crate::adb_host::protocol::SyncProtocol;
+    use crate::adb_host::command::AsyncHostCommand;
+    use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
     use crate::conn::connection::ConnectionInfo;
 
     #[test]
@@ -47,11 +41,11 @@ mod tests {
         };
         let resp = command.execute().unwrap();
         match resp {
-            SyncProtocol::OKAY { content, .. } => {
-                println!("adb version {}", content)
+            AsyncProtocol::OKAY {  .. } => {
+                println!("adb disconnect OKAY")
             }
-            SyncProtocol::FAIL { content, .. } => {
-                println!("adb version {}", content)
+            AsyncProtocol::FAIL { content,length } => {
+                println!("adb disconnect FAIL {}",content)
             }
         }
     }

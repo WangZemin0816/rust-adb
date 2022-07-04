@@ -1,4 +1,4 @@
-use log::{info};
+use log::info;
 use std::net::TcpStream;
 
 use crate::adb::{Device, DeviceWithPath, HostServer};
@@ -7,9 +7,7 @@ use crate::adb_host::command::{
     new_host_disconnect_command, new_host_kill_command, new_host_list_device_command,
     new_host_transport_command, new_host_version_command,
 };
-use crate::adb_host::command::{
-    new_host_list_device_l_command, SyncHostCommand,AsyncHostCommand
-};
+use crate::adb_host::command::{new_host_list_device_l_command, AsyncHostCommand, SyncHostCommand};
 use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
@@ -48,10 +46,10 @@ impl HostServer for AdbClient {
             new_host_disconnect_command(self.host.clone(), self.port.clone(), host, port);
         match command.execute() {
             Ok(response) => match response {
-                SyncProtocol::OKAY { content: _, .. } => Ok(()),
-                SyncProtocol::FAIL { content, .. } => {
-                    Err(AdbError::ResponseStatusError { message: content })
-                }
+                AsyncProtocol::OKAY { .. } => Ok(()),
+                AsyncProtocol::FAIL { .. } => Err(AdbError::ResponseStatusError {
+                    message: "".to_string(),
+                }),
             },
             Err(error) => Err(error),
         }
@@ -127,12 +125,12 @@ impl HostServer for AdbClient {
         let mut command =
             new_host_transport_command(self.host.clone(), self.port.clone(), serial_no);
         match command.execute() {
-            Ok(redirect_stream) => {
-                match redirect_stream {
-                    AsyncProtocol::OKAY { tcp_stream } => {Ok(new_device_client(tcp_stream))}
-                    AsyncProtocol::FAIL { tcp_stream } => {Ok(new_device_client(tcp_stream))}
+            Ok(redirect_stream) => match redirect_stream {
+                AsyncProtocol::OKAY { tcp_stream } => Ok(new_device_client(tcp_stream)),
+                AsyncProtocol::FAIL { content, .. } => {
+                    Err(AdbError::ResponseStatusError { message:content })
                 }
-            }
+            },
 
             Err(error) => Err(error),
         }
@@ -142,8 +140,7 @@ impl HostServer for AdbClient {
 #[cfg(test)]
 mod tests {
     use crate::adb::client::AdbClient;
-    use crate::adb::{HostServer};
-    
+    use crate::adb::HostServer;
 
     #[test]
     fn read_commands() {
