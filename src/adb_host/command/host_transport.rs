@@ -1,6 +1,6 @@
-use crate::adb_host::command::basic_sync::BasicSyncHostCommand;
-use crate::adb_host::command::{SyncHostCommand, SyncTransportCommand};
-use crate::adb_host::protocol::SyncProtocol;
+use crate::adb_host::command::basic_command::{exec_command, exec_command_sync};
+use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 use std::net::TcpStream;
@@ -10,11 +10,33 @@ pub struct AdbHostTransportCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl SyncTransportCommand for AdbHostTransportCommand {
-    fn execute(&mut self) -> Result<TcpStream, AdbError> {
-        let mut tcp_stream = connect(&self.connection_info)?;
+impl AsyncHostCommand for AdbHostTransportCommand {
+    fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
+        let tcp_stream = connect(&self.connection_info)?;
         let command = format!("host:transport:{}", self.serial_no.clone());
-        BasicSyncHostCommand::exec_command(&mut tcp_stream,command)?;
-        Ok(tcp_stream)
+        exec_command_sync(tcp_stream, command)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::adb_host::command::host_transport::AdbHostTransportCommand;
+    use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+    use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
+    use crate::conn::connection::ConnectionInfo;
+
+    #[test]
+    fn read_commands() {
+        let _ = log4rs::init_file("log4rs.yml", Default::default());
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let mut command = AdbHostTransportCommand {
+            serial_no: "emulator-5554".to_string(),
+            connection_info: conn,
+        };
+        let resp = command.execute().unwrap();
+        match resp {
+            AsyncProtocol::OKAY { .. } => {println!("ok")}
+            AsyncProtocol::FAIL { .. } => {println!("error")}
+        }
     }
 }

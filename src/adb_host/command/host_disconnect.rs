@@ -1,4 +1,4 @@
-use crate::adb_host::command::basic_sync::BasicSyncHostCommand;
+use crate::adb_host::command::basic_command::exec_command;
 use crate::adb_host::command::SyncHostCommand;
 use crate::adb_host::protocol::SyncProtocol;
 use crate::conn::connection::{connect, ConnectionInfo};
@@ -18,7 +18,7 @@ impl SyncHostCommand for AdbHostDisconnectCommand {
             self.host.clone(),
             self.port.clone()
         );
-        match BasicSyncHostCommand::exec_command(&mut tcp_stream, command) {
+        match exec_command(&mut tcp_stream, command) {
             Ok(_) => {
                 let content = format!("{}:{}", self.host.clone(), self.port.clone());
                 let length = content.len();

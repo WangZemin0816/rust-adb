@@ -1,4 +1,4 @@
-use crate::adb_host::command::basic_sync::BasicSyncHostCommand;
+use crate::adb_host::command::basic_command::exec_command;
 use crate::adb_host::command::SyncHostCommand;
 use crate::adb_host::protocol::SyncProtocol;
 use crate::conn::connection::{connect, ConnectionInfo};
@@ -11,7 +11,7 @@ pub struct AdbHostListDevicesCommand {
 impl SyncHostCommand for AdbHostListDevicesCommand {
     fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
-        BasicSyncHostCommand::exec_command(&mut tcp_stream,String::from("host:devices"))
+        exec_command(&mut tcp_stream, String::from("host:devices"))
     }
 }
 

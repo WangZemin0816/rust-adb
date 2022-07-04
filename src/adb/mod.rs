@@ -14,7 +14,7 @@ pub trait AdbServer {
 pub trait HostServer {
     fn get_connection(&mut self) -> Result<TcpStream, AdbError>;
     fn get_version(&mut self) -> Result<String, AdbError>;
-    fn disconnect(&mut self, host: String, port: i32) -> Result<String, AdbError>;
+    fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError>;
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError>;
     fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError>;
     fn track_devices(
@@ -36,7 +36,6 @@ pub struct Device {
 pub struct DeviceWithPath {
     pub serial_no: String,
     pub status: String,
-    pub path: String,
     pub product: String,
     pub model: String,
     pub device: String,

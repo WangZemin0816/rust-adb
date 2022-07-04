@@ -8,9 +8,9 @@ use crate::adb_host::command::{
     new_host_transport_command, new_host_version_command,
 };
 use crate::adb_host::command::{
-    new_host_list_device_l_command, SyncHostCommand, SyncTransportCommand,
+    new_host_list_device_l_command, SyncHostCommand,AsyncHostCommand
 };
-use crate::adb_host::protocol::SyncProtocol;
+use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 
@@ -43,12 +43,12 @@ impl HostServer for AdbClient {
         }
     }
 
-    fn disconnect(&mut self, host: String, port: i32) -> Result<String, AdbError> {
+    fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError> {
         let mut command =
             new_host_disconnect_command(self.host.clone(), self.port.clone(), host, port);
         match command.execute() {
             Ok(response) => match response {
-                SyncProtocol::OKAY { content, .. } => Ok(content),
+                SyncProtocol::OKAY { content, .. } => Ok(()),
                 SyncProtocol::FAIL { content, .. } => {
                     Err(AdbError::ResponseStatusError { message: content })
                 }
@@ -63,7 +63,7 @@ impl HostServer for AdbClient {
             SyncProtocol::OKAY { content, .. } => {
                 let mut devices = vec![];
                 for line in content.lines() {
-                    let contents: Vec<&str> = line.trim().split("\t").collect();
+                    let contents: Vec<&str> = line.trim().split_whitespace().collect();
                     if contents.len() >= 2 {
                         devices.push(Device {
                             serial_no: String::from(contents[0]),
@@ -85,16 +85,15 @@ impl HostServer for AdbClient {
             SyncProtocol::OKAY { content, .. } => {
                 let mut devices = vec![];
                 for line in content.lines() {
-                    let contents: Vec<&str> = line.trim().split("/").collect();
-                    if contents.len() >= 7 {
+                    let contents: Vec<&str> = line.trim().split_whitespace().collect();
+                    if contents.len() >= 6 {
                         devices.push(DeviceWithPath {
                             serial_no: String::from(contents[0]),
                             status: String::from(contents[1]),
-                            path: String::from(contents[2]),
-                            product: String::from(contents[3]),
-                            model: String::from(contents[4]),
-                            device: String::from(contents[5]),
-                            transport_id: String::from(contents[6]),
+                            product: String::from(contents[2]),
+                            model: String::from(contents[3]),
+                            device: String::from(contents[4]),
+                            transport_id: String::from(contents[5]),
                         });
                         continue;
                     }
@@ -128,7 +127,13 @@ impl HostServer for AdbClient {
         let mut command =
             new_host_transport_command(self.host.clone(), self.port.clone(), serial_no);
         match command.execute() {
-            Ok(redirect_stream) => Ok(new_device_client(redirect_stream)),
+            Ok(redirect_stream) => {
+                match redirect_stream {
+                    AsyncProtocol::OKAY { tcp_stream } => {Ok(new_device_client(tcp_stream))}
+                    AsyncProtocol::FAIL { tcp_stream } => {Ok(new_device_client(tcp_stream))}
+                }
+            }
+
             Err(error) => Err(error),
         }
     }
@@ -137,7 +142,8 @@ impl HostServer for AdbClient {
 #[cfg(test)]
 mod tests {
     use crate::adb::client::AdbClient;
-    use crate::adb::HostServer;
+    use crate::adb::{Device, DeviceWithPath, HostServer};
+    use crate::error::adb::AdbError;
 
     #[test]
     fn read_commands() {
@@ -147,7 +153,45 @@ mod tests {
             port: 5037,
             adb_bin_path: String::from(""),
         };
-        println!("version {:?}", client.get_version());
+        println!("version: {:?}", client.get_version());
+        match client.list_devices() {
+            Ok(devices) => {
+                for device in devices {
+                    println!("devices: {:?}", device)
+                }
+            }
+            Err(error) => {
+                println!("{:?}", error)
+            }
+        }
+
+        match client.list_devices_with_path() {
+            Ok(devices) => {
+                for device in devices {
+                    println!("devices: {:?}", device)
+                }
+            }
+            Err(error) => {
+                println!("{:?}", error)
+            }
+        }
+
+        match client.kill() {
+            Ok(_) => {
+                println!("kill success")
+            }
+            Err(error) => {
+                println!("{:?}", error)
+            }
+        }
+
+        match client.list_devices_with_path() {
+            Ok(_devices) => {}
+            Err(error) => {
+                println!("{:?}", error)
+            }
+        }
+
         // println!("devices {}",client.list_devices());
     }
 }

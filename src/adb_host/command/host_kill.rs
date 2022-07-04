@@ -1,6 +1,6 @@
-use crate::adb_host::command::basic_sync::BasicSyncHostCommand;
-use crate::adb_host::command::SyncHostCommand;
-use crate::adb_host::protocol::SyncProtocol;
+use crate::adb_host::command::basic_command::{exec_command, exec_command_sync};
+use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 
@@ -8,27 +8,18 @@ pub struct AdbHostKillCommand {
     pub connection_info: ConnectionInfo,
 }
 
-impl SyncHostCommand for AdbHostKillCommand {
-    fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
+impl AsyncHostCommand for AdbHostKillCommand {
+    fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
-        match BasicSyncHostCommand::exec_command(&mut tcp_stream,String::from("host:kill")) {
-            Ok(resp) => Ok(resp),
-            Err(error) => match error {
-                AdbError::TcpReadError { .. } => Ok(SyncProtocol::OKAY {
-                    length: 0,
-                    content: String::from(""),
-                }),
-                _ => Err(error),
-            },
-        }
+        exec_command_sync(tcp_stream, String::from("host:kill"))
     }
 }
 
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::host_kill::AdbHostKillCommand;
-    use crate::adb_host::command::SyncHostCommand;
-    use crate::adb_host::protocol::SyncProtocol;
+    use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+    use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
     use crate::conn::connection::ConnectionInfo;
 
     #[test]
@@ -40,11 +31,11 @@ mod tests {
         };
         let resp = command.execute().unwrap();
         match resp {
-            SyncProtocol::OKAY { content, .. } => {
-                println!("adb devices {}", content)
+            AsyncProtocol::OKAY { .. } => {
+                println!("host kill ok")
             }
-            SyncProtocol::FAIL { content, .. } => {
-                println!("adb devices {}", content)
+            AsyncProtocol::FAIL { .. } => {
+                println!("host kill fail")
             }
         }
     }

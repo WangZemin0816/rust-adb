@@ -1,3 +1,5 @@
+extern crate core;
+
 mod adb;
 mod adb_device;
 mod adb_host;
