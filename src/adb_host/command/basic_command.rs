@@ -1,7 +1,7 @@
 use std::io::{Read, Write};
 use std::net::TcpStream;
 
-use log::{info, trace};
+use log::{trace};
 
 use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::error::adb::AdbError;
