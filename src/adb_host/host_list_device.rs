@@ -1,7 +1,8 @@
-use crate::adb_host::command::SyncHostCommand;
-use crate::conn::connection::exec_command;
-use crate::conn::connection::{connect, ConnectionInfo};
-use crate::conn::protocol::SyncProtocol;
+
+use crate::adb_host::SyncHostCommand;
+use crate::basic::connection::exec_command;
+use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::protocol::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostListDevicesCommand {
@@ -26,14 +27,14 @@ impl AdbHostListDevicesCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::command::host_list_device::AdbHostListDevicesCommand;
-    use crate::adb_host::command::SyncHostCommand;
-    use crate::conn::connection::ConnectionInfo;
-    use crate::conn::protocol::SyncProtocol;
+    use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
+    use crate::adb_host::SyncHostCommand;
+    use crate::basic::connection::ConnectionInfo;
+    use crate::basic::protocol::SyncProtocol;
 
     #[test]
     fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
+        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
         let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostListDevicesCommand {
             connection_info: conn,
@@ -41,10 +42,10 @@ mod tests {
         let resp = command.execute().unwrap();
         match resp {
             SyncProtocol::OKAY { content, .. } => {
-                println!("adb devices {}", content)
+                println!("client devices {}", content)
             }
             SyncProtocol::FAIL { content, .. } => {
-                println!("adb devices {}", content)
+                println!("client devices {}", content)
             }
         }
     }

@@ -1,10 +1,8 @@
 extern crate core;
 
-mod adb;
-mod adb_device;
+mod client;
 mod adb_host;
-mod cmd;
-mod conn;
+mod basic;
 mod error;
 
 #[cfg(test)]

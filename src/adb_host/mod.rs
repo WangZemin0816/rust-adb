@@ -1,8 +1,18 @@
-pub mod command;
+use crate::basic::protocol::{AsyncProtocol, SyncProtocol};
+use crate::error::adb::AdbError;
 
-#[cfg(test)]
-mod tests {
+pub mod host_disconnect;
+pub mod host_kill;
+pub mod host_list_device;
+pub mod host_list_device_l;
+pub mod host_track_devices;
+pub mod host_transport;
+pub mod host_version;
 
-    #[test]
-    fn read_commands() {}
+pub trait SyncHostCommand {
+    fn execute(&mut self) -> Result<SyncProtocol, AdbError>;
+}
+
+pub trait AsyncHostCommand {
+    fn execute(&mut self) -> Result<AsyncProtocol, AdbError>;
 }

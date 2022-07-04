@@ -4,20 +4,19 @@ use std::thread::JoinHandle;
 
 use log::{info, trace};
 
-use crate::adb::{Device, DeviceWithPath, HostServer};
-use crate::adb_device::client::DeviceClient;
-use crate::adb_device::DeviceService;
-use crate::adb_host::command::host_disconnect::AdbHostDisconnectCommand;
-use crate::adb_host::command::host_kill::AdbHostKillCommand;
-use crate::adb_host::command::host_list_device::AdbHostListDevicesCommand;
-use crate::adb_host::command::host_list_device_l::AdbHostListDeviceLCommand;
-use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
-use crate::adb_host::command::host_transport::AdbHostTransportCommand;
-use crate::adb_host::command::host_version::AdbHostVersionCommand;
-use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
-use crate::conn::connection::{connect, ConnectionInfo};
-use crate::conn::connection::{read_response_content, read_response_length};
-use crate::conn::protocol::{AsyncProtocol, SyncProtocol};
+use crate::client::{Device, DeviceService, DeviceWithPath, HostServer};
+use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
+use crate::adb_host::host_kill::AdbHostKillCommand;
+use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
+use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
+use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
+use crate::adb_host::host_transport::AdbHostTransportCommand;
+use crate::adb_host::host_version::AdbHostVersionCommand;
+use crate::adb_host::{AsyncHostCommand, SyncHostCommand};
+use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::connection::{read_response_content, read_response_length};
+use crate::basic::protocol::{AsyncProtocol, SyncProtocol};
+use crate::client::device_client::DeviceClient;
 use crate::error::adb::AdbError;
 
 pub struct AdbClient {
@@ -97,7 +96,7 @@ impl HostServer for AdbClient {
                         });
                         continue;
                     }
-                    info!("find adb line not contains 7 item: content={}", line)
+                    info!("find client line not contains 7 item: content={}", line)
                 }
                 Ok(devices)
             }
@@ -189,8 +188,8 @@ mod tests {
 
     use log::info;
 
-    use crate::adb::client::AdbClient;
-    use crate::adb::{Device, HostServer};
+    use crate::client::adb_client::AdbClient;
+    use crate::client::{Device, HostServer};
     use crate::error::adb::AdbError;
 
     #[test]

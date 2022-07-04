@@ -1,10 +1,10 @@
 use std::net::TcpStream;
 use std::thread::JoinHandle;
 
-use crate::adb_device::DeviceService;
 use crate::error::adb::AdbError;
 
-mod client;
+mod adb_client;
+mod device_client;
 
 pub trait AdbServer {
     fn start_server(&mut self);
@@ -26,6 +26,11 @@ pub trait HostServer {
     fn kill(&mut self) -> Result<(), AdbError>;
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
 }
+
+pub trait DeviceService {
+    fn get_connection(&mut self) -> Result<TcpStream, AdbError>;
+}
+
 
 #[derive(Debug)]
 pub struct Device {

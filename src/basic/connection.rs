@@ -2,7 +2,7 @@ use std::io::{Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
 
-use crate::conn::protocol::{AsyncProtocol, SyncProtocol};
+use crate::basic::protocol::{AsyncProtocol, SyncProtocol};
 use log::{debug, trace};
 
 use crate::error::adb::AdbError;

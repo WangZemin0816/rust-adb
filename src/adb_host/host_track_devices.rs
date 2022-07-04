@@ -1,9 +1,9 @@
-use crate::adb_host::command::AsyncHostCommand;
-use crate::conn::connection::exec_command_sync;
-use crate::conn::connection::{connect, ConnectionInfo};
-use crate::conn::protocol::AsyncProtocol;
+use crate::basic::connection::exec_command_sync;
+use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
 use std::time::Duration;
+use crate::adb_host::AsyncHostCommand;
 
 pub struct AdbHostTrackDeviceCommand {
     pub connection_info: ConnectionInfo,
@@ -33,15 +33,14 @@ impl AdbHostTrackDeviceCommand {
 
 #[cfg(test)]
 mod tests {
-
-    use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
-    use crate::adb_host::command::AsyncHostCommand;
-    use crate::conn::connection::ConnectionInfo;
-    use crate::conn::protocol::AsyncProtocol;
+    use crate::adb_host::AsyncHostCommand;
+    use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
+    use crate::basic::connection::ConnectionInfo;
+    use crate::basic::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
+        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
         let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostTrackDeviceCommand {
             connection_info: conn,
@@ -49,10 +48,10 @@ mod tests {
         let resp = command.execute().unwrap();
         match resp {
             AsyncProtocol::OKAY { .. } => {
-                println!("adb track device ok")
+                println!("client track device ok")
             }
             AsyncProtocol::FAIL { content, length: _ } => {
-                println!("adb track device failed {}", content)
+                println!("client track device failed {}", content)
             }
         }
     }

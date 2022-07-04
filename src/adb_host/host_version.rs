@@ -1,7 +1,7 @@
-use crate::adb_host::command::SyncHostCommand;
-use crate::conn::connection::exec_command;
-use crate::conn::connection::{connect, ConnectionInfo};
-use crate::conn::protocol::SyncProtocol;
+use crate::adb_host::SyncHostCommand;
+use crate::basic::connection::exec_command;
+use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::protocol::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostVersionCommand {
@@ -26,14 +26,14 @@ impl AdbHostVersionCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::command::host_version::AdbHostVersionCommand;
-    use crate::adb_host::command::SyncHostCommand;
-    use crate::conn::connection::ConnectionInfo;
-    use crate::conn::protocol::SyncProtocol;
+    use crate::adb_host::host_version::AdbHostVersionCommand;
+    use crate::adb_host::SyncHostCommand;
+    use crate::basic::connection::ConnectionInfo;
+    use crate::basic::protocol::SyncProtocol;
 
     #[test]
     fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
+        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
         let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostVersionCommand {
             connection_info: conn,
@@ -41,10 +41,10 @@ mod tests {
         let resp = command.execute().unwrap();
         match resp {
             SyncProtocol::OKAY { content, .. } => {
-                println!("adb version {}", content)
+                println!("client version {}", content)
             }
             SyncProtocol::FAIL { content, .. } => {
-                println!("adb version {}", content)
+                println!("client version {}", content)
             }
         }
     }

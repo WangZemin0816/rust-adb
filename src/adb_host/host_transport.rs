@@ -1,7 +1,7 @@
-use crate::adb_host::command::AsyncHostCommand;
-use crate::conn::connection::exec_command_sync;
-use crate::conn::connection::{connect, ConnectionInfo};
-use crate::conn::protocol::AsyncProtocol;
+use crate::adb_host::AsyncHostCommand;
+use crate::basic::connection::exec_command_sync;
+use crate::basic::connection::{connect, ConnectionInfo};
+use crate::basic::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostTransportCommand {
@@ -29,15 +29,14 @@ impl AdbHostTransportCommand {
 
 #[cfg(test)]
 mod tests {
-
-    use crate::adb_host::command::host_transport::AdbHostTransportCommand;
-    use crate::adb_host::command::AsyncHostCommand;
-    use crate::conn::connection::ConnectionInfo;
-    use crate::conn::protocol::AsyncProtocol;
+    use crate::adb_host::AsyncHostCommand;
+    use crate::adb_host::host_transport::AdbHostTransportCommand;
+    use crate::basic::connection::ConnectionInfo;
+    use crate::basic::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
+        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
         let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostTransportCommand {
             serial_no: "emulator-5554".to_string(),
@@ -49,7 +48,7 @@ mod tests {
                 println!("ok")
             }
             AsyncProtocol::FAIL { content, length: _ } => {
-                println!("adb transport FAIL {}", content)
+                println!("client transport FAIL {}", content)
             }
         }
     }
