@@ -15,10 +15,8 @@
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb/client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/client.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/client.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/command/basic_command.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_disconnect.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_kill.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_kill.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_list_device.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_list_device.rs" afterDir="false" />
@@ -28,9 +26,7 @@
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/host_version.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/host_version.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/command/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/command/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_host/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/protocol.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/protocol.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/conn/connection.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/connection.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/conn/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/conn/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +103,7 @@
       <recent name="D:\workspace-rust\rust-adb\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test adb::client::tests::read_commands">
+  <component name="RunManager" selected="Cargo.Test adb_host::command::host_version::tests::read_commands">
     <configuration name="Test adb::client::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="command" value="test --package rust-adb --lib adb::client::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -176,8 +172,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test adb_host::command::host_transport::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_host::command::host_transport::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::command::host_version::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::command::host_version::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -195,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo.Test adb_host::command::host_version::tests::read_commands" />
         <item itemvalue="Cargo.Test adb::client::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_host::command::host_track_devices::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_host::command::host_kill::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_host::command::host_disconnect::tests::read_commands" />
-        <item itemvalue="Cargo.Test adb_host::command::host_transport::tests::read_commands" />
       </list>
     </recent_temporary>
   </component>
@@ -228,7 +224,7 @@
       <workItem from="1656853098187" duration="1000" />
       <workItem from="1656853272201" duration="2794000" />
       <workItem from="1656900372233" duration="11413000" />
-      <workItem from="1656915585440" duration="3879000" />
+      <workItem from="1656915585440" duration="7536000" />
     </task>
     <servers />
   </component>

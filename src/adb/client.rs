@@ -5,12 +5,19 @@ use std::thread::JoinHandle;
 use log::{info, trace};
 
 use crate::adb::{Device, DeviceWithPath, HostServer};
-use crate::adb_device::{DeviceService, new_device_client};
-use crate::adb_host::command::{new_host_disconnect_command, new_host_kill_command, new_host_list_device_command, new_host_track_device_command, new_host_transport_command, new_host_version_command};
-use crate::adb_host::command::{AsyncHostCommand, new_host_list_device_l_command, SyncHostCommand};
+use crate::adb_device::client::DeviceClient;
+use crate::adb_device::DeviceService;
+use crate::adb_host::command::host_disconnect::AdbHostDisconnectCommand;
+use crate::adb_host::command::host_kill::AdbHostKillCommand;
+use crate::adb_host::command::host_list_device::AdbHostListDevicesCommand;
+use crate::adb_host::command::host_list_device_l::AdbHostListDeviceLCommand;
+use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
+use crate::adb_host::command::host_transport::AdbHostTransportCommand;
+use crate::adb_host::command::host_version::AdbHostVersionCommand;
+use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
+use crate::conn::connection::{connect, ConnectionInfo};
 use crate::conn::connection::{read_response_content, read_response_length};
 use crate::conn::protocol::{AsyncProtocol, SyncProtocol};
-use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 
 pub struct AdbClient {
@@ -21,11 +28,11 @@ pub struct AdbClient {
 
 impl HostServer for AdbClient {
     fn get_connection(&mut self) -> Result<TcpStream, AdbError> {
-        connect(&ConnectionInfo::new(&self.host.clone(),self.port.clone()))
+        connect(&ConnectionInfo::new(&self.host, &self.port))
     }
 
     fn get_version(&mut self) -> Result<String, AdbError> {
-        let mut command = new_host_version_command(self.host.clone(), self.port.clone());
+        let mut command = AdbHostVersionCommand::new(&self.host, &self.port);
         match command.execute() {
             Ok(response) => match response {
                 SyncProtocol::OKAY { content, .. } => Ok(content),
@@ -38,8 +45,7 @@ impl HostServer for AdbClient {
     }
 
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError> {
-        let mut command =
-            new_host_disconnect_command(self.host.clone(), self.port.clone(), host, port);
+        let mut command = AdbHostDisconnectCommand::new(&self.host, &self.port, &host, &port);
         match command.execute() {
             Ok(response) => match response {
                 AsyncProtocol::OKAY { .. } => Ok(()),
@@ -52,7 +58,7 @@ impl HostServer for AdbClient {
     }
 
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError> {
-        let mut command = new_host_list_device_command(self.host.clone(), self.port.clone());
+        let mut command = AdbHostListDevicesCommand::new(&self.host, &self.port);
         match command.execute()? {
             SyncProtocol::OKAY { content, .. } => {
                 let mut devices = vec![];
@@ -74,7 +80,7 @@ impl HostServer for AdbClient {
     }
 
     fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError> {
-        let mut command = new_host_list_device_l_command(self.host.clone(), self.port.clone());
+        let mut command = AdbHostListDeviceLCommand::new(&self.host, &self.port);
         match command.execute()? {
             SyncProtocol::OKAY { content, .. } => {
                 let mut devices = vec![];
@@ -106,57 +112,51 @@ impl HostServer for AdbClient {
         on_change: fn(Vec<Device>),
         on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError> {
-        let mut command = new_host_track_device_command(self.host.clone(), self.port.clone());
+        let mut command = AdbHostTrackDeviceCommand::new(&self.host, &self.port);
         let mut tcp_stream = match command.execute() {
-            Ok(response) => {
-                match response {
-                    AsyncProtocol::OKAY { tcp_stream} => {
-                        tcp_stream
-                    }
-                    AsyncProtocol::FAIL { content,.. } => {
-                        return Err(AdbError::ResponseStatusError {message:content})
-                    }
+            Ok(response) => match response {
+                AsyncProtocol::OKAY { tcp_stream } => tcp_stream,
+                AsyncProtocol::FAIL { content, .. } => {
+                    return Err(AdbError::ResponseStatusError { message: content })
                 }
-            }
-            Err(error) => {return Err(error)}
+            },
+            Err(error) => return Err(error),
         };
-        let handler = thread::spawn(move||{
-            loop {
-                let length = match read_response_length(&mut tcp_stream){
-                    Ok(length) => {length}
-                    Err(error) => {
-                        on_error(error);
-                        return
-                    }
-                };
-                trace!("[track_devices]response length: length={}", length);
-
-                let content = match read_response_content(&mut tcp_stream, length){
-                    Ok(content) => {content}
-                    Err(error) => {
-                        on_error(error);
-                        return
-                    }
-                };
-                trace!("[track_devices]response content: content={}", content);
-                let mut devices = vec![];
-                for line in content.lines() {
-                    let contents: Vec<&str> = line.trim().split_whitespace().collect();
-                    if contents.len() >= 2 {
-                        devices.push(Device {
-                            serial_no: String::from(contents[0]),
-                            status: String::from(contents[1]),
-                        });
-                    }
+        let handler = thread::spawn(move || loop {
+            let length = match read_response_length(&mut tcp_stream) {
+                Ok(length) => length,
+                Err(error) => {
+                    on_error(error);
+                    return;
                 }
-                on_change(devices)
+            };
+            trace!("[track_devices]response length: length={}", length);
+
+            let content = match read_response_content(&mut tcp_stream, length) {
+                Ok(content) => content,
+                Err(error) => {
+                    on_error(error);
+                    return;
+                }
+            };
+            trace!("[track_devices]response content: content={}", content);
+            let mut devices = vec![];
+            for line in content.lines() {
+                let contents: Vec<&str> = line.trim().split_whitespace().collect();
+                if contents.len() >= 2 {
+                    devices.push(Device {
+                        serial_no: String::from(contents[0]),
+                        status: String::from(contents[1]),
+                    });
+                }
             }
+            on_change(devices)
         });
         Ok(handler)
     }
 
     fn kill(&mut self) -> Result<(), AdbError> {
-        let mut command = new_host_kill_command(self.host.clone(), self.port.clone());
+        let mut command = AdbHostKillCommand::new(&self.host, &self.port);
         match command.execute() {
             Ok(_) => Ok(()),
             Err(error) => Err(error),
@@ -164,13 +164,16 @@ impl HostServer for AdbClient {
     }
 
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError> {
-        let mut command =
-            new_host_transport_command(self.host.clone(), self.port.clone(), serial_no);
+        let mut command = AdbHostTransportCommand::new(&self.host, &self.port, &serial_no);
         match command.execute() {
             Ok(redirect_stream) => match redirect_stream {
-                AsyncProtocol::OKAY { tcp_stream } => Ok(new_device_client(tcp_stream)),
+                AsyncProtocol::OKAY { tcp_stream } => {
+                    let device_service =
+                        DeviceClient::new(self.host.clone(), self.port.clone(), serial_no.clone());
+                    Ok(Box::new(device_service))
+                }
                 AsyncProtocol::FAIL { content, .. } => {
-                    Err(AdbError::ResponseStatusError { message:content })
+                    Err(AdbError::ResponseStatusError { message: content })
                 }
             },
 
@@ -186,8 +189,8 @@ mod tests {
 
     use log::info;
 
-    use crate::adb::{Device, HostServer};
     use crate::adb::client::AdbClient;
+    use crate::adb::{Device, HostServer};
     use crate::error::adb::AdbError;
 
     #[test]
@@ -237,14 +240,10 @@ mod tests {
         //     }
         // }
 
-        let onchange = |devices:Vec<Device>|{
-            info!("on change {:?}",devices)
-        };
-        let onerror = |err:AdbError|{
-            info!("on error {:?}",err)
-        };
+        let onchange = |devices: Vec<Device>| info!("on change {:?}", devices);
+        let onerror = |err: AdbError| info!("on error {:?}", err);
 
-        match client.track_devices(onchange,onerror) {
+        match client.track_devices(onchange, onerror) {
             Ok(..) => {}
             Err(error) => {
                 info!("{:?}", error)

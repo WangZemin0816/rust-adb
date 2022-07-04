@@ -17,7 +17,7 @@ impl SyncHostCommand for AdbHostVersionCommand {
 
 
 impl AdbHostVersionCommand {
-    fn new(host: String, port: i32) -> AdbHostVersionCommand {
+    pub fn new(host: &String, port: &i32) -> AdbHostVersionCommand {
         let connect_info = ConnectionInfo::new(&host, port);
         AdbHostVersionCommand {
             connection_info: connect_info,
@@ -35,7 +35,7 @@ mod tests {
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostVersionCommand {
             connection_info: conn,
         };

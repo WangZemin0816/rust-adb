@@ -16,8 +16,8 @@ impl AsyncHostCommand for AdbHostKillCommand {
 }
 
 impl AdbHostKillCommand {
-    fn new(host: String, port: i32) -> AdbHostKillCommand {
-        let connect_info = ConnectionInfo::new(&host, port);
+    pub fn new(host: &String, port: &i32) -> AdbHostKillCommand {
+        let connect_info = ConnectionInfo::new(host, port);
         AdbHostKillCommand {
             connection_info: connect_info,
         }
@@ -34,7 +34,7 @@ mod tests {
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostKillCommand {
             connection_info: conn,
         };

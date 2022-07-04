@@ -13,22 +13,23 @@ pub struct AdbHostDisconnectCommand {
 impl AsyncHostCommand for AdbHostDisconnectCommand {
     fn execute(&mut self) -> Result<AsyncProtocol, AdbError> {
         let tcp_stream = connect(&self.connection_info)?;
-        let command = format!(
-            "host:disconnect:{}:{}",
-            self.host.clone(),
-            self.port.clone()
-        );
+        let command = format!("host:disconnect:{}:{}", self.host, self.port);
         exec_command_sync(tcp_stream, command)
     }
 }
 
 impl AdbHostDisconnectCommand {
-    fn new(host: String, port: i32, dis_host: String, dis_port: i32) -> AdbHostDisconnectCommand {
-        let connect_info = ConnectionInfo::new(&host, port);
+    pub fn new(
+        host: &String,
+        port: &i32,
+        dis_host: &String,
+        dis_port: &i32,
+    ) -> AdbHostDisconnectCommand {
+        let connect_info = ConnectionInfo::new(host, port);
         AdbHostDisconnectCommand {
             connection_info: connect_info,
-            host: dis_host,
-            port: dis_port,
+            host: dis_host.clone(),
+            port: dis_port.clone(),
         }
     }
 }
@@ -44,7 +45,7 @@ mod tests {
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostDisconnectCommand {
             connection_info: conn,
             host: String::from("127.0.0.1"),

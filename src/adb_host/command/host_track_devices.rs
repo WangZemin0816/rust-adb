@@ -18,10 +18,10 @@ impl AsyncHostCommand for AdbHostTrackDeviceCommand {
 }
 
 impl AdbHostTrackDeviceCommand {
-    fn new(host: String, port: i32) -> AdbHostTrackDeviceCommand {
+    pub fn new(host: &String, port: &i32) -> AdbHostTrackDeviceCommand {
         let connect_info = ConnectionInfo{
-            host,
-            port,
+            host:host.clone(),
+            port:port.clone(),
             read_timeout: None,
             write_timeout: Option::from(Duration::from_millis(1000)),
         };
@@ -43,7 +43,7 @@ mod tests {
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostTrackDeviceCommand {
             connection_info: conn,
         };

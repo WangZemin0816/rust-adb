@@ -2,8 +2,8 @@ use std::io::{Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
 
-use log::{debug, trace};
 use crate::conn::protocol::{AsyncProtocol, SyncProtocol};
+use log::{debug, trace};
 
 use crate::error::adb::AdbError;
 
@@ -15,7 +15,7 @@ pub struct ConnectionInfo {
 }
 
 impl ConnectionInfo {
-    pub fn new(host: &String, port: i32) -> ConnectionInfo {
+    pub fn new(host: &String, port: &i32) -> ConnectionInfo {
         ConnectionInfo {
             host: host.clone(),
             port: port.clone(),
@@ -26,11 +26,7 @@ impl ConnectionInfo {
 }
 
 pub fn connect(connection_info: &ConnectionInfo) -> Result<TcpStream, AdbError> {
-    let connection_str = format!(
-        "{}:{}",
-        connection_info.host.clone(),
-        connection_info.port.clone()
-    );
+    let connection_str = format!("{}:{}", connection_info.host, connection_info.port);
     trace!(
         "[connect]begin to create a new tcp connection: connection_str={}",
         connection_str.clone()

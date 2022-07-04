@@ -19,10 +19,10 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 }
 
 impl AdbHostTransportCommand {
-    fn new(host: String, port: i32, serial_no: String) -> AdbHostTransportCommand {
-        let connect_info = ConnectionInfo::new(&host, port);
+    pub(crate) fn new(host: &String, port: &i32, serial_no: &String) -> AdbHostTransportCommand {
+        let connect_info = ConnectionInfo::new(host, port);
         AdbHostTransportCommand {
-            serial_no,
+            serial_no:serial_no.clone(),
             connection_info: connect_info,
         }
     }
@@ -39,7 +39,7 @@ mod tests {
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), 5037);
+        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostTransportCommand {
             serial_no: "emulator-5554".to_string(),
             connection_info: conn,

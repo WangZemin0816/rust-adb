@@ -2,7 +2,7 @@ use std::net::TcpStream;
 use crate::adb_device::client::DeviceClient;
 use crate::error::adb::AdbError;
 
-mod client;
+pub mod client;
 
 pub trait DeviceService {
     fn get_connection(&mut self) -> Result<TcpStream, AdbError>;
