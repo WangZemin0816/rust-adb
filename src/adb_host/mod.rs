@@ -1,6 +1,3 @@
-use crate::basic::{AsyncProtocol, SyncProtocol};
-use crate::error::adb::AdbError;
-
 pub mod host_disconnect;
 pub mod host_kill;
 pub mod host_list_device;

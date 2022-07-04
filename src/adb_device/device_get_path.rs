@@ -1,6 +1,6 @@
 use crate::adb_device::device_connection;
-use crate::adb_host::host_transport::AdbHostTransportCommand;
-use crate::basic::connection::{connect, exec_command, ConnectionInfo};
+
+use crate::basic::connection::{exec_command, ConnectionInfo};
 use crate::basic::{SyncCommand, SyncProtocol};
 use crate::error::adb::AdbError;
 
@@ -20,7 +20,7 @@ impl SyncCommand for DeviceGetPathCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_device::device_get_path::DeviceGetPathCommand;
-    use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
+
     use crate::basic::connection::ConnectionInfo;
     use crate::basic::SyncCommand;
     use crate::basic::SyncProtocol;

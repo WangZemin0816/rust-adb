@@ -1,9 +1,4 @@
-use crate::adb_host::host_transport::AdbHostTransportCommand;
-use crate::basic::AsyncCommand;
-use crate::basic::AsyncProtocol;
 use crate::client::DeviceService;
-use crate::error::adb::AdbError;
-use std::net::TcpStream;
 
 pub struct DeviceClient {
     pub host: String,
