@@ -138,7 +138,7 @@ fn read_response_status(tcp_stream: &mut TcpStream) -> Result<String, AdbError> 
     match tcp_stream.read_exact(&mut is_ok_buffer) {
         Ok(_) => {}
         Err(error) => {
-            info!(
+            trace!(
                 "[read_response_status]read command status from stream failed: error={:?}",
                 &error
             );
