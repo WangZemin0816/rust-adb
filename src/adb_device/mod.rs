@@ -1,4 +1,3 @@
-use crate::adb_device::client::DeviceClient;
 use crate::error::adb::AdbError;
 use std::net::TcpStream;
 
