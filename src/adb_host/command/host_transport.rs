@@ -1,9 +1,9 @@
-use crate::adb_host::command::basic_command::{exec_command, exec_command_sync};
-use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
-use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
+use crate::adb_host::command::basic_command::{exec_command_sync};
+use crate::adb_host::command::{AsyncHostCommand};
+use crate::adb_host::protocol::{AsyncProtocol};
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
-use std::net::TcpStream;
+
 
 pub struct AdbHostTransportCommand {
     pub serial_no: String,
@@ -22,7 +22,7 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 mod tests {
     use crate::adb_host::command::host_transport::AdbHostTransportCommand;
     use crate::adb_host::command::{AsyncHostCommand, SyncHostCommand};
-    use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
+    use crate::adb_host::protocol::{AsyncProtocol};
     use crate::conn::connection::ConnectionInfo;
 
     #[test]

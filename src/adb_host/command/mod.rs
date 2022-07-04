@@ -7,7 +7,7 @@ use crate::adb_host::command::host_version::AdbHostVersionCommand;
 use crate::adb_host::protocol::{AsyncProtocol, SyncProtocol};
 use crate::conn::connection::ConnectionInfo;
 use crate::error::adb::AdbError;
-use std::net::TcpStream;
+
 
 mod basic_command;
 mod host_disconnect;

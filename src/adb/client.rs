@@ -1,4 +1,4 @@
-use log::{error, info};
+use log::{info};
 use std::net::TcpStream;
 
 use crate::adb::{Device, DeviceWithPath, HostServer};
@@ -48,7 +48,7 @@ impl HostServer for AdbClient {
             new_host_disconnect_command(self.host.clone(), self.port.clone(), host, port);
         match command.execute() {
             Ok(response) => match response {
-                SyncProtocol::OKAY { content, .. } => Ok(()),
+                SyncProtocol::OKAY { content: _, .. } => Ok(()),
                 SyncProtocol::FAIL { content, .. } => {
                     Err(AdbError::ResponseStatusError { message: content })
                 }
@@ -109,8 +109,8 @@ impl HostServer for AdbClient {
 
     fn track_devices(
         &mut self,
-        on_change: fn(Vec<Device>),
-        on_error: fn(AdbError),
+        _on_change: fn(Vec<Device>),
+        _on_error: fn(AdbError),
     ) -> Result<String, AdbError> {
         Ok(String::from(""))
     }
@@ -142,8 +142,8 @@ impl HostServer for AdbClient {
 #[cfg(test)]
 mod tests {
     use crate::adb::client::AdbClient;
-    use crate::adb::{Device, DeviceWithPath, HostServer};
-    use crate::error::adb::AdbError;
+    use crate::adb::{HostServer};
+    
 
     #[test]
     fn read_commands() {
