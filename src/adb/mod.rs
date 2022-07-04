@@ -1,6 +1,7 @@
-use crate::adb_device::DeviceClient;
 use std::net::TcpStream;
+use std::thread::JoinHandle;
 
+use crate::adb_device::DeviceService;
 use crate::error::adb::AdbError;
 
 mod client;
@@ -21,9 +22,9 @@ pub trait HostServer {
         &mut self,
         on_change: fn(Vec<Device>),
         on_error: fn(AdbError),
-    ) -> Result<String, AdbError>;
+    ) -> Result<JoinHandle<()>, AdbError>;
     fn kill(&mut self) -> Result<(), AdbError>;
-    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceClient>, AdbError>;
+    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
 }
 
 #[derive(Debug)]

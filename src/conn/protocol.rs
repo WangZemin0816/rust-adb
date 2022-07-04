@@ -1,4 +1,4 @@
-use crate::adb_host::protocol::SyncProtocol::{FAIL, OKAY};
+use crate::conn::protocol::SyncProtocol::{FAIL, OKAY};
 use crate::error::adb::AdbError;
 use std::net::TcpStream;
 

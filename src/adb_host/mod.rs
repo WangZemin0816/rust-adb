@@ -1,11 +1,10 @@
 pub mod command;
-pub mod protocol;
 
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::new_host_version_command;
     use crate::adb_host::command::SyncHostCommand;
-    use crate::adb_host::protocol::SyncProtocol;
+    use crate::conn::protocol::SyncProtocol;
 
     #[test]
     fn read_commands() {

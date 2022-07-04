@@ -1,9 +1,9 @@
-use crate::adb_host::command::basic_command::{exec_command_sync};
-use crate::adb_host::command::{AsyncHostCommand};
-use crate::adb_host::protocol::{AsyncProtocol};
+use crate::adb_host::command::host_track_devices::AdbHostTrackDeviceCommand;
+use crate::adb_host::command::AsyncHostCommand;
+use crate::conn::connection::exec_command_sync;
 use crate::conn::connection::{connect, ConnectionInfo};
+use crate::conn::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
-
 
 pub struct AdbHostTransportCommand {
     pub serial_no: String,
@@ -18,13 +18,23 @@ impl AsyncHostCommand for AdbHostTransportCommand {
     }
 }
 
+impl AdbHostTransportCommand {
+    fn new(host: String, port: i32, serial_no: String) -> AdbHostTransportCommand {
+        let connect_info = ConnectionInfo::new(&host, port);
+        AdbHostTransportCommand {
+            serial_no,
+            connection_info: connect_info,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    
+
     use crate::adb_host::command::host_transport::AdbHostTransportCommand;
-    use crate::adb_host::command::{AsyncHostCommand};
-    use crate::adb_host::protocol::{AsyncProtocol};
+    use crate::adb_host::command::AsyncHostCommand;
     use crate::conn::connection::ConnectionInfo;
+    use crate::conn::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {
@@ -36,9 +46,11 @@ mod tests {
         };
         let resp = command.execute().unwrap();
         match resp {
-            AsyncProtocol::OKAY { .. } => {println!("ok")}
-            AsyncProtocol::FAIL { content,length: _ } => {
-                println!("adb transport FAIL {}",content)
+            AsyncProtocol::OKAY { .. } => {
+                println!("ok")
+            }
+            AsyncProtocol::FAIL { content, length: _ } => {
+                println!("adb transport FAIL {}", content)
             }
         }
     }

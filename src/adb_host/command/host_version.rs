@@ -1,6 +1,6 @@
-use crate::adb_host::command::basic_command::exec_command;
+use crate::conn::connection::exec_command;
 use crate::adb_host::command::SyncHostCommand;
-use crate::adb_host::protocol::SyncProtocol;
+use crate::conn::protocol::SyncProtocol;
 use crate::conn::connection::{connect, ConnectionInfo};
 use crate::error::adb::AdbError;
 
@@ -15,11 +15,21 @@ impl SyncHostCommand for AdbHostVersionCommand {
     }
 }
 
+
+impl AdbHostVersionCommand {
+    fn new(host: String, port: i32) -> AdbHostVersionCommand {
+        let connect_info = ConnectionInfo::new(&host, port);
+        AdbHostVersionCommand {
+            connection_info: connect_info,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::host_version::AdbHostVersionCommand;
     use crate::adb_host::command::SyncHostCommand;
-    use crate::adb_host::protocol::SyncProtocol;
+    use crate::conn::protocol::SyncProtocol;
     use crate::conn::connection::ConnectionInfo;
 
     #[test]

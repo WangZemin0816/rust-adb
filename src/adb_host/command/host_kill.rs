@@ -1,7 +1,7 @@
-use crate::adb_host::command::basic_command::{exec_command_sync};
-use crate::adb_host::command::{AsyncHostCommand};
-use crate::adb_host::protocol::{AsyncProtocol};
+use crate::adb_host::command::AsyncHostCommand;
+use crate::conn::connection::exec_command_sync;
 use crate::conn::connection::{connect, ConnectionInfo};
+use crate::conn::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostKillCommand {
@@ -15,12 +15,21 @@ impl AsyncHostCommand for AdbHostKillCommand {
     }
 }
 
+impl AdbHostKillCommand {
+    fn new(host: String, port: i32) -> AdbHostKillCommand {
+        let connect_info = ConnectionInfo::new(&host, port);
+        AdbHostKillCommand {
+            connection_info: connect_info,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::adb_host::command::host_kill::AdbHostKillCommand;
-    use crate::adb_host::command::{AsyncHostCommand};
-    use crate::adb_host::protocol::{AsyncProtocol};
+    use crate::adb_host::command::AsyncHostCommand;
     use crate::conn::connection::ConnectionInfo;
+    use crate::conn::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {

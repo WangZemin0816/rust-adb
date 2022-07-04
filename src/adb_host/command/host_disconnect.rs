@@ -1,7 +1,7 @@
-use crate::adb_host::command::basic_command::{exec_command_sync};
-use crate::adb_host::command::{AsyncHostCommand};
-use crate::adb_host::protocol::{AsyncProtocol};
+use crate::adb_host::command::AsyncHostCommand;
+use crate::conn::connection::exec_command_sync;
 use crate::conn::connection::{connect, ConnectionInfo};
+use crate::conn::protocol::AsyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostDisconnectCommand {
@@ -18,17 +18,28 @@ impl AsyncHostCommand for AdbHostDisconnectCommand {
             self.host.clone(),
             self.port.clone()
         );
-         exec_command_sync(tcp_stream, command)
+        exec_command_sync(tcp_stream, command)
+    }
+}
+
+impl AdbHostDisconnectCommand {
+    fn new(host: String, port: i32, dis_host: String, dis_port: i32) -> AdbHostDisconnectCommand {
+        let connect_info = ConnectionInfo::new(&host, port);
+        AdbHostDisconnectCommand {
+            connection_info: connect_info,
+            host: dis_host,
+            port: dis_port,
+        }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    
+
     use crate::adb_host::command::host_disconnect::AdbHostDisconnectCommand;
     use crate::adb_host::command::AsyncHostCommand;
-    use crate::adb_host::protocol::{AsyncProtocol};
     use crate::conn::connection::ConnectionInfo;
+    use crate::conn::protocol::AsyncProtocol;
 
     #[test]
     fn read_commands() {
@@ -41,11 +52,11 @@ mod tests {
         };
         let resp = command.execute().unwrap();
         match resp {
-            AsyncProtocol::OKAY {  .. } => {
+            AsyncProtocol::OKAY { .. } => {
                 println!("adb disconnect OKAY")
             }
-            AsyncProtocol::FAIL { content,length: _ } => {
-                println!("adb disconnect FAIL {}",content)
+            AsyncProtocol::FAIL { content, length: _ } => {
+                println!("adb disconnect FAIL {}", content)
             }
         }
     }
