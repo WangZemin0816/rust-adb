@@ -1,11 +1,14 @@
 use std::net::TcpStream;
+use crate::adb_host::{AsyncCommand, AsyncProtocol};
 
 use crate::adb_host::host_transport::AdbHostTransportCommand;
-use crate::basic::connection::ConnectionInfo;
-use crate::basic::{AsyncCommand, AsyncProtocol};
+use crate::adb_host::ConnectionInfo;
 use crate::error::adb::AdbError;
 
 pub mod device_get_path;
+mod device_get_status;
+mod device_get_properties;
+mod device_get_features;
 
 fn device_connection(
     connect_info: &ConnectionInfo,

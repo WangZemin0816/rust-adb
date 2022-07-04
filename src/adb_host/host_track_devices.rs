@@ -1,7 +1,6 @@
-use crate::basic::connection::exec_command_sync;
-use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::AsyncCommand;
-use crate::basic::AsyncProtocol;
+use crate::adb_host::{connect, ConnectionInfo, exec_command_sync};
+use crate::adb_host::AsyncCommand;
+use crate::adb_host::AsyncProtocol;
 use crate::error::adb::AdbError;
 use std::time::Duration;
 
@@ -34,9 +33,9 @@ impl AdbHostTrackDeviceCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
-    use crate::basic::connection::ConnectionInfo;
-    use crate::basic::AsyncCommand;
-    use crate::basic::AsyncProtocol;
+    use crate::adb_host::ConnectionInfo;
+    use crate::adb_host::AsyncCommand;
+    use crate::adb_host::AsyncProtocol;
 
     #[test]
     fn read_commands() {

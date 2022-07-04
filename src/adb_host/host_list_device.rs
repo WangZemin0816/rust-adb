@@ -1,7 +1,6 @@
-use crate::basic::connection::exec_command;
-use crate::basic::connection::{connect, ConnectionInfo};
-use crate::basic::SyncCommand;
-use crate::basic::SyncProtocol;
+use crate::adb_host::{connect, ConnectionInfo, exec_command};
+use crate::adb_host::SyncCommand;
+use crate::adb_host::SyncProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostListDevicesCommand {
@@ -27,9 +26,9 @@ impl AdbHostListDevicesCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
-    use crate::basic::connection::ConnectionInfo;
-    use crate::basic::SyncCommand;
-    use crate::basic::SyncProtocol;
+    use crate::adb_host::ConnectionInfo;
+    use crate::adb_host::SyncCommand;
+    use crate::adb_host::SyncProtocol;
 
     #[test]
     fn read_commands() {
