@@ -19,10 +19,10 @@ impl SyncDeviceCommand for DeviceRootCommand {
 #[cfg(test)]
 mod tests {
 
-    use crate::adb_device::device_reboot::DeviceRebootCommand;
+    
 
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-    use crate::adb_device::device_remount::DeviceRemountCommand;
+    
     use crate::adb_device::device_root::DeviceRootCommand;
 
     use crate::adb_host::SyncHostCommand;

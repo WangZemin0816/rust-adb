@@ -13,14 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/adb_device/device_logcat.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/adb_device/device_remount.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/adb_device/device_root.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_packages.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_packages.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_logcat.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_logcat.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_remount.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_remount.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_root.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_root.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_shell_async.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_shell_async.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_shell_sync.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_shell_sync.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/mod.rs" afterDir="false" />

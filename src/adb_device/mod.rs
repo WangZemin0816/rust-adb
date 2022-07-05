@@ -1,4 +1,4 @@
-use crate::adb_host;
+
 use crate::adb_host::{
     read_response_content, read_response_length, read_response_status, write_command,
     AsyncHostCommand, AsyncHostProtocol,
