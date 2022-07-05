@@ -11,35 +11,37 @@ pub mod host_list_device_l;
 pub mod host_track_devices;
 pub mod host_transport;
 pub mod host_version;
+pub mod host_device_status;
+pub mod host_device_path;
 
-pub trait SyncCommand {
-    fn execute(&mut self) -> Result<SyncProtocol, AdbError>;
+pub trait SyncHostCommand {
+    fn execute(&mut self) -> Result<SyncHostProtocol, AdbError>;
 }
 
-pub trait AsyncCommand {
-    fn execute(&mut self) -> Result<AsyncProtocol, AdbError>;
+pub trait AsyncHostCommand {
+    fn execute(&mut self) -> Result<AsyncHostProtocol, AdbError>;
 }
 
-pub enum SyncProtocol {
+pub enum SyncHostProtocol {
     OKAY { length: usize, content: String },
     FAIL { length: usize, content: String },
 }
 
-pub enum AsyncProtocol {
+pub enum AsyncHostProtocol {
     OKAY { tcp_stream: TcpStream },
     FAIL { length: usize, content: String },
 }
 
-pub struct ConnectionInfo {
+pub struct HostConnectionInfo {
     pub host: String,
     pub port: i32,
     pub read_timeout: Option<Duration>,
     pub write_timeout: Option<Duration>,
 }
 
-impl ConnectionInfo {
-    pub fn new(host: &String, port: &i32) -> ConnectionInfo {
-        ConnectionInfo {
+impl HostConnectionInfo {
+    pub fn new(host: &String, port: &i32) -> HostConnectionInfo {
+        HostConnectionInfo {
             host: host.clone(),
             port: port.clone(),
             read_timeout: Option::from(Duration::from_millis(1000)),
@@ -48,9 +50,9 @@ impl ConnectionInfo {
     }
 }
 
-impl Clone for ConnectionInfo {
+impl Clone for HostConnectionInfo {
     fn clone(&self) -> Self {
-        ConnectionInfo {
+        HostConnectionInfo {
             host: self.host.clone(),
             port: self.port.clone(),
             read_timeout: self.read_timeout.clone(),
@@ -59,7 +61,7 @@ impl Clone for ConnectionInfo {
     }
 }
 
-pub fn connect(connection_info: &ConnectionInfo) -> Result<TcpStream, AdbError> {
+pub fn connect(connection_info: &HostConnectionInfo) -> Result<TcpStream, AdbError> {
     let connection_str = format!("{}:{}", connection_info.host, connection_info.port);
     trace!(
         "[connect]begin to create a new tcp connection: connection_str={}",
@@ -101,7 +103,7 @@ pub fn connect(connection_info: &ConnectionInfo) -> Result<TcpStream, AdbError> 
 pub fn exec_command_sync(
     mut tcp_stream: TcpStream,
     command: String,
-) -> Result<AsyncProtocol, AdbError> {
+) -> Result<AsyncHostProtocol, AdbError> {
     trace!("[exec_command_sync]exec command: command={}", command);
 
     write_command(&mut tcp_stream, &command)?;
@@ -111,7 +113,7 @@ pub fn exec_command_sync(
     trace!("[exec_command_sync]response status: status={}", status);
 
     if status == "OKAY" {
-        return Ok(AsyncProtocol::OKAY { tcp_stream });
+        return Ok(AsyncHostProtocol::OKAY { tcp_stream });
     }
 
     if status == "FAIL" {
@@ -120,7 +122,7 @@ pub fn exec_command_sync(
 
         let content = read_response_content(&mut tcp_stream, length)?;
         trace!("[exec_command_sync]response content: content={}", content);
-        return Ok(AsyncProtocol::FAIL { length, content });
+        return Ok(AsyncHostProtocol::FAIL { length, content });
     }
 
     Err(AdbError::ResponseStatusError {
@@ -128,7 +130,7 @@ pub fn exec_command_sync(
     })
 }
 
-pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncProtocol, AdbError> {
+pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncHostProtocol, AdbError> {
     trace!("[exec_command]exec command: command={}", command);
 
     write_command(tcp_stream, &command)?;
@@ -144,28 +146,13 @@ pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncP
     trace!("[exec_command]response content: content={}", content);
 
     if status == "OKAY" {
-        return Ok(SyncProtocol::OKAY { length, content });
+        return Ok(SyncHostProtocol::OKAY { length, content });
     }
     if status == "FAIL" {
-        return Ok(SyncProtocol::FAIL { length, content });
+        return Ok(SyncHostProtocol::FAIL { length, content });
     }
     Err(AdbError::ResponseStatusError {
         message: String::from("unknown response status ") + &*status,
-    })
-}
-
-pub fn exec_device_command(tcp_stream: &mut TcpStream, command: String, ) -> Result<SyncProtocol, AdbError> {
-    trace!("[exec_device_command]exec command: command={}", command);
-
-    write_command(tcp_stream, &command)?;
-    trace!("[exec_device_command]write command: command={}", command);
-
-    let content = read_response_all_content(tcp_stream)?;
-    trace!("[exec_command]response content: content={}", content);
-
-    Ok(SyncProtocol::OKAY {
-        length: content.len(),
-        content,
     })
 }
 
@@ -212,41 +199,6 @@ pub fn read_response_content(
         Err(error) => {
             trace!(
                 "[read_response_content]parse command content to utf-8 failed: error={}",
-                &error
-            );
-            return Err(AdbError::ParseResponseError {
-                source: Box::new(error),
-            });
-        }
-    }
-}
-
-pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, AdbError> {
-    let mut response_content = vec![];
-    match tcp_stream.read_to_end(&mut response_content) {
-        Ok(_) => {}
-        Err(error) => {
-            trace!(
-                "[read_response_all_content]read content failed: error={}",
-                error
-            );
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
-        }
-    };
-
-    match String::from_utf8(Vec::from(response_content)) {
-        Ok(content_string) => {
-            trace!(
-                "[read_response_all_content]read command content success: content={}",
-                &content_string
-            );
-            Ok(content_string)
-        }
-        Err(error) => {
-            trace!(
-                "[read_response_all_content]parse command content to utf-8 failed: error={}",
                 &error
             );
             return Err(AdbError::ParseResponseError {

@@ -1,14 +1,14 @@
-use crate::adb_host::{connect, ConnectionInfo, exec_command};
-use crate::adb_host::SyncCommand;
-use crate::adb_host::SyncProtocol;
+use crate::adb_host::{connect, HostConnectionInfo, exec_command};
+use crate::adb_host::SyncHostCommand;
+use crate::adb_host::SyncHostProtocol;
 use crate::error::adb::AdbError;
 
 pub struct AdbHostListDeviceLCommand {
-    pub connection_info: ConnectionInfo,
+    pub connection_info: HostConnectionInfo,
 }
 
-impl SyncCommand for AdbHostListDeviceLCommand {
-    fn execute(&mut self) -> Result<SyncProtocol, AdbError> {
+impl SyncHostCommand for AdbHostListDeviceLCommand {
+    fn execute(&mut self) -> Result<SyncHostProtocol, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
         exec_command(&mut tcp_stream, String::from("host:devices-l"))
     }
@@ -16,7 +16,7 @@ impl SyncCommand for AdbHostListDeviceLCommand {
 
 impl AdbHostListDeviceLCommand {
     pub fn new(host: &String, port: &i32) -> AdbHostListDeviceLCommand {
-        let connect_info = ConnectionInfo::new(host, port);
+        let connect_info = HostConnectionInfo::new(host, port);
         AdbHostListDeviceLCommand {
             connection_info: connect_info,
         }
@@ -26,23 +26,23 @@ impl AdbHostListDeviceLCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
-    use crate::adb_host::ConnectionInfo;
-    use crate::adb_host::SyncCommand;
-    use crate::adb_host::SyncProtocol;
+    use crate::adb_host::HostConnectionInfo;
+    use crate::adb_host::SyncHostCommand;
+    use crate::adb_host::SyncHostProtocol;
 
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("../../log4rs.yml", Default::default());
-        let conn = ConnectionInfo::new(&String::from("127.0.0.1"), &5037);
+        let conn = HostConnectionInfo::new(&String::from("127.0.0.1"), &5037);
         let mut command = AdbHostListDeviceLCommand {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
         match resp {
-            SyncProtocol::OKAY { content, .. } => {
+            SyncHostProtocol::OKAY { content, .. } => {
                 println!("client devices {}", content)
             }
-            SyncProtocol::FAIL { content, .. } => {
+            SyncHostProtocol::FAIL { content, .. } => {
                 println!("client devices {}", content)
             }
         }
