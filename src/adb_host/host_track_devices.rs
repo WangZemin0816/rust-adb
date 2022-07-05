@@ -1,5 +1,5 @@
 use crate::adb_host::AsyncHostCommand;
-use crate::adb_host::AsyncHostProtocol;
+use crate::adb_host::AsyncHostResponse;
 use crate::adb_host::{connect, exec_command_sync, HostConnectionInfo};
 use crate::error::adb::AdbError;
 use std::time::Duration;
@@ -9,7 +9,7 @@ pub struct AdbHostTrackDeviceCommand {
 }
 
 impl AsyncHostCommand for AdbHostTrackDeviceCommand {
-    fn execute(&mut self) -> Result<AsyncHostProtocol, AdbError> {
+    fn execute(&mut self) -> Result<AsyncHostResponse, AdbError> {
         let tcp_stream = connect(&self.connection_info)?;
         let command = format!("host:track-devices");
         exec_command_sync(tcp_stream, command)
@@ -34,7 +34,7 @@ impl AdbHostTrackDeviceCommand {
 mod tests {
     use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
     use crate::adb_host::AsyncHostCommand;
-    use crate::adb_host::AsyncHostProtocol;
+    use crate::adb_host::AsyncHostResponse;
     use crate::adb_host::HostConnectionInfo;
 
     #[test]
@@ -45,13 +45,5 @@ mod tests {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
-        match resp {
-            AsyncHostProtocol::OKAY { .. } => {
-                println!("client track device ok")
-            }
-            AsyncHostProtocol::FAIL { content, length: _ } => {
-                println!("client track device failed {}", content)
-            }
-        }
     }
 }

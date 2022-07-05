@@ -1,7 +1,6 @@
-
 use crate::adb_host::{
     read_response_content, read_response_length, read_response_status, write_command,
-    AsyncHostCommand, AsyncHostProtocol,
+    AsyncHostCommand, AsyncHostResponse,
 };
 use log::trace;
 use std::io::Read;
@@ -15,12 +14,12 @@ use crate::error::adb::AdbError;
 mod device_get_features;
 mod device_get_packages;
 mod device_get_properties;
+mod device_logcat;
 mod device_reboot;
 mod device_remount;
 mod device_root;
 mod device_shell_async;
 mod device_shell_sync;
-mod device_logcat;
 
 pub trait SyncDeviceCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError>;
@@ -86,12 +85,7 @@ fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<Tc
     let mut command =
         AdbHostTransportCommand::new0(&host_connection_info, &device_connection_info.serial_no);
     let async_protocol = command.execute()?;
-    match async_protocol {
-        AsyncHostProtocol::OKAY { tcp_stream } => Ok(tcp_stream),
-        AsyncHostProtocol::FAIL { content, .. } => {
-            Err(AdbError::ResponseStatusError { message: content })
-        }
-    }
+    Ok(async_protocol.tcp_stream)
 }
 
 pub fn exec_device_command_sync(
@@ -120,7 +114,7 @@ pub fn exec_device_command_sync(
     }
 
     Err(AdbError::ResponseStatusError {
-        message: String::from("unknown response status ") + &*status,
+        content: String::from("unknown response status ") + &*status,
     })
 }
 
@@ -156,7 +150,7 @@ pub fn exec_device_command(
     }
 
     Err(AdbError::ResponseStatusError {
-        message: String::from("unknown response status ") + &*status,
+        content: String::from("unknown response status ") + &*status,
     })
 }
 

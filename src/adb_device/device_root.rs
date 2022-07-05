@@ -25,7 +25,6 @@ mod tests {
     
     use crate::adb_device::device_root::DeviceRootCommand;
 
-    use crate::adb_host::SyncHostCommand;
 
     #[test]
     fn read_commands() {

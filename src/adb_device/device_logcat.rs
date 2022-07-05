@@ -29,10 +29,9 @@ mod tests {
     
     
     use crate::adb_device::{
-        AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo, SyncDeviceCommand,
+        AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo,
     };
 
-    use crate::adb_host::SyncHostCommand;
 
     #[test]
     fn read_commands() {

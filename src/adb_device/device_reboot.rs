@@ -31,7 +31,6 @@ mod tests {
 
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
-    use crate::adb_host::SyncHostCommand;
 
     #[test]
     fn read_commands() {

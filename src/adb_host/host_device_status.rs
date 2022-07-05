@@ -1,5 +1,5 @@
 use crate::adb_host::{
-    connect, exec_command, HostConnectionInfo, SyncHostCommand, SyncHostProtocol,
+    connect, exec_command, HostConnectionInfo, SyncHostCommand, SyncHostResponse,
 };
 use crate::error::adb::AdbError;
 
@@ -9,7 +9,7 @@ pub struct HostDeviceStatusCommand {
 }
 
 impl SyncHostCommand for HostDeviceStatusCommand {
-    fn execute(&mut self) -> Result<SyncHostProtocol, AdbError> {
+    fn execute(&mut self) -> Result<SyncHostResponse, AdbError> {
         let mut tcp_stream = connect(&self.connection_info)?;
         let command = format!("host-serial:{}:get-state", self.serial_no);
         exec_command(&mut tcp_stream, command)
@@ -21,7 +21,7 @@ mod tests {
     use crate::adb_host::host_device_status::HostDeviceStatusCommand;
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
-    use crate::adb_host::SyncHostProtocol;
+    use crate::adb_host::SyncHostResponse;
 
     #[test]
     fn read_commands() {
@@ -32,13 +32,6 @@ mod tests {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
-        match resp {
-            SyncHostProtocol::OKAY { content, .. } => {
-                println!("get status ok {}", content)
-            }
-            SyncHostProtocol::FAIL { content, .. } => {
-                println!("get status failed {}", content)
-            }
-        }
+        println!("{:?}",resp)
     }
 }
