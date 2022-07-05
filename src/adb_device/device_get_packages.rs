@@ -3,26 +3,25 @@ use crate::adb_device::{
     device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
     SyncDeviceProtocol,
 };
-
 use crate::error::adb::AdbError;
 
-pub struct DeviceGetPropertiesCommand {
+pub struct DeviceGetPackagesCommand {
     pub params: String,
     pub connection_info: DeviceConnectionInfo,
 }
 
-impl SyncDeviceCommand for DeviceGetPropertiesCommand {
+impl SyncDeviceCommand for DeviceGetPackagesCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError> {
-        let command = format!("shell:getprop {}", self.params);
+        let command = format!("pm list packages {} 2>/dev/null", self.params);
         DeviceSyncShellCommand::new(&self.connection_info, &command).execute()
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use crate::adb_device::device_get_packages::DeviceGetPackagesCommand;
     use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
     use crate::adb_host::SyncHostCommand;
 
     #[test]
@@ -33,8 +32,8 @@ mod tests {
             &5037,
             &"emulator-5554".to_string(),
         );
-        let mut command = DeviceGetPropertiesCommand {
-            params: "dalvik.vm.heapgrowthlimit".to_string(),
+        let mut command = DeviceGetPackagesCommand {
+            params: "-a".to_string(),
             connection_info: conn,
         };
         let resp = command.execute().unwrap();

@@ -13,6 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/adb_device/device_get_packages.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_device/device_reboot.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_device/device_shell_async.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adb_device/device_shell_sync.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" afterDir="false" />
@@ -93,9 +97,26 @@
       <recent name="D:\workspace-rust\rust-adb\src\adb" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test adb_device::device_get_features::tests::read_commands">
+  <component name="RunManager" selected="Cargo.Test adb_device::device_reboot::tests::read_commands">
     <configuration name="Test adb_device::device_get_features::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="command" value="test --package rust-adb --lib adb_device::device_get_features::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test adb_device::device_get_packages::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_device::device_get_packages::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -128,8 +149,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test adb_host::host_device_path::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_host::host_device_path::tests::read_commands -- --exact" />
+    <configuration name="Test adb_device::device_reboot::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_device::device_reboot::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -145,25 +166,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test host_device_path::tests" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_host::host_device_path::tests" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <option name="channel" value="DEFAULT" />
-      <option name="requiredFeatures" value="true" />
-      <option name="allFeatures" value="false" />
-      <option name="emulateTerminal" value="false" />
-      <option name="withSudo" value="false" />
-      <option name="buildTarget" value="REMOTE" />
-      <option name="backtrace" value="SHORT" />
-      <envs />
-      <option name="isRedirectInput" value="false" />
-      <option name="redirectInputPath" value="" />
-      <method v="2">
-        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test host_device_status::tests" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_host::host_device_status::tests" />
+    <configuration name="Test adb_device::device_shell_sync::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_device::device_shell_sync::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -181,11 +185,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo.Test adb_device::device_get_features::tests::read_commands" />
-        <item itemvalue="Cargo.Test adb_host::host_device_path::tests::read_commands" />
-        <item itemvalue="Cargo.Test host_device_path::tests" />
-        <item itemvalue="Cargo.Test host_device_status::tests" />
+        <item itemvalue="Cargo.Test adb_device::device_reboot::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb_device::device_get_packages::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb_device::device_shell_sync::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_device::device_get_properties::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb_device::device_get_features::tests::read_commands" />
       </list>
     </recent_temporary>
   </component>
@@ -214,7 +218,7 @@
       <workItem from="1656853098187" duration="1000" />
       <workItem from="1656853272201" duration="2794000" />
       <workItem from="1656900372233" duration="11413000" />
-      <workItem from="1656915585440" duration="22056000" />
+      <workItem from="1656915585440" duration="24486000" />
     </task>
     <servers />
   </component>

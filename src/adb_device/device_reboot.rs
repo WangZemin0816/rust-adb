@@ -1,26 +1,36 @@
-use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
 use crate::adb_device::{
     device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
     SyncDeviceProtocol,
 };
-
 use crate::error::adb::AdbError;
+use log::error;
 
-pub struct DeviceGetPropertiesCommand {
-    pub params: String,
+pub struct DeviceRebootCommand {
     pub connection_info: DeviceConnectionInfo,
 }
 
-impl SyncDeviceCommand for DeviceGetPropertiesCommand {
+impl SyncDeviceCommand for DeviceRebootCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError> {
-        let command = format!("shell:getprop {}", self.params);
-        DeviceSyncShellCommand::new(&self.connection_info, &command).execute()
+        let mut tcp_stream = device_connection(&self.connection_info)?;
+        match exec_device_command(&mut tcp_stream, "reboot:".to_string()) {
+            Ok(response) => Ok(response),
+            Err(error) => match error {
+                AdbError::TcpReadError { .. } => Ok(SyncDeviceProtocol::OKAY {
+                    content: "".to_string(),
+                    length: 0,
+                }),
+                _ => Err(error),
+            },
+        }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
+    use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
+
+    use crate::adb_device::device_reboot::DeviceRebootCommand;
+    use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
     use crate::adb_host::SyncHostCommand;
@@ -31,10 +41,9 @@ mod tests {
         let conn = DeviceConnectionInfo::new(
             &String::from("127.0.0.1"),
             &5037,
-            &"emulator-5554".to_string(),
+            &String::from("emulator-5554"),
         );
-        let mut command = DeviceGetPropertiesCommand {
-            params: "dalvik.vm.heapgrowthlimit".to_string(),
+        let mut command = DeviceRebootCommand {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
