@@ -1,5 +1,5 @@
 use crate::adb_host;
-use crate::adb_host::{AsyncHostCommand, AsyncHostProtocol, SyncHostProtocol};
+use crate::adb_host::{AsyncHostCommand, AsyncHostProtocol};
 use log::trace;
 use std::io::Read;
 use std::net::TcpStream;

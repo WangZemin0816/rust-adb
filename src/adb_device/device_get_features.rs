@@ -21,12 +21,12 @@ impl SyncDeviceCommand for DeviceGetFeaturesCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
-    use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
+    
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
-    use crate::adb_host::HostConnectionInfo;
+    
     use crate::adb_host::SyncHostCommand;
-    use crate::adb_host::SyncHostProtocol;
+    
 
     #[test]
     fn read_commands() {

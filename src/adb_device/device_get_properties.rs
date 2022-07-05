@@ -1,5 +1,5 @@
 use crate::adb_device::{device_connection, DeviceConnectionInfo, exec_device_command, SyncDeviceCommand, SyncDeviceProtocol};
-use crate::adb_host::{HostConnectionInfo, exec_command, SyncHostCommand, SyncHostProtocol};
+
 
 use crate::error::adb::AdbError;
 
@@ -19,9 +19,9 @@ mod tests {
     use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
-    use crate::adb_host::HostConnectionInfo;
+    
     use crate::adb_host::SyncHostCommand;
-    use crate::adb_host::SyncHostProtocol;
+    
 
     #[test]
     fn read_commands() {
