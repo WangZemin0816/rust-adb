@@ -1,5 +1,5 @@
 use crate::adb_host;
-use crate::adb_host::{AsyncHostCommand, AsyncHostProtocol};
+use crate::adb_host::{read_response_status, AsyncHostCommand, AsyncHostProtocol};
 use log::trace;
 use std::io::Read;
 use std::net::TcpStream;
@@ -22,6 +22,7 @@ pub trait AsyncDeviceCommand {
 
 pub enum SyncDeviceProtocol {
     OKAY { length: usize, content: String },
+    FAIL { length: usize, content: String },
 }
 
 pub enum AsyncDeviceProtocol {
@@ -80,12 +81,26 @@ pub fn exec_device_command(
     adb_host::write_command(tcp_stream, &command)?;
     trace!("[exec_device_command]write command: command={}", command);
 
-    let content = read_response_all_content(tcp_stream)?;
-    trace!("[exec_command]response content: content={}", content);
+    let status = read_response_status(tcp_stream)?;
+    trace!("[exec_device_command]response status: status={}", status);
 
-    Ok(SyncDeviceProtocol::OKAY {
-        length: content.len(),
-        content,
+    let content = read_response_all_content(tcp_stream)?;
+    trace!("[exec_device_command]response content: content={}", content);
+
+    if status == "OKAY" {
+        return Ok(SyncDeviceProtocol::OKAY {
+            length: content.len(),
+            content,
+        });
+    }
+    if status == "FAIL" {
+        return Ok(SyncDeviceProtocol::FAIL {
+            length: content.len(),
+            content,
+        });
+    }
+    Err(AdbError::ResponseStatusError {
+        message: String::from("unknown response status ") + &*status,
     })
 }
 

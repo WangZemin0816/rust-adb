@@ -13,24 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/adb_host/host_device_path.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/adb_host/host_device_status.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_path.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_status.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/adb_device/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_disconnect.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_disconnect.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_kill.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_kill.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_list_device.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_list_device.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_list_device_l.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_list_device_l.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_track_devices.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_track_devices.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_transport.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_transport.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/host_version.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_version.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adb_host/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/basic/connection.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/basic/connection.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/adb_client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/adb_client.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +214,7 @@
       <workItem from="1656853098187" duration="1000" />
       <workItem from="1656853272201" duration="2794000" />
       <workItem from="1656900372233" duration="11413000" />
-      <workItem from="1656915585440" duration="19273000" />
+      <workItem from="1656915585440" duration="22056000" />
     </task>
     <servers />
   </component>

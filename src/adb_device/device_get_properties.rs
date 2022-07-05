@@ -39,6 +39,9 @@ mod tests {
             SyncDeviceProtocol::OKAY { content, .. } => {
                 println!("devpath ok {}", content)
             }
+            SyncDeviceProtocol::FAIL { content, .. } => {
+                println!("devpath failed {}", content)
+            }
         }
     }
 }
