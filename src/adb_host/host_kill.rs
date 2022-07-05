@@ -27,7 +27,7 @@ impl AdbHostKillCommand {
 mod tests {
     use crate::adb_host::host_kill::AdbHostKillCommand;
     use crate::adb_host::AsyncHostCommand;
-    
+
     use crate::adb_host::HostConnectionInfo;
 
     #[test]

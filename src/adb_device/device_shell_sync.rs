@@ -1,6 +1,6 @@
-
 use crate::adb_device::{
-    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
+    SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -30,7 +30,6 @@ mod tests {
 
     use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
 
     #[test]
     fn read_commands() {

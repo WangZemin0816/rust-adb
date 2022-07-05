@@ -7,9 +7,9 @@ mod adb_client;
 mod device_client;
 
 pub trait AdbServer {
-    fn start_server(&mut self) -> Result<(), AdbError> ;
-    fn kill_server(&mut self) -> Result<(), AdbError> ;
-    fn restart_server(&mut self) -> Result<(), AdbError> ;
+    fn start_server(&mut self) -> Result<(), AdbError>;
+    fn kill_server(&mut self) -> Result<(), AdbError>;
+    fn restart_server(&mut self) -> Result<(), AdbError>;
 }
 
 pub trait HostServer {

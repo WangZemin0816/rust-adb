@@ -1,5 +1,5 @@
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{ DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 use crate::error::adb::AdbError;
 
 pub struct DeviceGetFeaturesCommand {
@@ -17,7 +17,6 @@ impl SyncDeviceCommand for DeviceGetFeaturesCommand {
 mod tests {
     use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
 
     #[test]
     fn read_commands() {

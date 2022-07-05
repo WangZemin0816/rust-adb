@@ -1,10 +1,9 @@
-
-use crate::adb_host::{HostConnectionInfo};
+use crate::adb_host::HostConnectionInfo;
 use crate::adb_host::{SyncHostCommand, SyncHostResponse};
 use crate::error::adb::AdbError;
 use log::trace;
 
-use std::process::{Command};
+use std::process::Command;
 
 pub struct AdbHostStartCommand {
     pub bin_path: String,
@@ -60,9 +59,9 @@ impl AdbHostStartCommand {
 
 #[cfg(test)]
 mod tests {
-    
+
     use crate::adb_host::host_start::AdbHostStartCommand;
-    
+
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
 

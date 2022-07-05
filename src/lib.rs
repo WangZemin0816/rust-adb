@@ -1,9 +1,9 @@
 extern crate core;
 
-mod adb_device;
-mod adb_host;
 pub mod client;
-mod error;
+pub mod adb_device;
+pub mod adb_host;
+pub mod error;
 
 #[cfg(test)]
 mod tests {

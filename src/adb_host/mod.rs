@@ -10,10 +10,10 @@ pub mod host_disconnect;
 pub mod host_kill;
 pub mod host_list_device;
 pub mod host_list_device_l;
+pub mod host_start;
 pub mod host_track_devices;
 pub mod host_transport;
 pub mod host_version;
-pub mod host_start;
 
 pub trait SyncHostCommand {
     fn execute(&mut self) -> Result<SyncHostResponse, AdbError>;
@@ -24,12 +24,13 @@ pub trait AsyncHostCommand {
 }
 
 #[derive(Debug)]
-pub struct  SyncHostResponse {
-    pub length: usize,pub content: String
+pub struct SyncHostResponse {
+    pub length: usize,
+    pub content: String,
 }
 
 pub struct AsyncHostResponse {
-    pub tcp_stream: TcpStream
+    pub tcp_stream: TcpStream,
 }
 
 #[derive(Debug)]
@@ -123,7 +124,7 @@ pub fn exec_command_sync(
 
         let content = read_response_content(&mut tcp_stream, length)?;
         trace!("[exec_command_sync]response content: content={}", content);
-        return Err(AdbError::ResponseStatusError {  content });
+        return Err(AdbError::ResponseStatusError { content });
     }
 
     Err(AdbError::ResponseStatusError {
@@ -150,7 +151,7 @@ pub fn exec_command(
     trace!("[exec_command]response content: content={}", content);
 
     if status == "OKAY" {
-        return Ok(SyncHostResponse{ length, content });
+        return Ok(SyncHostResponse { length, content });
     }
     if status == "FAIL" {
         return Err(AdbError::ResponseStatusError { content });

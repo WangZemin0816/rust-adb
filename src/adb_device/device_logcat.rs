@@ -1,9 +1,6 @@
 use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 
-use crate::adb_device::{
-    AsyncDeviceCommand, AsyncDeviceProtocol,
-    DeviceConnectionInfo,
-};
+use crate::adb_device::{AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo};
 use crate::error::adb::AdbError;
 pub struct DeviceLogcatCommand {
     pub params: String,
@@ -19,19 +16,15 @@ impl AsyncDeviceCommand for DeviceLogcatCommand {
 
 #[cfg(test)]
 mod tests {
-    
+
     use encoding_rs::SHIFT_JIS;
-    use std::io::{Read};
+    use std::io::Read;
     use std::thread;
     use std::time::Duration;
 
     use crate::adb_device::device_logcat::DeviceLogcatCommand;
-    
-    
-    use crate::adb_device::{
-        AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo,
-    };
 
+    use crate::adb_device::{AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo};
 
     #[test]
     fn read_commands() {
@@ -49,10 +42,9 @@ mod tests {
         let _decode = SHIFT_JIS.new_decoder();
         match resp {
             AsyncDeviceProtocol::OKAY { mut tcp_stream } => loop {
-                let mut buff = vec![0;1024];
+                let mut buff = vec![0; 1024];
                 tcp_stream.read(&mut buff).unwrap();
-                println!("{}",String::from_utf8_lossy(&*buff))
-
+                println!("{}", String::from_utf8_lossy(&*buff))
             },
             AsyncDeviceProtocol::FAIL { content, .. } => {
                 println!("logcat failed {}", content)

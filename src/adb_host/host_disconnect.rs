@@ -37,7 +37,7 @@ impl AdbHostDisconnectCommand {
 mod tests {
     use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
     use crate::adb_host::AsyncHostCommand;
-    
+
     use crate::adb_host::HostConnectionInfo;
 
     #[test]
@@ -50,6 +50,5 @@ mod tests {
             port: 5037,
         };
         let _resp = command.execute().unwrap();
-
     }
 }

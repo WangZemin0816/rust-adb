@@ -3,8 +3,8 @@ use std::thread;
 use std::thread::JoinHandle;
 
 use crate::adb_host::{
-    connect, read_response_content, read_response_length, AsyncHostCommand,
-    HostConnectionInfo, SyncHostCommand,
+    connect, read_response_content, read_response_length, AsyncHostCommand, HostConnectionInfo,
+    SyncHostCommand,
 };
 use log::{info, trace};
 
@@ -91,7 +91,7 @@ impl HostServer for AdbClient {
         on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError> {
         let mut command = AdbHostTrackDeviceCommand::new(&self.host, &self.port);
-        let mut tcp_stream =  command.execute()?.tcp_stream;
+        let mut tcp_stream = command.execute()?.tcp_stream;
         let handler = thread::spawn(move || loop {
             let length = match read_response_length(&mut tcp_stream) {
                 Ok(length) => length,
@@ -126,7 +126,9 @@ impl HostServer for AdbClient {
     }
 
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError> {
-        Ok(Box::new( DeviceClient::new(&self.host, &self.port, &serial_no)))
+        Ok(Box::new(DeviceClient::new(
+            &self.host, &self.port, &serial_no,
+        )))
     }
 }
 

@@ -21,7 +21,6 @@ mod tests {
     use crate::adb_host::host_device_path::HostDevicePathCommand;
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
-    
 
     #[test]
     fn read_commands() {
@@ -32,6 +31,6 @@ mod tests {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
-        println!("{:?}",resp)
+        println!("{:?}", resp)
     }
 }

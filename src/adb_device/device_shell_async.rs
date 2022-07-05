@@ -1,6 +1,6 @@
 use crate::adb_device::{
-    device_connection, exec_device_command_sync, AsyncDeviceCommand,
-    AsyncDeviceProtocol, DeviceConnectionInfo,
+    device_connection, exec_device_command_sync, AsyncDeviceCommand, AsyncDeviceProtocol,
+    DeviceConnectionInfo,
 };
 use crate::error::adb::AdbError;
 
@@ -25,13 +25,11 @@ impl DeviceAsyncShellCommand {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
 
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
 
     #[test]
     fn read_commands() {

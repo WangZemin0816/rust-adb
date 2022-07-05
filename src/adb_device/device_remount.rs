@@ -18,11 +18,8 @@ impl SyncDeviceCommand for DeviceRemountCommand {
 #[cfg(test)]
 mod tests {
 
-    
-
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
     use crate::adb_device::device_remount::DeviceRemountCommand;
-
+    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
     #[test]
     fn read_commands() {

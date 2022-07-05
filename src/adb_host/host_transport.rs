@@ -17,7 +17,6 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 }
 
 impl AdbHostTransportCommand {
-
     pub fn new(
         connection_info: &HostConnectionInfo,
         serial_no: &String,
@@ -33,7 +32,7 @@ impl AdbHostTransportCommand {
 mod tests {
     use crate::adb_host::host_transport::AdbHostTransportCommand;
     use crate::adb_host::AsyncHostCommand;
-    
+
     use crate::adb_host::HostConnectionInfo;
 
     #[test]
