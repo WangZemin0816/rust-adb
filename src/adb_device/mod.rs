@@ -10,11 +10,11 @@ use crate::adb_host::HostConnectionInfo;
 use crate::error::adb::AdbError;
 
 mod device_get_features;
-mod device_get_properties;
 mod device_get_packages;
-mod device_shell_sync;
-mod device_shell_async;
+mod device_get_properties;
 mod device_reboot;
+mod device_shell_async;
+mod device_shell_sync;
 
 pub trait SyncDeviceCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError>;
@@ -42,14 +42,14 @@ pub struct DeviceConnectionInfo {
     pub write_timeout: Option<Duration>,
 }
 
-impl Clone for DeviceConnectionInfo{
+impl Clone for DeviceConnectionInfo {
     fn clone(&self) -> Self {
-        DeviceConnectionInfo{
-            host:self.host.clone(),
+        DeviceConnectionInfo {
+            host: self.host.clone(),
             port: self.port.clone(),
             serial_no: self.serial_no.clone(),
             read_timeout: self.read_timeout.clone(),
-            write_timeout: self.write_timeout.clone()
+            write_timeout: self.write_timeout.clone(),
         }
     }
 }

@@ -5,7 +5,7 @@ use crate::adb_device::{
 use crate::error::adb::AdbError;
 
 pub struct DeviceShellCommand {
-    pub command:String,
+    pub command: String,
     pub connection_info: DeviceConnectionInfo,
 }
 

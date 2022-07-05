@@ -1,4 +1,3 @@
-use log::error;
 use crate::adb_device::{
     device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
     SyncDeviceProtocol,
@@ -33,7 +32,7 @@ impl DeviceSyncShellCommand {
         shell: &String,
     ) -> DeviceSyncShellCommand {
         DeviceSyncShellCommand {
-            connection_info: DeviceConnectionInfo::new(&host, &port,&serial_no),
+            connection_info: DeviceConnectionInfo::new(&host, &port, &serial_no),
             shell: shell.clone(),
         }
     }
@@ -41,10 +40,9 @@ impl DeviceSyncShellCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
 
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
     use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
+    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
     use crate::adb_host::SyncHostCommand;
 

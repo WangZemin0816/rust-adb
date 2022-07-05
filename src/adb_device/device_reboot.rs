@@ -3,7 +3,6 @@ use crate::adb_device::{
     SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
-use log::error;
 
 pub struct DeviceRebootCommand {
     pub connection_info: DeviceConnectionInfo,
@@ -27,10 +26,9 @@ impl SyncDeviceCommand for DeviceRebootCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
 
     use crate::adb_device::device_reboot::DeviceRebootCommand;
-    use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
+
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
     use crate::adb_host::SyncHostCommand;
