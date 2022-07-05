@@ -1,5 +1,7 @@
-use crate::adb_device::{device_connection, DeviceConnectionInfo, exec_device_command, SyncDeviceCommand, SyncDeviceProtocol};
-
+use crate::adb_device::{
+    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
+    SyncDeviceProtocol,
+};
 
 use crate::error::adb::AdbError;
 
@@ -19,14 +21,16 @@ mod tests {
     use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
-    
     use crate::adb_host::SyncHostCommand;
-    
 
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = DeviceConnectionInfo::new(&String::from("127.0.0.1"), &5037,&"emulator-5554".to_string());
+        let conn = DeviceConnectionInfo::new(
+            &String::from("127.0.0.1"),
+            &5037,
+            &"emulator-5554".to_string(),
+        );
         let mut command = DeviceGetPropertiesCommand {
             connection_info: conn,
         };

@@ -2,8 +2,11 @@ use std::net::TcpStream;
 use std::thread;
 use std::thread::JoinHandle;
 
+use crate::adb_host::{
+    connect, read_response_content, read_response_length, AsyncHostCommand, AsyncHostProtocol,
+    HostConnectionInfo, SyncHostCommand, SyncHostProtocol,
+};
 use log::{info, trace};
-use crate::adb_host::{AsyncHostCommand, AsyncHostProtocol, connect, HostConnectionInfo, read_response_content, read_response_length, SyncHostCommand, SyncHostProtocol};
 
 use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
 use crate::adb_host::host_kill::AdbHostKillCommand;

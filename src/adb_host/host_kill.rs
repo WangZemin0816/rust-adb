@@ -1,6 +1,6 @@
-use crate::adb_host::{connect, HostConnectionInfo, exec_command_sync};
 use crate::adb_host::AsyncHostCommand;
 use crate::adb_host::AsyncHostProtocol;
+use crate::adb_host::{connect, exec_command_sync, HostConnectionInfo};
 use crate::error::adb::AdbError;
 
 pub struct AdbHostKillCommand {
@@ -26,9 +26,9 @@ impl AdbHostKillCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_host::host_kill::AdbHostKillCommand;
-    use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::AsyncHostCommand;
     use crate::adb_host::AsyncHostProtocol;
+    use crate::adb_host::HostConnectionInfo;
 
     #[test]
     fn read_commands() {

@@ -12,7 +12,6 @@ use crate::error::adb::AdbError;
 mod device_get_features;
 mod device_get_properties;
 
-
 pub trait SyncDeviceCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError>;
 }
@@ -84,7 +83,10 @@ pub fn exec_device_command(
     let content = read_response_all_content(tcp_stream)?;
     trace!("[exec_command]response content: content={}", content);
 
-    Ok(SyncDeviceProtocol::OKAY { length: content.len(), content, })
+    Ok(SyncDeviceProtocol::OKAY {
+        length: content.len(),
+        content,
+    })
 }
 
 pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, AdbError> {

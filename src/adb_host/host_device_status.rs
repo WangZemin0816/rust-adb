@@ -1,4 +1,6 @@
-use crate::adb_host::{connect, exec_command, HostConnectionInfo, SyncHostCommand, SyncHostProtocol};
+use crate::adb_host::{
+    connect, exec_command, HostConnectionInfo, SyncHostCommand, SyncHostProtocol,
+};
 use crate::error::adb::AdbError;
 
 pub struct HostDeviceStatusCommand {

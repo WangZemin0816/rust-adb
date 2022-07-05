@@ -1,6 +1,6 @@
-use crate::adb_host::{connect, HostConnectionInfo, exec_command};
 use crate::adb_host::SyncHostCommand;
 use crate::adb_host::SyncHostProtocol;
+use crate::adb_host::{connect, exec_command, HostConnectionInfo};
 use crate::error::adb::AdbError;
 
 pub struct AdbHostVersionCommand {

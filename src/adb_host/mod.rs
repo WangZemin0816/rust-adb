@@ -1,9 +1,11 @@
+use crate::error::adb::AdbError;
+use log::{debug, trace};
+use std::io::{Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
-use std::io::{Read, Write};
-use log::{debug, trace};
-use crate::error::adb::AdbError;
 
+pub mod host_device_path;
+pub mod host_device_status;
 pub mod host_disconnect;
 pub mod host_kill;
 pub mod host_list_device;
@@ -11,8 +13,6 @@ pub mod host_list_device_l;
 pub mod host_track_devices;
 pub mod host_transport;
 pub mod host_version;
-pub mod host_device_status;
-pub mod host_device_path;
 
 pub trait SyncHostCommand {
     fn execute(&mut self) -> Result<SyncHostProtocol, AdbError>;
@@ -130,7 +130,10 @@ pub fn exec_command_sync(
     })
 }
 
-pub fn exec_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncHostProtocol, AdbError> {
+pub fn exec_command(
+    tcp_stream: &mut TcpStream,
+    command: String,
+) -> Result<SyncHostProtocol, AdbError> {
     trace!("[exec_command]exec command: command={}", command);
 
     write_command(tcp_stream, &command)?;
