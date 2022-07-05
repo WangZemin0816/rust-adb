@@ -27,7 +27,7 @@ impl AdbHostKillCommand {
 mod tests {
     use crate::adb_host::host_kill::AdbHostKillCommand;
     use crate::adb_host::AsyncHostCommand;
-    use crate::adb_host::AsyncHostResponse;
+    
     use crate::adb_host::HostConnectionInfo;
 
     #[test]
@@ -37,6 +37,6 @@ mod tests {
         let mut command = AdbHostKillCommand {
             connection_info: conn,
         };
-        let resp = command.execute().unwrap();
+        let _resp = command.execute().unwrap();
     }
 }

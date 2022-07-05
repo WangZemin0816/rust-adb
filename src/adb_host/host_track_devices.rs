@@ -34,7 +34,7 @@ impl AdbHostTrackDeviceCommand {
 mod tests {
     use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
     use crate::adb_host::AsyncHostCommand;
-    use crate::adb_host::AsyncHostResponse;
+    
     use crate::adb_host::HostConnectionInfo;
 
     #[test]
@@ -44,6 +44,6 @@ mod tests {
         let mut command = AdbHostTrackDeviceCommand {
             connection_info: conn,
         };
-        let resp = command.execute().unwrap();
+        let _resp = command.execute().unwrap();
     }
 }

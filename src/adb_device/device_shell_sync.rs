@@ -23,18 +23,6 @@ impl DeviceSyncShellCommand {
             shell: shell.clone(),
         }
     }
-
-    pub fn new0(
-        host: String,
-        port: i32,
-        serial_no: String,
-        shell: &String,
-    ) -> DeviceSyncShellCommand {
-        DeviceSyncShellCommand {
-            connection_info: DeviceConnectionInfo::new(&host, &port, &serial_no),
-            shell: shell.clone(),
-        }
-    }
 }
 
 #[cfg(test)]

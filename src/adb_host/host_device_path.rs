@@ -21,7 +21,7 @@ mod tests {
     use crate::adb_host::host_device_path::HostDevicePathCommand;
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
-    use crate::adb_host::SyncHostResponse;
+    
 
     #[test]
     fn read_commands() {

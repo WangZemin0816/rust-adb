@@ -1,6 +1,6 @@
 use crate::adb_host::{
     read_response_content, read_response_length, read_response_status, write_command,
-    AsyncHostCommand, AsyncHostResponse,
+    AsyncHostCommand,
 };
 use log::trace;
 use std::io::Read;
@@ -83,7 +83,7 @@ impl DeviceConnectionInfo {
 fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<TcpStream, AdbError> {
     let host_connection_info = device_connection_info.host_connection_info();
     let mut command =
-        AdbHostTransportCommand::new0(&host_connection_info, &device_connection_info.serial_no);
+        AdbHostTransportCommand::new(&host_connection_info, &device_connection_info.serial_no);
     let async_protocol = command.execute()?;
     Ok(async_protocol.tcp_stream)
 }

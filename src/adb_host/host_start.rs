@@ -1,10 +1,10 @@
-use crate::adb_host::AsyncHostResponse;
-use crate::adb_host::{connect, exec_command_sync, HostConnectionInfo};
-use crate::adb_host::{AsyncHostCommand, SyncHostCommand, SyncHostResponse};
+
+use crate::adb_host::{HostConnectionInfo};
+use crate::adb_host::{SyncHostCommand, SyncHostResponse};
 use crate::error::adb::AdbError;
 use log::trace;
-use std::io::Error;
-use std::process::{Command, ExitStatus};
+
+use std::process::{Command};
 
 pub struct AdbHostStartCommand {
     pub bin_path: String,
@@ -60,11 +60,11 @@ impl AdbHostStartCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::adb_host::host_kill::AdbHostKillCommand;
+    
     use crate::adb_host::host_start::AdbHostStartCommand;
-    use crate::adb_host::AsyncHostResponse;
+    
     use crate::adb_host::HostConnectionInfo;
-    use crate::adb_host::{AsyncHostCommand, SyncHostCommand, SyncHostResponse};
+    use crate::adb_host::SyncHostCommand;
 
     #[test]
     fn read_commands() {

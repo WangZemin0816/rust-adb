@@ -3,8 +3,8 @@ use std::thread;
 use std::thread::JoinHandle;
 
 use crate::adb_host::{
-    connect, read_response_content, read_response_length, AsyncHostCommand, AsyncHostResponse,
-    HostConnectionInfo, SyncHostCommand, SyncHostResponse,
+    connect, read_response_content, read_response_length, AsyncHostCommand,
+    HostConnectionInfo, SyncHostCommand,
 };
 use log::{info, trace};
 
@@ -14,7 +14,7 @@ use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
 use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
 use crate::adb_host::host_start::AdbHostStartCommand;
 use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
-use crate::adb_host::host_transport::AdbHostTransportCommand;
+
 use crate::adb_host::host_version::AdbHostVersionCommand;
 use crate::client::device_client::DeviceClient;
 use crate::client::{AdbServer, Device, DeviceService, DeviceWithPath, HostServer};
@@ -42,7 +42,7 @@ impl HostServer for AdbClient {
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError> {
         let mut command = AdbHostDisconnectCommand::new(&self.host, &self.port, &host, &port);
         match command.execute() {
-            Ok(response) => Ok(()),
+            Ok(_response) => Ok(()),
             Err(error) => Err(error),
         }
     }

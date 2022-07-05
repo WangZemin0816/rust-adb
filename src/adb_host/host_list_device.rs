@@ -28,7 +28,7 @@ mod tests {
     use crate::adb_host::host_list_device::AdbHostListDevicesCommand;
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
-    use crate::adb_host::SyncHostResponse;
+    
 
     #[test]
     fn read_commands() {
