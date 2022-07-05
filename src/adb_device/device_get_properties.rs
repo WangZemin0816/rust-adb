@@ -31,7 +31,7 @@ mod tests {
             &"emulator-5554".to_string(),
         );
         let mut command = DeviceGetPropertiesCommand {
-            params: "dalvik.vm.heapgrowthlimit".to_string(),
+            params: "".to_string(),
             connection_info: conn,
         };
         let resp = command.execute().unwrap();

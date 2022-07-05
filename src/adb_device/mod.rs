@@ -1,5 +1,8 @@
 use crate::adb_host;
-use crate::adb_host::{read_response_status, AsyncHostCommand, AsyncHostProtocol};
+use crate::adb_host::{
+    read_response_content, read_response_length, read_response_status, write_command,
+    AsyncHostCommand, AsyncHostProtocol,
+};
 use log::trace;
 use std::io::Read;
 use std::net::TcpStream;
@@ -13,8 +16,11 @@ mod device_get_features;
 mod device_get_packages;
 mod device_get_properties;
 mod device_reboot;
+mod device_remount;
+mod device_root;
 mod device_shell_async;
 mod device_shell_sync;
+mod device_logcat;
 
 pub trait SyncDeviceCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError>;
@@ -88,33 +94,67 @@ fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<Tc
     }
 }
 
+pub fn exec_device_command_sync(
+    mut tcp_stream: TcpStream,
+    command: String,
+) -> Result<AsyncDeviceProtocol, AdbError> {
+    trace!("[exec_command_sync]exec command: command={}", command);
+
+    write_command(&mut tcp_stream, &command)?;
+    trace!("[exec_command_sync]write command: command={}", command);
+
+    let status = read_response_status(&mut tcp_stream)?;
+    trace!("[exec_command_sync]response status: status={}", status);
+
+    if status == "OKAY" {
+        return Ok(AsyncDeviceProtocol::OKAY { tcp_stream });
+    }
+
+    if status == "FAIL" {
+        let length = read_response_length(&mut tcp_stream)?;
+        trace!("[exec_command_sync]response length: length={}", length);
+
+        let content = read_response_content(&mut tcp_stream, length)?;
+        trace!("[exec_command_sync]response content: content={}", content);
+        return Ok(AsyncDeviceProtocol::FAIL { length, content });
+    }
+
+    Err(AdbError::ResponseStatusError {
+        message: String::from("unknown response status ") + &*status,
+    })
+}
+
 pub fn exec_device_command(
     tcp_stream: &mut TcpStream,
     command: String,
 ) -> Result<SyncDeviceProtocol, AdbError> {
     trace!("[exec_device_command]exec command: command={}", command);
 
-    adb_host::write_command(tcp_stream, &command)?;
+    write_command(tcp_stream, &command)?;
     trace!("[exec_device_command]write command: command={}", command);
 
     let status = read_response_status(tcp_stream)?;
     trace!("[exec_device_command]response status: status={}", status);
 
-    let content = read_response_all_content(tcp_stream)?;
-    trace!("[exec_device_command]response content: content={}", content);
-
     if status == "OKAY" {
+        let content = read_response_all_content(tcp_stream)?;
+        trace!("[exec_device_command]response content: content={}", content);
+
         return Ok(SyncDeviceProtocol::OKAY {
             length: content.len(),
             content,
         });
     }
+
     if status == "FAIL" {
-        return Ok(SyncDeviceProtocol::FAIL {
-            length: content.len(),
-            content,
-        });
+        let length = read_response_length(tcp_stream)?;
+        trace!("[exec_command_sync]response length: length={}", length);
+
+        let content = read_response_content(tcp_stream, length)?;
+        trace!("[exec_command_sync]response content: content={}", content);
+        return Ok(SyncDeviceProtocol::FAIL { length, content });
     }
+
     Err(AdbError::ResponseStatusError {
         message: String::from("unknown response status ") + &*status,
     })

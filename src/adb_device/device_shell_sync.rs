@@ -1,6 +1,7 @@
+use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 use crate::adb_device::{
-    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
-    SyncDeviceProtocol,
+    device_connection, exec_device_command, exec_device_command_sync, AsyncDeviceCommand,
+    AsyncDeviceProtocol, DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -12,8 +13,7 @@ pub struct DeviceSyncShellCommand {
 impl SyncDeviceCommand for DeviceSyncShellCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError> {
         let mut tcp_stream = device_connection(&self.connection_info)?;
-        let command = format!("shell:{}", self.shell);
-        exec_device_command(&mut tcp_stream, command)
+        exec_device_command(&mut tcp_stream, self.shell.clone())
     }
 }
 

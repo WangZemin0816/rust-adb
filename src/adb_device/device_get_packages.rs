@@ -9,7 +9,7 @@ pub struct DeviceGetPackagesCommand {
 
 impl SyncDeviceCommand for DeviceGetPackagesCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError> {
-        let command = format!("pm list packages {} 2>/dev/null", self.params);
+        let command = format!("shell:pm list packages {} 2>/dev/null", self.params);
         DeviceSyncShellCommand::new(&self.connection_info, &command).execute()
     }
 }
