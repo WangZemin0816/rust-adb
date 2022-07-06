@@ -43,3 +43,15 @@ pub struct DeviceWithPath {
     pub device: String,
     pub transport_id: String,
 }
+
+#[derive(Debug)]
+pub struct LogEntry {
+    pub pid: u32,
+    pub tid: u32,
+    pub tag: u32,
+    pub sec: u32,
+    pub nsec: u32,
+    pub priority: u32,
+    pub header:Vec<u8>,
+    pub log: Vec<u8>,
+}
