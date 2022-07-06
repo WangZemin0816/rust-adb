@@ -1,6 +1,6 @@
 use crate::adb_device::{
-    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
-    SyncDeviceProtocol,
+    device_connection, exec_device_command, DeviceConnectionInfo,
+    SyncDeviceCommand, SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -18,7 +18,9 @@ impl SyncDeviceCommand for DeviceRootCommand {
 #[cfg(test)]
 mod tests {
 
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+    use crate::adb_device::{
+        DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    };
 
     use crate::adb_device::device_root::DeviceRootCommand;
 
@@ -30,9 +32,7 @@ mod tests {
             &5037,
             &String::from("emulator-5554"),
         );
-        let mut command = DeviceRootCommand {
-            connection_info: conn,
-        };
+        let mut command = DeviceRootCommand { connection_info: conn };
         let resp = command.execute().unwrap();
         match resp {
             SyncDeviceProtocol::OKAY { content, .. } => {

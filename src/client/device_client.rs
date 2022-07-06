@@ -16,4 +16,4 @@ impl DeviceClient {
     }
 }
 
-impl DeviceService for DeviceClient {}
+// impl DeviceService for DeviceClient {}

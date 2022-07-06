@@ -1,5 +1,7 @@
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+use crate::adb_device::{
+    DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+};
 use crate::error::adb::AdbError;
 
 pub struct DeviceGetFeaturesCommand {
@@ -16,7 +18,9 @@ impl SyncDeviceCommand for DeviceGetFeaturesCommand {
 #[cfg(test)]
 mod tests {
     use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+    use crate::adb_device::{
+        DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    };
 
     #[test]
     fn read_commands() {
@@ -26,9 +30,7 @@ mod tests {
             &5037,
             &String::from("emulator-5554"),
         );
-        let mut command = DeviceGetFeaturesCommand {
-            connection_info: conn,
-        };
+        let mut command = DeviceGetFeaturesCommand { connection_info: conn };
         let resp = command.execute().unwrap();
         match resp {
             SyncDeviceProtocol::OKAY { content, .. } => {

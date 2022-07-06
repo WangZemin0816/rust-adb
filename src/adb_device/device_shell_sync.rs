@@ -1,6 +1,6 @@
 use crate::adb_device::{
-    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
-    SyncDeviceProtocol,
+    device_connection, exec_device_command, DeviceConnectionInfo,
+    SyncDeviceCommand, SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -17,7 +17,9 @@ impl SyncDeviceCommand for DeviceSyncShellCommand {
 }
 
 impl DeviceSyncShellCommand {
-    pub fn new(connection_info: &DeviceConnectionInfo, shell: &String) -> DeviceSyncShellCommand {
+    pub fn new(
+        connection_info: &DeviceConnectionInfo, shell: &String,
+    ) -> DeviceSyncShellCommand {
         DeviceSyncShellCommand {
             connection_info: connection_info.clone(),
             shell: shell.clone(),
@@ -29,7 +31,9 @@ impl DeviceSyncShellCommand {
 mod tests {
 
     use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+    use crate::adb_device::{
+        DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    };
 
     #[test]
     fn read_commands() {

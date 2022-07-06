@@ -19,10 +19,7 @@ impl AsyncHostCommand for AdbHostDisconnectCommand {
 
 impl AdbHostDisconnectCommand {
     pub fn new(
-        host: &String,
-        port: &i32,
-        dis_host: &String,
-        dis_port: &i32,
+        host: &String, port: &i32, dis_host: &String, dis_port: &i32,
     ) -> AdbHostDisconnectCommand {
         let connect_info = HostConnectionInfo::new(host, port);
         AdbHostDisconnectCommand {

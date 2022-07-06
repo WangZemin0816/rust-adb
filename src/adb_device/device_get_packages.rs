@@ -1,5 +1,7 @@
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+use crate::adb_device::{
+    DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+};
 use crate::error::adb::AdbError;
 
 pub struct DeviceGetPackagesCommand {
@@ -9,7 +11,8 @@ pub struct DeviceGetPackagesCommand {
 
 impl SyncDeviceCommand for DeviceGetPackagesCommand {
     fn execute(&mut self) -> Result<SyncDeviceProtocol, AdbError> {
-        let command = format!("shell:pm list packages {} 2>/dev/null", self.params);
+        let command =
+            format!("shell:pm list packages {} 2>/dev/null", self.params);
         DeviceSyncShellCommand::new(&self.connection_info, &command).execute()
     }
 }
@@ -18,7 +21,9 @@ impl SyncDeviceCommand for DeviceGetPackagesCommand {
 mod tests {
     use crate::adb_device::device_get_packages::DeviceGetPackagesCommand;
 
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+    use crate::adb_device::{
+        DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    };
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());

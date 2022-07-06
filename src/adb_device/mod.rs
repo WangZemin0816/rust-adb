@@ -1,6 +1,6 @@
 use crate::adb_host::{
-    read_response_content, read_response_length, read_response_status, write_command,
-    AsyncHostCommand,
+    read_response_content, read_response_length, read_response_status,
+    write_command, AsyncHostCommand,
 };
 use log::trace;
 use std::io::Read;
@@ -60,7 +60,9 @@ impl Clone for DeviceConnectionInfo {
 }
 
 impl DeviceConnectionInfo {
-    pub fn new(host: &String, port: &i32, serial_no: &String) -> DeviceConnectionInfo {
+    pub fn new(
+        host: &String, port: &i32, serial_no: &String,
+    ) -> DeviceConnectionInfo {
         DeviceConnectionInfo {
             host: host.clone(),
             port: port.clone(),
@@ -80,17 +82,20 @@ impl DeviceConnectionInfo {
     }
 }
 
-fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<TcpStream, AdbError> {
+fn device_connection(
+    device_connection_info: &DeviceConnectionInfo,
+) -> Result<TcpStream, AdbError> {
     let host_connection_info = device_connection_info.host_connection_info();
-    let mut command =
-        AdbHostTransportCommand::new(&host_connection_info, &device_connection_info.serial_no);
+    let mut command = AdbHostTransportCommand::new(
+        &host_connection_info,
+        &device_connection_info.serial_no,
+    );
     let async_protocol = command.execute()?;
     Ok(async_protocol.tcp_stream)
 }
 
 pub fn exec_device_command_sync(
-    mut tcp_stream: TcpStream,
-    command: String,
+    mut tcp_stream: TcpStream, command: String,
 ) -> Result<AsyncDeviceProtocol, AdbError> {
     trace!("[exec_command_sync]exec command: command={}", command);
 
@@ -119,8 +124,7 @@ pub fn exec_device_command_sync(
 }
 
 pub fn exec_device_command(
-    tcp_stream: &mut TcpStream,
-    command: String,
+    tcp_stream: &mut TcpStream, command: String,
 ) -> Result<SyncDeviceProtocol, AdbError> {
     trace!("[exec_device_command]exec command: command={}", command);
 
@@ -134,10 +138,7 @@ pub fn exec_device_command(
         let content = read_response_all_content(tcp_stream)?;
         trace!("[exec_device_command]response content: content={}", content);
 
-        return Ok(SyncDeviceProtocol::OKAY {
-            length: content.len(),
-            content,
-        });
+        return Ok(SyncDeviceProtocol::OKAY { length: content.len(), content });
     }
 
     if status == "FAIL" {
@@ -154,7 +155,9 @@ pub fn exec_device_command(
     })
 }
 
-pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, AdbError> {
+pub fn read_response_all_content(
+    tcp_stream: &mut TcpStream,
+) -> Result<String, AdbError> {
     let mut response_content = vec![];
     match tcp_stream.read_to_end(&mut response_content) {
         Ok(_) => {}
@@ -163,9 +166,7 @@ pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, A
                 "[read_response_all_content]read content failed: error={}",
                 error
             );
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     };
 

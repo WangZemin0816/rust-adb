@@ -63,8 +63,11 @@ impl Clone for HostConnectionInfo {
     }
 }
 
-pub fn connect(connection_info: &HostConnectionInfo) -> Result<TcpStream, AdbError> {
-    let connection_str = format!("{}:{}", connection_info.host, connection_info.port);
+pub fn connect(
+    connection_info: &HostConnectionInfo,
+) -> Result<TcpStream, AdbError> {
+    let connection_str =
+        format!("{}:{}", connection_info.host, connection_info.port);
     trace!(
         "[connect]begin to create a new tcp connection: connection_str={}",
         connection_str.clone()
@@ -76,35 +79,28 @@ pub fn connect(connection_info: &HostConnectionInfo) -> Result<TcpStream, AdbErr
                 "[connect]create tcp connection failed: connection_str={}",
                 connection_str.clone()
             );
-            return Err(AdbError::TcpConnectError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpConnectError { source: Box::new(error) });
         }
     };
     match tcp_stream.set_read_timeout(connection_info.read_timeout) {
         Ok(_) => {}
         Err(error) => {
             debug!("[connect]init connect read timeout failed");
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     };
     match tcp_stream.set_write_timeout(connection_info.write_timeout) {
         Ok(_) => {}
         Err(error) => {
             debug!("[connect]init connect write timeout failed");
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     };
     Ok(tcp_stream)
 }
 
 pub fn exec_command_sync(
-    mut tcp_stream: TcpStream,
-    command: String,
+    mut tcp_stream: TcpStream, command: String,
 ) -> Result<AsyncHostResponse, AdbError> {
     trace!("[exec_command_sync]exec command: command={}", command);
 
@@ -133,8 +129,7 @@ pub fn exec_command_sync(
 }
 
 pub fn exec_command(
-    tcp_stream: &mut TcpStream,
-    command: String,
+    tcp_stream: &mut TcpStream, command: String,
 ) -> Result<SyncHostResponse, AdbError> {
     trace!("[exec_command]exec command: command={}", command);
 
@@ -161,23 +156,22 @@ pub fn exec_command(
     })
 }
 
-pub fn write_command(tcp_stream: &mut TcpStream, command: &String) -> Result<(), AdbError> {
+pub fn write_command(
+    tcp_stream: &mut TcpStream, command: &String,
+) -> Result<(), AdbError> {
     let full_command = add_command_length_prefix(command.clone());
     trace!("[write_command]full command: command={}", full_command);
     match tcp_stream.write_all(full_command.as_ref()) {
         Ok(_) => Ok(()),
         Err(error) => {
             trace!("[write_command]write command failed: err={:?}", error);
-            Err(AdbError::TcpWriteError {
-                source: Box::new(error),
-            })
+            Err(AdbError::TcpWriteError { source: Box::new(error) })
         }
     }
 }
 
 pub fn read_response_content(
-    tcp_stream: &mut TcpStream,
-    length: usize,
+    tcp_stream: &mut TcpStream, length: usize,
 ) -> Result<String, AdbError> {
     let mut response_content = vec![0; length];
     match tcp_stream.read_exact(&mut response_content) {
@@ -187,9 +181,7 @@ pub fn read_response_content(
                 "[read_response_content]read content failed: error={}",
                 error
             );
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     };
 
@@ -202,10 +194,7 @@ pub fn read_response_content(
             Ok(content_string)
         }
         Err(error) => {
-            trace!(
-                "[read_response_content]parse command content to utf-8 failed: error={}",
-                &error
-            );
+            trace!("[read_response_content]parse command content to utf-8 failed: error={}", &error);
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
             });
@@ -213,7 +202,9 @@ pub fn read_response_content(
     }
 }
 
-pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbError> {
+pub fn read_response_length(
+    tcp_stream: &mut TcpStream,
+) -> Result<usize, AdbError> {
     let mut content_length = [0; 4];
     match tcp_stream.read_exact(&mut content_length) {
         Ok(_) => {}
@@ -222,9 +213,7 @@ pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbErro
                 "[read_response_length]read command content length from stream failed: error={:?}",
                 &error
             );
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     }
     match String::from_utf8(Vec::from(content_length)) {
@@ -235,14 +224,14 @@ pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbErro
             );
             match usize::from_str_radix(&*response, 16) {
                 Ok(size) => {
-                    trace!(
-                        "[read_response_length]parse command content length success: length={}",
-                        &size
-                    );
+                    trace!("[read_response_length]parse command content length success: length={}", &size);
                     Ok(size)
                 }
                 Err(error) => {
-                    trace!("[read_response_length]parse command content length from hex to usize failed: length={}",&error);
+                    trace!(
+                        "[read_response_length]parse command content length from hex to usize failed: length={}",
+                        &error
+                    );
                     Err(AdbError::ParseResponseError {
                         source: Box::new(error),
                     })
@@ -250,7 +239,10 @@ pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbErro
             }
         }
         Err(error) => {
-            trace!("[read_response_length]parse command content length to utf-8 string failed: error={}",&error);
+            trace!(
+                "[read_response_length]parse command content length to utf-8 string failed: error={}",
+                &error
+            );
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
             });
@@ -258,7 +250,9 @@ pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbErro
     }
 }
 
-pub fn read_response_status(tcp_stream: &mut TcpStream) -> Result<String, AdbError> {
+pub fn read_response_status(
+    tcp_stream: &mut TcpStream,
+) -> Result<String, AdbError> {
     let mut is_ok_buffer = [0; 4];
     match tcp_stream.read_exact(&mut is_ok_buffer) {
         Ok(_) => {}
@@ -267,21 +261,14 @@ pub fn read_response_status(tcp_stream: &mut TcpStream) -> Result<String, AdbErr
                 "[read_response_status]read command status from stream failed: error={:?}",
                 &error
             );
-            return Err(AdbError::TcpReadError {
-                source: Box::new(error),
-            });
+            return Err(AdbError::TcpReadError { source: Box::new(error) });
         }
     }
     match String::from_utf8(Vec::from(is_ok_buffer)) {
         Ok(response_status) => Ok(response_status),
         Err(error) => {
-            trace!(
-                "[read_response_status]parse response status to utf-8 failed: err={}",
-                error
-            );
-            Err(AdbError::ParseResponseError {
-                source: Box::new(error),
-            })
+            trace!("[read_response_status]parse response status to utf-8 failed: err={}", error);
+            Err(AdbError::ParseResponseError { source: Box::new(error) })
         }
     }
 }

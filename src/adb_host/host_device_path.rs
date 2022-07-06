@@ -1,5 +1,6 @@
 use crate::adb_host::{
-    connect, exec_command, HostConnectionInfo, SyncHostCommand, SyncHostResponse,
+    connect, exec_command, HostConnectionInfo, SyncHostCommand,
+    SyncHostResponse,
 };
 use crate::error::adb::AdbError;
 

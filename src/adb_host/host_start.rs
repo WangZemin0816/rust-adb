@@ -26,7 +26,10 @@ impl SyncHostCommand for AdbHostStartCommand {
             Ok(response) => {
                 if response.status.success() {
                     let content = String::from_utf8_lossy(&response.stdout);
-                    trace!("[start_adb_server]start adb success: stdout={}", content);
+                    trace!(
+                        "[start_adb_server]start adb success: stdout={}",
+                        content
+                    );
                     return Ok(SyncHostResponse {
                         content: String::from(content.clone()),
                         length: content.len(),
@@ -48,7 +51,9 @@ impl SyncHostCommand for AdbHostStartCommand {
 }
 
 impl AdbHostStartCommand {
-    pub fn new(host: &String, port: &i32, bin_path: &String) -> AdbHostStartCommand {
+    pub fn new(
+        host: &String, port: &i32, bin_path: &String,
+    ) -> AdbHostStartCommand {
         let connect_info = HostConnectionInfo::new(host, port);
         AdbHostStartCommand {
             bin_path: bin_path.clone(),
