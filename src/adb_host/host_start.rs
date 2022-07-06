@@ -12,24 +12,17 @@ pub struct AdbHostStartCommand {
 
 impl SyncHostCommand for AdbHostStartCommand {
     fn execute(&mut self) -> Result<SyncHostResponse, AdbError> {
-        trace!(
-            "[start_adb_server]start adb: connect={:?} bin={}",
-            self.connection_info,
-            self.bin_path
-        );
+        trace!("[start_adb_server]start adb: connect={:?} bin={}", self.connection_info, self.bin_path);
         match Command::new(self.bin_path.clone())
             .arg("-P")
             .arg(format!("{}", self.connection_info.port))
             .arg("start-server")
             .output()
         {
-            Ok(response) => {
+            | Ok(response) => {
                 if response.status.success() {
                     let content = String::from_utf8_lossy(&response.stdout);
-                    trace!(
-                        "[start_adb_server]start adb success: stdout={}",
-                        content
-                    );
+                    trace!("[start_adb_server]start adb success: stdout={}", content);
                     return Ok(SyncHostResponse {
                         content: String::from(content.clone()),
                         length: content.len(),
@@ -42,7 +35,7 @@ impl SyncHostCommand for AdbHostStartCommand {
                     content: String::from(error.clone()),
                 })
             }
-            Err(error) => Err(AdbError::StartAdbFailed {
+            | Err(error) => Err(AdbError::StartAdbFailed {
                 bin_path: self.bin_path.clone(),
                 source: Box::new(error),
             }),
@@ -51,9 +44,7 @@ impl SyncHostCommand for AdbHostStartCommand {
 }
 
 impl AdbHostStartCommand {
-    pub fn new(
-        host: &String, port: &i32, bin_path: &String,
-    ) -> AdbHostStartCommand {
+    pub fn new(host: &String, port: &i32, bin_path: &String) -> AdbHostStartCommand {
         let connect_info = HostConnectionInfo::new(host, port);
         AdbHostStartCommand {
             bin_path: bin_path.clone(),

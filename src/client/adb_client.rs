@@ -3,8 +3,7 @@ use std::thread;
 use std::thread::JoinHandle;
 
 use crate::adb_host::{
-    connect, read_response_content, read_response_length, AsyncHostCommand,
-    HostConnectionInfo, SyncHostCommand,
+    connect, read_response_content, read_response_length, AsyncHostCommand, HostConnectionInfo, SyncHostCommand,
 };
 use log::{info, trace};
 
@@ -17,9 +16,7 @@ use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
 
 use crate::adb_host::host_version::AdbHostVersionCommand;
 use crate::client::device_client::DeviceClient;
-use crate::client::{
-    AdbServer, Device, DeviceService, DeviceWithPath, HostServer,
-};
+use crate::client::{AdbServer, Device, DeviceService, DeviceWithPath, HostServer};
 use crate::error::adb::AdbError;
 
 pub struct AdbClient {
@@ -36,23 +33,21 @@ impl HostServer for AdbClient {
     fn get_version(&mut self) -> Result<String, AdbError> {
         let mut command = AdbHostVersionCommand::new(&self.host, &self.port);
         match command.execute() {
-            Ok(response) => Ok(response.content),
-            Err(error) => Err(error),
+            | Ok(response) => Ok(response.content),
+            | Err(error) => Err(error),
         }
     }
 
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError> {
-        let mut command =
-            AdbHostDisconnectCommand::new(&self.host, &self.port, &host, &port);
+        let mut command = AdbHostDisconnectCommand::new(&self.host, &self.port, &host, &port);
         match command.execute() {
-            Ok(_response) => Ok(()),
-            Err(error) => Err(error),
+            | Ok(_response) => Ok(()),
+            | Err(error) => Err(error),
         }
     }
 
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError> {
-        let mut command =
-            AdbHostListDevicesCommand::new(&self.host, &self.port);
+        let mut command = AdbHostListDevicesCommand::new(&self.host, &self.port);
         let sync_host_response = command.execute()?;
         let mut devices = vec![];
         for line in sync_host_response.content.lines() {
@@ -67,11 +62,8 @@ impl HostServer for AdbClient {
         Ok(devices)
     }
 
-    fn list_devices_with_path(
-        &mut self,
-    ) -> Result<Vec<DeviceWithPath>, AdbError> {
-        let mut command =
-            AdbHostListDeviceLCommand::new(&self.host, &self.port);
+    fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError> {
+        let mut command = AdbHostListDeviceLCommand::new(&self.host, &self.port);
         let sync_host_response = command.execute()?;
         let mut devices = vec![];
         for line in sync_host_response.content.lines() {
@@ -95,13 +87,12 @@ impl HostServer for AdbClient {
     fn track_devices(
         &mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError> {
-        let mut command =
-            AdbHostTrackDeviceCommand::new(&self.host, &self.port);
+        let mut command = AdbHostTrackDeviceCommand::new(&self.host, &self.port);
         let mut tcp_stream = command.execute()?.tcp_stream;
         let handler = thread::spawn(move || loop {
             let length = match read_response_length(&mut tcp_stream) {
-                Ok(length) => length,
-                Err(error) => {
+                | Ok(length) => length,
+                | Err(error) => {
                     on_error(error);
                     return;
                 }
@@ -109,8 +100,8 @@ impl HostServer for AdbClient {
             trace!("[track_devices]response length: length={}", length);
 
             let content = match read_response_content(&mut tcp_stream, length) {
-                Ok(content) => content,
-                Err(error) => {
+                | Ok(content) => content,
+                | Err(error) => {
                     on_error(error);
                     return;
                 }
@@ -118,8 +109,7 @@ impl HostServer for AdbClient {
             trace!("[track_devices]response content: content={}", content);
             let mut devices = vec![];
             for line in content.lines() {
-                let contents: Vec<&str> =
-                    line.trim().split_whitespace().collect();
+                let contents: Vec<&str> = line.trim().split_whitespace().collect();
                 if contents.len() >= 2 {
                     devices.push(Device {
                         serial_no: String::from(contents[0]),
@@ -132,17 +122,14 @@ impl HostServer for AdbClient {
         Ok(handler)
     }
 
-    fn get_device(
-        &mut self, serial_no: String,
-    ) -> Result<Box<dyn DeviceService>, AdbError> {
+    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError> {
         Ok(Box::new(DeviceClient::new(&self.host, &self.port, &serial_no)))
     }
 }
 
 impl AdbServer for AdbClient {
     fn start_server(&mut self) -> Result<(), AdbError> {
-        let mut command =
-            AdbHostStartCommand::new(&self.host, &self.port, &self.bin_path);
+        let mut command = AdbHostStartCommand::new(&self.host, &self.port, &self.bin_path);
         command.execute()?;
         Ok(())
     }
@@ -150,8 +137,8 @@ impl AdbServer for AdbClient {
     fn kill_server(&mut self) -> Result<(), AdbError> {
         let mut command = AdbHostKillCommand::new(&self.host, &self.port);
         match command.execute() {
-            Ok(_) => Ok(()),
-            Err(error) => Err(error),
+            | Ok(_) => Ok(()),
+            | Err(error) => Err(error),
         }
     }
 
@@ -182,23 +169,23 @@ mod tests {
         };
         println!("version: {:?}", client.get_version());
         match client.list_devices() {
-            Ok(devices) => {
+            | Ok(devices) => {
                 for device in devices {
                     println!("devices: {:?}", device)
                 }
             }
-            Err(error) => {
+            | Err(error) => {
                 println!("{:?}", error)
             }
         }
 
         match client.list_devices_with_path() {
-            Ok(devices) => {
+            | Ok(devices) => {
                 for device in devices {
                     println!("devices: {:?}", device)
                 }
             }
-            Err(error) => {
+            | Err(error) => {
                 println!("{:?}", error)
             }
         }
@@ -223,8 +210,8 @@ mod tests {
         let onerror = |err: AdbError| info!("on error {:?}", err);
 
         match client.track_devices(onchange, onerror) {
-            Ok(..) => {}
-            Err(error) => {
+            | Ok(..) => {}
+            | Err(error) => {
                 info!("{:?}", error)
             }
         }

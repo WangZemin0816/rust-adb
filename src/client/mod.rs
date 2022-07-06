@@ -22,32 +22,20 @@ pub trait HostServer {
     fn get_version(&mut self) -> Result<String, AdbError>;
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError>;
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError>;
-    fn list_devices_with_path(
-        &mut self,
-    ) -> Result<Vec<DeviceWithPath>, AdbError>;
-    fn get_device(
-        &mut self, serial_no: String,
-    ) -> Result<Box<dyn DeviceService>, AdbError>;
-    fn track_devices(
-        &mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError),
-    ) -> Result<JoinHandle<()>, AdbError>;
+    fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError>;
+    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
+    fn track_devices(&mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError))
+        -> Result<JoinHandle<()>, AdbError>;
 }
 
 pub trait DeviceService {
-    fn push(
-        &mut self, content: File, path: String, mode: i32,
-    ) -> Result<String, AdbError>;
+    fn push(&mut self, content: File, path: String, mode: i32) -> Result<String, AdbError>;
     fn shell_sync(&mut self, command: &String) -> Result<String, AdbError>;
     fn shell_async(&mut self, command: &String) -> Result<TcpStream, AdbError>;
-    fn get_packages(
-        &mut self, params: &String,
-    ) -> Result<Vec<String>, AdbError>;
+    fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError>;
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError>;
     fn get_properties(&mut self) -> Result<HashMap<String, String>, AdbError>;
-    fn logcat(
-        &mut self, params: &String, consumer: fn(LogEntry),
-        error_handler: fn(AdbError),
-    ) -> Result<(), AdbError>;
+    fn logcat(&mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError)) -> Result<(), AdbError>;
 }
 
 #[derive(Debug)]

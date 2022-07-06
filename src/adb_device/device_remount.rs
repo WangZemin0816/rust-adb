@@ -1,6 +1,5 @@
 use crate::adb_device::{
-    device_connection, exec_device_command, DeviceConnectionInfo,
-    SyncDeviceCommand, SyncDeviceProtocol,
+    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -19,25 +18,21 @@ impl SyncDeviceCommand for DeviceRemountCommand {
 mod tests {
 
     use crate::adb_device::device_remount::DeviceRemountCommand;
-    use crate::adb_device::{
-        DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
-    };
+    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = DeviceConnectionInfo::new(
-            &String::from("127.0.0.1"),
-            &5037,
-            &String::from("emulator-5554"),
-        );
-        let mut command = DeviceRemountCommand { connection_info: conn };
+        let conn = DeviceConnectionInfo::new(&String::from("127.0.0.1"), &5037, &String::from("emulator-5554"));
+        let mut command = DeviceRemountCommand {
+            connection_info: conn,
+        };
         let resp = command.execute().unwrap();
         match resp {
-            SyncDeviceProtocol::OKAY { content, .. } => {
+            | SyncDeviceProtocol::OKAY { content, .. } => {
                 println!("remount ok {}", content)
             }
-            SyncDeviceProtocol::FAIL { content, .. } => {
+            | SyncDeviceProtocol::FAIL { content, .. } => {
                 println!("remount failed {}", content)
             }
         }

@@ -17,9 +17,7 @@ impl AsyncHostCommand for AdbHostTransportCommand {
 }
 
 impl AdbHostTransportCommand {
-    pub fn new(
-        connection_info: &HostConnectionInfo, serial_no: &String,
-    ) -> AdbHostTransportCommand {
+    pub fn new(connection_info: &HostConnectionInfo, serial_no: &String) -> AdbHostTransportCommand {
         AdbHostTransportCommand {
             connection_info: connection_info.clone(),
             serial_no: serial_no.clone(),

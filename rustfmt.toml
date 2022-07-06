@@ -1,4 +1,4 @@
-max_width=80
+max_width=120
 # <unsigned integer> Default: 100
 # Maximum width of each line
 
@@ -18,19 +18,19 @@ use_small_heuristics="Default"
 # <[Off|Max|Default] Default: Default
 # Whether to use different formatting for items and expressions if they satisfy a heuristic notion of 'small'
 
-fn_call_width=80
+fn_call_width=100
 # <unsigned integer> Default: 60
 # Maximum width of the args of a function call before falling back to vertical formatting.
 
-attr_fn_like_width=80
+attr_fn_like_width=100
 # <unsigned integer> Default: 70
 # Maximum width of the args of a function-like attributes before falling back to vertical formatting.
 
-struct_lit_width=80
+struct_lit_width=18
 # <unsigned integer> Default: 18
 # Maximum width in the body of a struct lit before falling back to vertical formatting.
 
-struct_variant_width=80
+struct_variant_width=35
 # <unsigned integer> Default: 35
 # Maximum width in the body of a struct variant before falling back to vertical formatting.
 
@@ -62,7 +62,7 @@ short_array_element_width_threshold=10
 # <unsigned integer> Default: 10
 # Width threshold for an array element to be considered short
 
-match_arm_leading_pipes="Never"
+match_arm_leading_pipes="Always"
 # <Always|Never|Preserve] Default: Never
 #  Determines whether leading pipes are emitted on match arms
 
@@ -82,11 +82,11 @@ merge_derives=true
 # <boolean> Default: true
 # Merge multiple `# [derive(...)]` into a single one
 
-use_try_shorthand=false
+use_try_shorthand=true
 # <boolean> Default: false
 #  Replace uses of the try! macro by the ? shorthand
 
-use_field_init_shorthand=false
+use_field_init_shorthand=true
 # <boolean> Default: false
 #  Use field initialization shorthand if possible
 

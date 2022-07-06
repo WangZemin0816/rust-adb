@@ -24,7 +24,9 @@ impl AdbHostTrackDeviceCommand {
             read_timeout: None,
             write_timeout: Option::from(Duration::from_millis(1000)),
         };
-        AdbHostTrackDeviceCommand { connection_info: connect_info }
+        AdbHostTrackDeviceCommand {
+            connection_info: connect_info,
+        }
     }
 }
 
@@ -39,7 +41,9 @@ mod tests {
     fn read_commands() {
         let _ = log4rs::init_file("../../log4rs.yml", Default::default());
         let conn = HostConnectionInfo::new(&String::from("127.0.0.1"), &5037);
-        let mut command = AdbHostTrackDeviceCommand { connection_info: conn };
+        let mut command = AdbHostTrackDeviceCommand {
+            connection_info: conn,
+        };
         let _resp = command.execute().unwrap();
     }
 }
