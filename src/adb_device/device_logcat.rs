@@ -1,7 +1,7 @@
 use std::io::Read;
-use std::mem::transmute_copy;
+
 use std::net::TcpStream;
-use std::num::ParseIntError;
+
 use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 
 use crate::adb_device::{AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo};
@@ -16,7 +16,7 @@ pub struct DeviceLogcatCommand {
 impl DeviceLogcatCommand {
     pub fn read_next_entry(tcp_stream: &mut TcpStream) -> Result<LogEntry, AdbError> {
         DeviceLogcatCommand::skip_un_use_bytes(tcp_stream)?;
-        let mut length = DeviceLogcatCommand::read_next_uint16le(tcp_stream)?;
+        let length = DeviceLogcatCommand::read_next_uint16le(tcp_stream)?;
         let mut header_size = DeviceLogcatCommand::read_next_uint16le(tcp_stream)?;
         if header_size < 20 || header_size > 100 {
             header_size = 20;
@@ -28,15 +28,25 @@ impl DeviceLogcatCommand {
         let mut header = vec![0; header_size as usize];
         match tcp_stream.read_exact(&mut header) {
             Ok(_) => {}
-            Err(error) => { return Err(AdbError::TcpReadError { source: Box::new(error) }); }
+            Err(error) => {
+                return Err(AdbError::TcpReadError {
+                    source: Box::new(error),
+                });
+            }
         };
         let mut body = vec![0; length as usize];
         match tcp_stream.read_exact(&mut body) {
             Ok(_) => {}
-            Err(error) => { return Err(AdbError::TcpReadError { source: Box::new(error) }); }
+            Err(error) => {
+                return Err(AdbError::TcpReadError {
+                    source: Box::new(error),
+                });
+            }
         };
         if body.len() < 2 {
-            return Err(AdbError::ResponseStatusError { content: "read logcat content failed".to_string() });
+            return Err(AdbError::ResponseStatusError {
+                content: "read logcat content failed".to_string(),
+            });
         }
         Ok(LogEntry {
             pid,
@@ -55,7 +65,11 @@ impl DeviceLogcatCommand {
         while buf[0] != 0x0a {
             match tcp_stream.read_exact(&mut buf) {
                 Ok(_) => {}
-                Err(error) => { return Err(AdbError::TcpReadError { source: Box::new(error) }); }
+                Err(error) => {
+                    return Err(AdbError::TcpReadError {
+                        source: Box::new(error),
+                    });
+                }
             };
         }
         Ok(())
@@ -65,7 +79,11 @@ impl DeviceLogcatCommand {
         let mut buf = vec![0; 4];
         match tcp_stream.read_exact(&mut buf) {
             Ok(_) => {}
-            Err(error) => { return Err(AdbError::TcpReadError { source: Box::new(error) }); }
+            Err(error) => {
+                return Err(AdbError::TcpReadError {
+                    source: Box::new(error),
+                });
+            }
         };
         let bit1 = format!("{:02x}", buf[0]);
         let bit2 = format!("{:02x}", buf[1]);
@@ -73,8 +91,10 @@ impl DeviceLogcatCommand {
         let bit4 = format!("{:02x}", buf[3]);
         let combined = bit4 + &bit3 + &bit2 + &bit1;
         match u32::from_str_radix(&combined, 16) {
-            Ok(size) => { Ok(size) }
-            Err(error) => { Err(AdbError::ParseResponseError { source: Box::new(error) }) }
+            Ok(size) => Ok(size),
+            Err(error) => Err(AdbError::ParseResponseError {
+                source: Box::new(error),
+            }),
         }
     }
 
@@ -82,14 +102,20 @@ impl DeviceLogcatCommand {
         let mut buf = vec![0; 2];
         match tcp_stream.read_exact(&mut buf) {
             Ok(_) => {}
-            Err(error) => { return Err(AdbError::TcpReadError { source: Box::new(error) }); }
+            Err(error) => {
+                return Err(AdbError::TcpReadError {
+                    source: Box::new(error),
+                });
+            }
         };
         let high = format!("{:02x}", buf[0]);
         let low = format!("{:02x}", buf[1]);
         let combined = low + &high;
         match u16::from_str_radix(&combined, 16) {
-            Ok(size) => { Ok(size) }
-            Err(error) => { Err(AdbError::ParseResponseError { source: Box::new(error) }) }
+            Ok(size) => Ok(size),
+            Err(error) => Err(AdbError::ParseResponseError {
+                source: Box::new(error),
+            }),
         }
     }
 }
@@ -104,16 +130,14 @@ impl AsyncDeviceCommand for DeviceLogcatCommand {
 #[cfg(test)]
 mod tests {
     use encoding_rs::SHIFT_JIS;
-    use std::io::{BufRead, BufReader, Read};
+
+    use log::trace;
     use std::thread;
     use std::time::Duration;
-    use log::trace;
 
     use crate::adb_device::device_logcat::DeviceLogcatCommand;
 
     use crate::adb_device::{AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo};
-    use crate::client::LogEntry;
-    use crate::error::adb::AdbError;
 
     #[test]
     fn read_commands() {

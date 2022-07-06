@@ -52,6 +52,6 @@ pub struct LogEntry {
     pub sec: u32,
     pub nsec: u32,
     pub priority: u32,
-    pub header:Vec<u8>,
+    pub header: Vec<u8>,
     pub log: Vec<u8>,
 }
