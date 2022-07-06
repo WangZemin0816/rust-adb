@@ -1,7 +1,6 @@
-use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 use crate::adb_device::{
-    device_connection, exec_device_command, exec_device_command_sync, AsyncDeviceCommand,
-    AsyncDeviceProtocol, DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol,
+    device_connection, exec_device_command, DeviceConnectionInfo, SyncDeviceCommand,
+    SyncDeviceProtocol,
 };
 use crate::error::adb::AdbError;
 
@@ -24,18 +23,6 @@ impl DeviceSyncShellCommand {
             shell: shell.clone(),
         }
     }
-
-    pub fn new0(
-        host: String,
-        port: i32,
-        serial_no: String,
-        shell: &String,
-    ) -> DeviceSyncShellCommand {
-        DeviceSyncShellCommand {
-            connection_info: DeviceConnectionInfo::new(&host, &port, &serial_no),
-            shell: shell.clone(),
-        }
-    }
 }
 
 #[cfg(test)]
@@ -43,8 +30,6 @@ mod tests {
 
     use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
-    use crate::adb_host::SyncHostCommand;
 
     #[test]
     fn read_commands() {

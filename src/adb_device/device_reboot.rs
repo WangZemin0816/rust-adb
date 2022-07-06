@@ -31,8 +31,6 @@ mod tests {
 
     use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
 
-    use crate::adb_host::SyncHostCommand;
-
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());

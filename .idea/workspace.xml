@@ -13,7 +13,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9bb889-a621-4f34-bc68-c410fd83df47" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_features.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_get_properties.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_logcat.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_logcat.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_reboot.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_reboot.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_remount.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_remount.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_root.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_root.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_shell_async.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_shell_async.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_device/device_shell_sync.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_device/device_shell_sync.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_device_path.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_device_path.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_device_status.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_device_status.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_disconnect.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_disconnect.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_kill.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_kill.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_list_device.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_list_device.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_list_device_l.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_list_device_l.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_start.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_start.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_track_devices.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_track_devices.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_transport.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_transport.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/host_version.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/host_version.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adb_host/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/adb_host/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/adb_client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/adb_client.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/device_client.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/device_client.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/error/adb.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/error/adb.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
+>>>>>>> 8538c261fbba606762f3f2c7c56d60e2491c2950
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,33 +82,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/bytedance/workspace/rust/rust-adb/src/adb_device&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;org.rust.disableDetachedFileInspection/Users/bytedance/workspace/rust/rust-adb/src/protocol/sync.rs&quot;: &quot;true&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "code.cleanup.on.save": "true",
+    "last_opened_file_path": "D:/workspace-rust/rust-adb/src/adb_host",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.disableDetachedFileInspection/Users/bytedance/workspace/rust/rust-adb/src/protocol/sync.rs": "true",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "language.rust.cargo.check",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace-rust\rust-adb\src\adb_host" />
       <recent name="$PROJECT_DIR$/src/adb_device" />
       <recent name="$PROJECT_DIR$/src/adb_device/command" />
       <recent name="$PROJECT_DIR$/src/adb_host/command" />
       <recent name="$PROJECT_DIR$/src/adb" />
-      <recent name="$PROJECT_DIR$/src/cmd" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/adb_device" />
@@ -90,7 +118,24 @@
       <recent name="D:\workspace-rust\rust-adb\src\adb" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test adb_device::device_logcat::tests::read_commands">
+  <component name="RunManager" selected="Cargo.Test adb_host::host_start::tests::read_commands">
+    <configuration name="Test adb_device::device_get_packages::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_device::device_get_packages::tests::read_commands -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Test adb_device::device_get_properties::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="command" value="test --package rust-adb --lib adb_device::device_get_properties::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -125,25 +170,8 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test adb_device::device_remount::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_device::device_remount::tests::read_commands -- --exact" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <option name="channel" value="DEFAULT" />
-      <option name="requiredFeatures" value="true" />
-      <option name="allFeatures" value="false" />
-      <option name="emulateTerminal" value="false" />
-      <option name="withSudo" value="false" />
-      <option name="buildTarget" value="REMOTE" />
-      <option name="backtrace" value="SHORT" />
-      <envs />
-      <option name="isRedirectInput" value="false" />
-      <option name="redirectInputPath" value="" />
-      <method v="2">
-        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test adb_device::device_root::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="command" value="test --package rust-adb --lib adb_device::device_root::tests::read_commands -- --exact" />
+    <configuration name="Test adb_host::host_start::tests::read_commands" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package rust-adb --lib adb_host::host_start::tests::read_commands -- --exact" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
@@ -178,11 +206,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo.Test adb_host::host_start::tests::read_commands" />
+        <item itemvalue="Cargo.Test adb_device::device_get_packages::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_device::device_logcat::tests::read_commands" />
         <item itemvalue="Cargo.Test adb_device::device_get_properties::tests::read_commands" />
         <item itemvalue="Cargo.Test device_logcat::tests" />
-        <item itemvalue="Cargo.Test adb_device::device_remount::tests::read_commands" />
-        <item itemvalue="Cargo.Test adb_device::device_root::tests::read_commands" />
       </list>
     </recent_temporary>
   </component>
@@ -213,6 +241,7 @@
       <workItem from="1656900372233" duration="11413000" />
       <workItem from="1656915585440" duration="30665000" />
       <workItem from="1657023975958" duration="476000" />
+      <workItem from="1657032195822" duration="36000" />
     </task>
     <servers />
   </component>
@@ -229,17 +258,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/client/adb_client.rs</url>
-          <line>151</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

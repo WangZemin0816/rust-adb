@@ -7,9 +7,9 @@ mod adb_client;
 mod device_client;
 
 pub trait AdbServer {
-    fn start_server(&mut self);
-    fn kill_server(&mut self);
-    fn restart_server(&mut self);
+    fn start_server(&mut self) -> Result<(), AdbError>;
+    fn kill_server(&mut self) -> Result<(), AdbError>;
+    fn restart_server(&mut self) -> Result<(), AdbError>;
 }
 
 pub trait HostServer {
@@ -23,7 +23,6 @@ pub trait HostServer {
         on_change: fn(Vec<Device>),
         on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError>;
-    fn kill(&mut self) -> Result<(), AdbError>;
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
 }
 

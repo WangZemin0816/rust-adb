@@ -10,28 +10,30 @@ pub mod host_disconnect;
 pub mod host_kill;
 pub mod host_list_device;
 pub mod host_list_device_l;
+pub mod host_start;
 pub mod host_track_devices;
 pub mod host_transport;
 pub mod host_version;
 
 pub trait SyncHostCommand {
-    fn execute(&mut self) -> Result<SyncHostProtocol, AdbError>;
+    fn execute(&mut self) -> Result<SyncHostResponse, AdbError>;
 }
 
 pub trait AsyncHostCommand {
-    fn execute(&mut self) -> Result<AsyncHostProtocol, AdbError>;
+    fn execute(&mut self) -> Result<AsyncHostResponse, AdbError>;
 }
 
-pub enum SyncHostProtocol {
-    OKAY { length: usize, content: String },
-    FAIL { length: usize, content: String },
+#[derive(Debug)]
+pub struct SyncHostResponse {
+    pub length: usize,
+    pub content: String,
 }
 
-pub enum AsyncHostProtocol {
-    OKAY { tcp_stream: TcpStream },
-    FAIL { length: usize, content: String },
+pub struct AsyncHostResponse {
+    pub tcp_stream: TcpStream,
 }
 
+#[derive(Debug)]
 pub struct HostConnectionInfo {
     pub host: String,
     pub port: i32,
@@ -103,7 +105,7 @@ pub fn connect(connection_info: &HostConnectionInfo) -> Result<TcpStream, AdbErr
 pub fn exec_command_sync(
     mut tcp_stream: TcpStream,
     command: String,
-) -> Result<AsyncHostProtocol, AdbError> {
+) -> Result<AsyncHostResponse, AdbError> {
     trace!("[exec_command_sync]exec command: command={}", command);
 
     write_command(&mut tcp_stream, &command)?;
@@ -113,7 +115,7 @@ pub fn exec_command_sync(
     trace!("[exec_command_sync]response status: status={}", status);
 
     if status == "OKAY" {
-        return Ok(AsyncHostProtocol::OKAY { tcp_stream });
+        return Ok(AsyncHostResponse { tcp_stream });
     }
 
     if status == "FAIL" {
@@ -122,18 +124,18 @@ pub fn exec_command_sync(
 
         let content = read_response_content(&mut tcp_stream, length)?;
         trace!("[exec_command_sync]response content: content={}", content);
-        return Ok(AsyncHostProtocol::FAIL { length, content });
+        return Err(AdbError::ResponseStatusError { content });
     }
 
     Err(AdbError::ResponseStatusError {
-        message: String::from("unknown response status ") + &*status,
+        content: String::from("unknown response status ") + &*status,
     })
 }
 
 pub fn exec_command(
     tcp_stream: &mut TcpStream,
     command: String,
-) -> Result<SyncHostProtocol, AdbError> {
+) -> Result<SyncHostResponse, AdbError> {
     trace!("[exec_command]exec command: command={}", command);
 
     write_command(tcp_stream, &command)?;
@@ -149,13 +151,13 @@ pub fn exec_command(
     trace!("[exec_command]response content: content={}", content);
 
     if status == "OKAY" {
-        return Ok(SyncHostProtocol::OKAY { length, content });
+        return Ok(SyncHostResponse { length, content });
     }
     if status == "FAIL" {
-        return Ok(SyncHostProtocol::FAIL { length, content });
+        return Err(AdbError::ResponseStatusError { content });
     }
     Err(AdbError::ResponseStatusError {
-        message: String::from("unknown response status ") + &*status,
+        content: String::from("unknown response status ") + &*status,
     })
 }
 

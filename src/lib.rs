@@ -1,13 +1,6 @@
 extern crate core;
 
-mod adb_device;
-mod adb_host;
-mod basic;
-mod client;
-mod error;
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {}
-}
+pub mod client;
+pub mod adb_device;
+pub mod adb_host;
+pub mod error;
