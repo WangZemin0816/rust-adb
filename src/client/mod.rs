@@ -1,3 +1,8 @@
+use crate::adb_device::{AsyncDeviceProtocol, SyncDeviceProtocol};
+use log::error;
+use std::collections::HashMap;
+use std::fs::File;
+use std::iter::Map;
 use std::net::TcpStream;
 use std::thread::JoinHandle;
 
@@ -18,15 +23,28 @@ pub trait HostServer {
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError>;
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError>;
     fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError>;
+    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
     fn track_devices(
         &mut self,
         on_change: fn(Vec<Device>),
         on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError>;
-    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
 }
 
-pub trait DeviceService {}
+pub trait DeviceService {
+    fn push(content:File,)
+    fn shell_sync(&mut self, command: &String) -> Result<SyncDeviceProtocol, AdbError>;
+    fn shell_async(&mut self, command: &String) -> Result<AsyncDeviceProtocol, AdbError>;
+    fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError>;
+    fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError>;
+    fn get_properties(&mut self) -> Result<HashMap<String, String>, AdbError>;
+    fn logcat(
+        &mut self,
+        params: &String,
+        consumer: fn(LogEntry),
+        error_handler: fn(AdbError),
+    ) -> Result<(), AdbError>;
+}
 
 #[derive(Debug)]
 pub struct Device {
