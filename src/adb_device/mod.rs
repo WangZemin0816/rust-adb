@@ -34,7 +34,7 @@ pub struct SyncDeviceProtocol {
 }
 
 pub struct AsyncDeviceProtocol {
-    tcp_stream: TcpStream,
+    pub tcp_stream: TcpStream,
 }
 
 pub struct DeviceConnectionInfo {

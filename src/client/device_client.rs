@@ -1,10 +1,11 @@
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{SyncDeviceCommand};
+use crate::adb_device::{AsyncDeviceCommand, SyncDeviceCommand};
 use crate::client::{DeviceService, LogEntry};
 use crate::error::adb::AdbError;
 use std::collections::HashMap;
 use std::fs::File;
 use std::net::TcpStream;
+use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 
 pub struct DeviceClientImpl {
     pub host: String,
@@ -35,8 +36,12 @@ impl DeviceService for DeviceClientImpl {
         }
     }
 
-    fn shell_async(&mut self, _command: &String) -> Result<TcpStream, AdbError> {
-        todo!()
+    fn shell_async(&mut self, command: &String) -> Result<TcpStream, AdbError> {
+        let mut command = DeviceAsyncShellCommand::new0(&self.host, &self.port, &self.serial_no, &command);
+        match command.execute() {
+            | Ok(response) => Ok(response.tcp_stream),
+            | Err(error) => Err(error),
+        }
     }
 
     fn get_packages(&mut self, _params: &String) -> Result<Vec<String>, AdbError> {
