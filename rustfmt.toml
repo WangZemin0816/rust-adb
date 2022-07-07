@@ -82,11 +82,11 @@ merge_derives=true
 # <boolean> Default: true
 # Merge multiple `# [derive(...)]` into a single one
 
-use_try_shorthand=true
+use_try_shorthand=false
 # <boolean> Default: false
 #  Replace uses of the try! macro by the ? shorthand
 
-use_field_init_shorthand=true
+use_field_init_shorthand=false
 # <boolean> Default: false
 #  Use field initialization shorthand if possible
 
@@ -98,6 +98,6 @@ disable_all_formatting=false
 # <boolean> Default: false
 #  Don't reformat anything
 
-print_misformatted_file_names=true
+print_misformatted_file_names=false
 # <boolean> Default: false
 #  Prints the names of mismatched files that were formatted. Prints the names of files that would be formated when used with `--check` mode.
