@@ -11,13 +11,10 @@ use crate::error::adb::AdbError;
 mod adb_client;
 mod device_client;
 
-pub trait AdbServer {
+pub trait AdbClient {
     fn start_server(&mut self) -> Result<(), AdbError>;
     fn kill_server(&mut self) -> Result<(), AdbError>;
     fn restart_server(&mut self) -> Result<(), AdbError>;
-}
-
-pub trait HostServer {
     fn get_connection(&mut self) -> Result<TcpStream, AdbError>;
     fn get_version(&mut self) -> Result<String, AdbError>;
     fn disconnect(&mut self, host: String, port: i32) -> Result<(), AdbError>;

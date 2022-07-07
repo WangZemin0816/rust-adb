@@ -124,39 +124,3 @@ fn read_next_uint16le(tcp_stream: &mut TcpStream) -> Result<u16, AdbError> {
         }),
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use log::trace;
-    use std::thread;
-    use std::time::Duration;
-
-    use crate::adb_device::device_logcat::{read_next_entry, DeviceLogcatCommand};
-
-    use crate::adb_device::{AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo};
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = DeviceConnectionInfo {
-            host: String::from("127.0.0.1"),
-            port: 5037,
-            serial_no: "emulator-5554".to_string(),
-            read_timeout: None,
-            write_timeout: Option::from(Duration::from_millis(1000)),
-        };
-        let mut command = DeviceLogcatCommand {
-            params: " -B *:I ".to_string(),
-            connection_info: conn,
-        };
-        let resp = command.execute().unwrap();
-        match resp {
-            | AsyncDeviceProtocol::OKAY { mut tcp_stream } => loop {
-                let entry = read_next_entry(&mut tcp_stream).unwrap();
-                trace!("read entry {:?}", String::from_utf8_lossy(&entry.log));
-            },
-            | _ => {}
-        }
-        thread::sleep(Duration::from_secs(2000));
-    }
-}

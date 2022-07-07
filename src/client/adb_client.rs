@@ -15,17 +15,36 @@ use crate::adb_host::host_start::AdbHostStartCommand;
 use crate::adb_host::host_track_devices::AdbHostTrackDeviceCommand;
 
 use crate::adb_host::host_version::AdbHostVersionCommand;
-use crate::client::device_client::DeviceClient;
-use crate::client::{AdbServer, Device, DeviceService, DeviceWithPath, HostServer};
+use crate::client::device_client::DeviceClientImpl;
+use crate::client::{AdbClient, Device, DeviceService, DeviceWithPath};
 use crate::error::adb::AdbError;
 
-pub struct AdbClient {
+pub struct AdbClientImpl {
     pub host: String,
     pub port: i32,
     pub bin_path: String,
 }
 
-impl HostServer for AdbClient {
+impl AdbClient for AdbClientImpl {
+    fn start_server(&mut self) -> Result<(), AdbError> {
+        let mut command = AdbHostStartCommand::new(&self.host, &self.port, &self.bin_path);
+        command.execute()?;
+        Ok(())
+    }
+
+    fn kill_server(&mut self) -> Result<(), AdbError> {
+        let mut command = AdbHostKillCommand::new(&self.host, &self.port);
+        match command.execute() {
+            | Ok(_) => Ok(()),
+            | Err(error) => Err(error),
+        }
+    }
+
+    fn restart_server(&mut self) -> Result<(), AdbError> {
+        self.kill_server()?;
+        self.start_server()
+    }
+
     fn get_connection(&mut self) -> Result<TcpStream, AdbError> {
         connect(&HostConnectionInfo::new(&self.host, &self.port))
     }
@@ -84,6 +103,10 @@ impl HostServer for AdbClient {
         Ok(devices)
     }
 
+    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError> {
+        Ok(Box::new(DeviceClientImpl::new(&self.host, &self.port, &serial_no)))
+    }
+
     fn track_devices(
         &mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError> {
@@ -121,31 +144,6 @@ impl HostServer for AdbClient {
         });
         Ok(handler)
     }
-
-    fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError> {
-        Ok(Box::new(DeviceClient::new(&self.host, &self.port, &serial_no)))
-    }
-}
-
-impl AdbServer for AdbClient {
-    fn start_server(&mut self) -> Result<(), AdbError> {
-        let mut command = AdbHostStartCommand::new(&self.host, &self.port, &self.bin_path);
-        command.execute()?;
-        Ok(())
-    }
-
-    fn kill_server(&mut self) -> Result<(), AdbError> {
-        let mut command = AdbHostKillCommand::new(&self.host, &self.port);
-        match command.execute() {
-            | Ok(_) => Ok(()),
-            | Err(error) => Err(error),
-        }
-    }
-
-    fn restart_server(&mut self) -> Result<(), AdbError> {
-        self.kill_server()?;
-        self.start_server()
-    }
 }
 
 #[cfg(test)]
@@ -155,14 +153,14 @@ mod tests {
 
     use log::info;
 
-    use crate::client::adb_client::AdbClient;
-    use crate::client::{Device, HostServer};
+    use crate::client::adb_client::AdbClientImpl;
+    use crate::client::{AdbClient, Device};
     use crate::error::adb::AdbError;
 
     #[test]
     fn read_commands() {
         let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let mut client = AdbClient {
+        let mut client = AdbClientImpl {
             host: String::from("127.0.0.1"),
             port: 5037,
             bin_path: String::from(""),

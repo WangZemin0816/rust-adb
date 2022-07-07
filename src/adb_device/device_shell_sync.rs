@@ -22,30 +22,11 @@ impl DeviceSyncShellCommand {
             shell: shell.clone(),
         }
     }
-}
 
-#[cfg(test)]
-mod tests {
-
-    use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-    use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = DeviceConnectionInfo::new(&String::from("127.0.0.1"), &5037, &String::from("emulator-5554"));
-        let mut command = DeviceSyncShellCommand {
-            shell: "pm list packages".to_string(),
-            connection_info: conn,
-        };
-        let resp = command.execute().unwrap();
-        match resp {
-            | SyncDeviceProtocol::OKAY { content, .. } => {
-                println!("devpath ok {}", content)
-            }
-            | SyncDeviceProtocol::FAIL { content, .. } => {
-                println!("devpath failed {}", content)
-            }
+    pub fn new0(host: &String, port: &i32, serial_no: &String, shell: &String) -> DeviceSyncShellCommand {
+        DeviceSyncShellCommand {
+            connection_info: DeviceConnectionInfo::new(host, port, serial_no),
+            shell: shell.clone(),
         }
     }
 }
