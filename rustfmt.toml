@@ -38,7 +38,7 @@ array_width=60
 # <unsigned integer> Default: 60
 # Maximum width of an array literal before falling back to vertical formatting.
 
-chain_width=80
+chain_width=60
 # <unsigned integer> Default: 60
 # Maximum length of a chain to fit on a single line.
 
@@ -74,7 +74,7 @@ match_block_trailing_comma=false
 # <boolean> Default: false
 #  Put a trailing comma after a block based match arm (non-block arms are not affected)
 
-edition="2021"
+edition="2024"
 # <2015|2018|2021|2024] Default: 2015
 # The edition of the parser (RFC 2052)
 
