@@ -1,3 +1,4 @@
+use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
 use crate::adb_device::{AsyncDeviceCommand, SyncDeviceCommand};
 use crate::client::{DeviceService, LogEntry};
@@ -5,7 +6,6 @@ use crate::error::adb::AdbError;
 use std::collections::HashMap;
 use std::fs::File;
 use std::net::TcpStream;
-use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 
 pub struct DeviceClientImpl {
     pub host: String,
@@ -29,18 +29,20 @@ impl DeviceService for DeviceClientImpl {
     }
 
     fn shell_sync(&mut self, command: &String) -> Result<String, AdbError> {
-        let mut command = DeviceSyncShellCommand::new0(&self.host, &self.port, &self.serial_no, &command);
+        let mut command =
+            DeviceSyncShellCommand::new0(&self.host, &self.port, &self.serial_no, &command);
         match command.execute() {
-            | Ok(response) => Ok(response.content),
-            | Err(error) => Err(error),
+            Ok(response) => Ok(response.content),
+            Err(error) => Err(error),
         }
     }
 
     fn shell_async(&mut self, command: &String) -> Result<TcpStream, AdbError> {
-        let mut command = DeviceAsyncShellCommand::new0(&self.host, &self.port, &self.serial_no, &command);
+        let mut command =
+            DeviceAsyncShellCommand::new0(&self.host, &self.port, &self.serial_no, &command);
         match command.execute() {
-            | Ok(response) => Ok(response.tcp_stream),
-            | Err(error) => Err(error),
+            Ok(response) => Ok(response.tcp_stream),
+            Err(error) => Err(error),
         }
     }
 
@@ -56,7 +58,9 @@ impl DeviceService for DeviceClientImpl {
         todo!()
     }
 
-    fn logcat(&mut self, _params: &String, _consumer: fn(LogEntry), _error_handler: fn(AdbError)) -> Result<(), AdbError> {
+    fn logcat(
+        &mut self, _params: &String, _consumer: fn(LogEntry), _error_handler: fn(AdbError),
+    ) -> Result<(), AdbError> {
         todo!()
     }
 }

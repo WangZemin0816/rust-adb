@@ -12,14 +12,18 @@ pub struct AdbHostStartCommand {
 
 impl SyncHostCommand for AdbHostStartCommand {
     fn execute(&mut self) -> Result<SyncHostResponse, AdbError> {
-        trace!("[start_adb_server]start adb: connect={:?} bin={}", self.connection_info, self.bin_path);
+        trace!(
+            "[start_adb_server]start adb: connect={:?} bin={}",
+            self.connection_info,
+            self.bin_path
+        );
         match Command::new(self.bin_path.clone())
             .arg("-P")
             .arg(format!("{}", self.connection_info.port))
             .arg("start-server")
             .output()
         {
-            | Ok(response) => {
+            Ok(response) => {
                 if response.status.success() {
                     let content = String::from_utf8_lossy(&response.stdout);
                     trace!("[start_adb_server]start adb success: stdout={}", content);
@@ -35,7 +39,7 @@ impl SyncHostCommand for AdbHostStartCommand {
                     content: String::from(error.clone()),
                 })
             }
-            | Err(error) => Err(AdbError::StartAdbFailed {
+            Err(error) => Err(AdbError::StartAdbFailed {
                 bin_path: self.bin_path.clone(),
                 source: Box::new(error),
             }),

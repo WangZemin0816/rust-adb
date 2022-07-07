@@ -1,5 +1,3 @@
-
-
 use std::collections::HashMap;
 use std::fs::File;
 
@@ -21,8 +19,9 @@ pub trait AdbClient {
     fn list_devices(&mut self) -> Result<Vec<Device>, AdbError>;
     fn list_devices_with_path(&mut self) -> Result<Vec<DeviceWithPath>, AdbError>;
     fn get_device(&mut self, serial_no: String) -> Result<Box<dyn DeviceService>, AdbError>;
-    fn track_devices(&mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError))
-        -> Result<JoinHandle<()>, AdbError>;
+    fn track_devices(
+        &mut self, on_change: fn(Vec<Device>), on_error: fn(AdbError),
+    ) -> Result<JoinHandle<()>, AdbError>;
 }
 
 pub trait DeviceService {
@@ -32,7 +31,9 @@ pub trait DeviceService {
     fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError>;
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError>;
     fn get_properties(&mut self) -> Result<HashMap<String, String>, AdbError>;
-    fn logcat(&mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError)) -> Result<(), AdbError>;
+    fn logcat(
+        &mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError),
+    ) -> Result<(), AdbError>;
 }
 
 #[derive(Debug)]

@@ -33,8 +33,8 @@ pub fn read_next_entry(tcp_stream: &mut TcpStream) -> Result<LogEntry, AdbError>
     let nsec = read_next_int32le(tcp_stream)?;
     let mut header = vec![0; header_size as usize];
     match tcp_stream.read_exact(&mut header) {
-        | Ok(_) => {}
-        | Err(error) => {
+        Ok(_) => {}
+        Err(error) => {
             return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
@@ -42,8 +42,8 @@ pub fn read_next_entry(tcp_stream: &mut TcpStream) -> Result<LogEntry, AdbError>
     };
     let mut body = vec![0; length as usize];
     match tcp_stream.read_exact(&mut body) {
-        | Ok(_) => {}
-        | Err(error) => {
+        Ok(_) => {}
+        Err(error) => {
             return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
@@ -70,8 +70,8 @@ fn skip_un_use_bytes(tcp_stream: &mut TcpStream) -> Result<(), AdbError> {
     let mut buf = vec![0; 1];
     while buf[0] != 0x0a {
         match tcp_stream.read_exact(&mut buf) {
-            | Ok(_) => {}
-            | Err(error) => {
+            Ok(_) => {}
+            Err(error) => {
                 return Err(AdbError::TcpReadError {
                     source: Box::new(error),
                 });
@@ -84,8 +84,8 @@ fn skip_un_use_bytes(tcp_stream: &mut TcpStream) -> Result<(), AdbError> {
 fn read_next_int32le(tcp_stream: &mut TcpStream) -> Result<u32, AdbError> {
     let mut buf = vec![0; 4];
     match tcp_stream.read_exact(&mut buf) {
-        | Ok(_) => {}
-        | Err(error) => {
+        Ok(_) => {}
+        Err(error) => {
             return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
@@ -97,8 +97,8 @@ fn read_next_int32le(tcp_stream: &mut TcpStream) -> Result<u32, AdbError> {
     let bit4 = format!("{:02x}", buf[3]);
     let combined = bit4 + &bit3 + &bit2 + &bit1;
     match u32::from_str_radix(&combined, 16) {
-        | Ok(size) => Ok(size),
-        | Err(error) => Err(AdbError::ParseResponseError {
+        Ok(size) => Ok(size),
+        Err(error) => Err(AdbError::ParseResponseError {
             source: Box::new(error),
         }),
     }
@@ -107,8 +107,8 @@ fn read_next_int32le(tcp_stream: &mut TcpStream) -> Result<u32, AdbError> {
 fn read_next_uint16le(tcp_stream: &mut TcpStream) -> Result<u16, AdbError> {
     let mut buf = vec![0; 2];
     match tcp_stream.read_exact(&mut buf) {
-        | Ok(_) => {}
-        | Err(error) => {
+        Ok(_) => {}
+        Err(error) => {
             return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
@@ -118,8 +118,8 @@ fn read_next_uint16le(tcp_stream: &mut TcpStream) -> Result<u16, AdbError> {
     let low = format!("{:02x}", buf[1]);
     let combined = low + &high;
     match u16::from_str_radix(&combined, 16) {
-        | Ok(size) => Ok(size),
-        | Err(error) => Err(AdbError::ParseResponseError {
+        Ok(size) => Ok(size),
+        Err(error) => Err(AdbError::ParseResponseError {
             source: Box::new(error),
         }),
     }

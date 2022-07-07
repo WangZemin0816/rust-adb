@@ -1,8 +1,9 @@
-use std::time::Duration;
 use crate::adb_device::{
-    device_connection, exec_device_command_sync, AsyncDeviceCommand, AsyncDeviceProtocol, DeviceConnectionInfo,
+    device_connection, exec_device_command_sync, AsyncDeviceCommand, AsyncDeviceProtocol,
+    DeviceConnectionInfo,
 };
 use crate::error::adb::AdbError;
+use std::time::Duration;
 
 pub struct DeviceAsyncShellCommand {
     pub shell: String,
@@ -24,7 +25,9 @@ impl DeviceAsyncShellCommand {
         }
     }
 
-    pub fn new0(host: &String, port: &i32, serial_no: &String, shell: &String) -> DeviceAsyncShellCommand {
+    pub fn new0(
+        host: &String, port: &i32, serial_no: &String, shell: &String,
+    ) -> DeviceAsyncShellCommand {
         DeviceAsyncShellCommand {
             connection_info: DeviceConnectionInfo {
                 host: host.clone(),

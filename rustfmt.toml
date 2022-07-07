@@ -74,7 +74,7 @@ match_block_trailing_comma=false
 # <boolean> Default: false
 #  Put a trailing comma after a block based match arm (non-block arms are not affected)
 
-edition="2024"
+edition="2021"
 # <2015|2018|2021|2024] Default: 2015
 # The edition of the parser (RFC 2052)
 

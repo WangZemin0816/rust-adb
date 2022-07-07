@@ -1,5 +1,6 @@
 use crate::adb_host::{
-    read_response_content, read_response_length, read_response_status, write_command, AsyncHostCommand,
+    read_response_content, read_response_length, read_response_status, write_command,
+    AsyncHostCommand,
 };
 use log::trace;
 use std::io::Read;
@@ -80,12 +81,15 @@ impl DeviceConnectionInfo {
 
 fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<TcpStream, AdbError> {
     let host_connection_info = device_connection_info.host_connection_info();
-    let mut command = AdbHostTransportCommand::new(&host_connection_info, &device_connection_info.serial_no);
+    let mut command =
+        AdbHostTransportCommand::new(&host_connection_info, &device_connection_info.serial_no);
     let async_protocol = command.execute()?;
     Ok(async_protocol.tcp_stream)
 }
 
-pub fn exec_device_command_sync(mut tcp_stream: TcpStream, command: String) -> Result<AsyncDeviceProtocol, AdbError> {
+pub fn exec_device_command_sync(
+    mut tcp_stream: TcpStream, command: String,
+) -> Result<AsyncDeviceProtocol, AdbError> {
     trace!("[exec_command_sync]exec command: command={}", command);
 
     write_command(&mut tcp_stream, &command)?;
@@ -112,7 +116,9 @@ pub fn exec_device_command_sync(mut tcp_stream: TcpStream, command: String) -> R
     })
 }
 
-pub fn exec_device_command(tcp_stream: &mut TcpStream, command: String) -> Result<SyncDeviceProtocol, AdbError> {
+pub fn exec_device_command(
+    tcp_stream: &mut TcpStream, command: String,
+) -> Result<SyncDeviceProtocol, AdbError> {
     trace!("[exec_device_command]exec command: command={}", command);
 
     write_command(tcp_stream, &command)?;
@@ -148,8 +154,8 @@ pub fn exec_device_command(tcp_stream: &mut TcpStream, command: String) -> Resul
 pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, AdbError> {
     let mut response_content = vec![];
     match tcp_stream.read_to_end(&mut response_content) {
-        | Ok(_) => {}
-        | Err(error) => {
+        Ok(_) => {}
+        Err(error) => {
             trace!("[read_response_all_content]read content failed: error={}", error);
             return Err(AdbError::TcpReadError {
                 source: Box::new(error),
@@ -158,12 +164,18 @@ pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, A
     };
 
     match String::from_utf8(Vec::from(response_content)) {
-        | Ok(content_string) => {
-            trace!("[read_response_all_content]read command content success: content={}", &content_string);
+        Ok(content_string) => {
+            trace!(
+                "[read_response_all_content]read command content success: content={}",
+                &content_string
+            );
             Ok(content_string)
         }
-        | Err(error) => {
-            trace!("[read_response_all_content]parse command content to utf-8 failed: error={}", &error);
+        Err(error) => {
+            trace!(
+                "[read_response_all_content]parse command content to utf-8 failed: error={}",
+                &error
+            );
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
             });
