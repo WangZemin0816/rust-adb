@@ -127,8 +127,6 @@ fn read_next_uint16le(tcp_stream: &mut TcpStream) -> Result<u16, AdbError> {
 
 #[cfg(test)]
 mod tests {
-    use encoding_rs::SHIFT_JIS;
-
     use log::trace;
     use std::thread;
     use std::time::Duration;
@@ -152,7 +150,6 @@ mod tests {
             connection_info: conn,
         };
         let resp = command.execute().unwrap();
-        let _decode = SHIFT_JIS.new_decoder();
         match resp {
             | AsyncDeviceProtocol::OKAY { mut tcp_stream } => loop {
                 let entry = read_next_entry(&mut tcp_stream).unwrap();
