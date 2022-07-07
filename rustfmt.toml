@@ -1,4 +1,4 @@
-max_width=120
+max_width=100
 # <unsigned integer> Default: 100
 # Maximum width of each line
 
@@ -18,11 +18,11 @@ use_small_heuristics="Default"
 # <[Off|Max|Default] Default: Default
 # Whether to use different formatting for items and expressions if they satisfy a heuristic notion of 'small'
 
-fn_call_width=100
+fn_call_width=80
 # <unsigned integer> Default: 60
 # Maximum width of the args of a function call before falling back to vertical formatting.
 
-attr_fn_like_width=100
+attr_fn_like_width=70
 # <unsigned integer> Default: 70
 # Maximum width of the args of a function-like attributes before falling back to vertical formatting.
 
@@ -62,7 +62,7 @@ short_array_element_width_threshold=10
 # <unsigned integer> Default: 10
 # Width threshold for an array element to be considered short
 
-match_arm_leading_pipes="Always"
+match_arm_leading_pipes="Never"
 # <Always|Never|Preserve] Default: Never
 #  Determines whether leading pipes are emitted on match arms
 

@@ -1,5 +1,5 @@
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{DeviceConnectionInfo, SyncDeviceCommand, SyncDeviceProtocol};
+use crate::adb_device::{SyncDeviceCommand};
 use crate::client::{DeviceService, LogEntry};
 use crate::error::adb::AdbError;
 use std::collections::HashMap;
@@ -23,7 +23,7 @@ impl DeviceClientImpl {
 }
 
 impl DeviceService for DeviceClientImpl {
-    fn push(&mut self, content: File, path: String, mode: i32) -> Result<String, AdbError> {
+    fn push(&mut self, _content: File, _path: String, _mode: i32) -> Result<String, AdbError> {
         todo!()
     }
 
@@ -35,11 +35,11 @@ impl DeviceService for DeviceClientImpl {
         }
     }
 
-    fn shell_async(&mut self, command: &String) -> Result<TcpStream, AdbError> {
+    fn shell_async(&mut self, _command: &String) -> Result<TcpStream, AdbError> {
         todo!()
     }
 
-    fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError> {
+    fn get_packages(&mut self, _params: &String) -> Result<Vec<String>, AdbError> {
         todo!()
     }
 
@@ -51,7 +51,7 @@ impl DeviceService for DeviceClientImpl {
         todo!()
     }
 
-    fn logcat(&mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError)) -> Result<(), AdbError> {
+    fn logcat(&mut self, _params: &String, _consumer: fn(LogEntry), _error_handler: fn(AdbError)) -> Result<(), AdbError> {
         todo!()
     }
 }
