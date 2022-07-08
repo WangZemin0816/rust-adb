@@ -14,3 +14,12 @@ impl SyncDeviceCommand for DeviceGetPropertiesCommand {
         DeviceSyncShellCommand::new(&self.connection_info, &command).execute()
     }
 }
+
+impl DeviceGetPropertiesCommand {
+    pub fn new(host: &String, port: &i32, serial_no: &String, params: &String) -> DeviceGetPropertiesCommand {
+        DeviceGetPropertiesCommand {
+            params: params.clone(),
+            connection_info: DeviceConnectionInfo::new(host, port, serial_no),
+        }
+    }
+}

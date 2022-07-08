@@ -8,6 +8,7 @@ use crate::error::adb::AdbError;
 
 mod adb_client;
 mod device_client;
+mod tests;
 
 pub trait AdbClient {
     fn start_server(&mut self) -> Result<(), AdbError>;
@@ -30,7 +31,7 @@ pub trait DeviceService {
     fn shell_async(&mut self, command: &String) -> Result<TcpStream, AdbError>;
     fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError>;
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError>;
-    fn get_properties(&mut self) -> Result<HashMap<String, String>, AdbError>;
+    fn get_properties(&mut self, params: &String) -> Result<HashMap<String, String>, AdbError>;
     fn logcat(
         &mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError),
     ) -> Result<(), AdbError>;
