@@ -16,7 +16,7 @@ impl SyncDeviceCommand for DeviceGetFeaturesCommand {
 impl DeviceGetFeaturesCommand {
     pub fn new(host: &String, port: &i32, serial_no: &String) -> DeviceGetFeaturesCommand {
         DeviceGetFeaturesCommand {
-            connection_info: DeviceConnectionInfo::new(host, port, serial_no)
+            connection_info: DeviceConnectionInfo::new(host, port, serial_no),
         }
     }
 }

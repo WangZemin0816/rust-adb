@@ -1,3 +1,7 @@
+use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
+use crate::adb_device::device_get_packages::DeviceGetPackagesCommand;
+use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
+use crate::adb_device::device_logcat::{read_next_entry, DeviceLogcatCommand};
 use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
 use crate::adb_device::{AsyncDeviceCommand, SyncDeviceCommand};
@@ -8,10 +12,6 @@ use std::fs::File;
 use std::net::TcpStream;
 use std::thread;
 use std::thread::JoinHandle;
-use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
-use crate::adb_device::device_get_packages::DeviceGetPackagesCommand;
-use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
-use crate::adb_device::device_logcat::{DeviceLogcatCommand, read_next_entry};
 
 pub struct DeviceClientImpl {
     pub host: String,
@@ -53,11 +53,13 @@ impl DeviceService for DeviceClientImpl {
     }
 
     fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError> {
-        let mut command = DeviceGetPackagesCommand::new(
-            &self.host, &self.port, &self.serial_no, &params);
+        let mut command =
+            DeviceGetPackagesCommand::new(&self.host, &self.port, &self.serial_no, &params);
         let content = match command.execute() {
-            Ok(response) => { response.content }
-            Err(error) => { return Err(error); }
+            Ok(response) => response.content,
+            Err(error) => {
+                return Err(error);
+            }
         };
         let mut packages = vec![];
         let lines: Vec<&str> = content.split_whitespace().collect();
@@ -74,8 +76,10 @@ impl DeviceService for DeviceClientImpl {
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError> {
         let mut command = DeviceGetFeaturesCommand::new(&self.host, &self.port, &self.serial_no);
         let content = match command.execute() {
-            Ok(response) => { response.content.clone() }
-            Err(error) => { return Err(error); }
+            Ok(response) => response.content.clone(),
+            Err(error) => {
+                return Err(error);
+            }
         };
         let mut features = HashMap::new();
         let lines: Vec<&str> = content.split("\n").collect();
@@ -92,11 +96,13 @@ impl DeviceService for DeviceClientImpl {
     }
 
     fn get_properties(&mut self, params: &String) -> Result<HashMap<String, String>, AdbError> {
-        let mut command = DeviceGetPropertiesCommand::new(
-            &self.host, &self.port, &self.serial_no, &params);
+        let mut command =
+            DeviceGetPropertiesCommand::new(&self.host, &self.port, &self.serial_no, &params);
         let content = match command.execute() {
-            Ok(response) => { response.content.clone() }
-            Err(error) => { return Err(error); }
+            Ok(response) => response.content.clone(),
+            Err(error) => {
+                return Err(error);
+            }
         };
         let mut properties = HashMap::new();
         let lines: Vec<&str> = content.split("\n").collect();
@@ -111,25 +117,26 @@ impl DeviceService for DeviceClientImpl {
         Ok(properties)
     }
 
-    fn logcat(&mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError))
-              -> Result<JoinHandle<()>, AdbError> {
-        let mut command = DeviceLogcatCommand::new(
-            &self.host, &self.port, &self.serial_no, &params);
+    fn logcat(
+        &mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError),
+    ) -> Result<JoinHandle<()>, AdbError> {
+        let mut command =
+            DeviceLogcatCommand::new(&self.host, &self.port, &self.serial_no, &params);
         let mut tcp_stream = match command.execute() {
-            Ok(response) => { response.tcp_stream }
-            Err(error) => { return Err(error); }
-        };
-        let handler = thread::spawn(move|| {
-            loop {
-                let log_entry = match read_next_entry(&mut tcp_stream) {
-                    Ok(response) => { response }
-                    Err(error) => {
-                        error_handler(error);
-                        break;
-                    }
-                };
-                consumer(log_entry)
+            Ok(response) => response.tcp_stream,
+            Err(error) => {
+                return Err(error);
             }
+        };
+        let handler = thread::spawn(move || loop {
+            let log_entry = match read_next_entry(&mut tcp_stream) {
+                Ok(response) => response,
+                Err(error) => {
+                    error_handler(error);
+                    break;
+                }
+            };
+            consumer(log_entry)
         });
         Ok(handler)
     }

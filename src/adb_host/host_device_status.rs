@@ -15,4 +15,3 @@ impl SyncHostCommand for HostDeviceStatusCommand {
         exec_command(&mut tcp_stream, command)
     }
 }
-

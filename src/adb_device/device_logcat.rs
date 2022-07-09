@@ -22,12 +22,14 @@ impl AsyncDeviceCommand for DeviceLogcatCommand {
 }
 
 impl DeviceLogcatCommand {
-    pub fn new(host: &String, port: &i32, serial_no: &String, params: &String) -> DeviceLogcatCommand {
+    pub fn new(
+        host: &String, port: &i32, serial_no: &String, params: &String,
+    ) -> DeviceLogcatCommand {
         DeviceLogcatCommand {
             params: params.clone(),
-            connection_info: DeviceConnectionInfo{
-                host:host.clone(),
-                port:port.clone(),
+            connection_info: DeviceConnectionInfo {
+                host: host.clone(),
+                port: port.clone(),
                 serial_no: serial_no.clone(),
                 read_timeout: None,
                 write_timeout: Option::from(Duration::from_millis(1000)),

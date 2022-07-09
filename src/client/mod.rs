@@ -33,7 +33,7 @@ pub trait DeviceService {
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError>;
     fn get_properties(&mut self, params: &String) -> Result<HashMap<String, String>, AdbError>;
     fn logcat(
-        &mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError)
+        &mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError),
     ) -> Result<JoinHandle<()>, AdbError>;
 }
 
