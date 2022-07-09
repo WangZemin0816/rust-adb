@@ -1,7 +1,6 @@
 use crate::adb_host::HostConnectionInfo;
 use crate::adb_host::{SyncHostCommand, SyncHostResponse};
 use crate::error::adb::AdbError;
-use log::trace;
 
 use std::process::Command;
 
@@ -12,11 +11,6 @@ pub struct AdbHostStartCommand {
 
 impl SyncHostCommand for AdbHostStartCommand {
     fn execute(&mut self) -> Result<SyncHostResponse, AdbError> {
-        trace!(
-            "[start_adb_server]start adb: connect={:?} bin={}",
-            self.connection_info,
-            self.bin_path
-        );
         match Command::new(self.bin_path.clone())
             .arg("-P")
             .arg(format!("{}", self.connection_info.port))
@@ -26,7 +20,6 @@ impl SyncHostCommand for AdbHostStartCommand {
             Ok(response) => {
                 if response.status.success() {
                     let content = String::from_utf8_lossy(&response.stdout);
-                    trace!("[start_adb_server]start adb success: stdout={}", content);
                     return Ok(SyncHostResponse {
                         content: String::from(content.clone()),
                         length: content.len(),
@@ -34,7 +27,6 @@ impl SyncHostCommand for AdbHostStartCommand {
                 }
 
                 let error = String::from_utf8_lossy(&response.stderr);
-                trace!("[start_adb_server]start adb failed: stderr={}", error);
                 Err(AdbError::ResponseStatusError {
                     content: String::from(error.clone()),
                 })
@@ -57,23 +49,3 @@ impl AdbHostStartCommand {
     }
 }
 
-#[cfg(test)]
-mod tests {
-
-    use crate::adb_host::host_start::AdbHostStartCommand;
-
-    use crate::adb_host::HostConnectionInfo;
-    use crate::adb_host::SyncHostCommand;
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let conn = HostConnectionInfo::new(&String::from("127.0.0.1"), &5037);
-        let mut command = AdbHostStartCommand {
-            bin_path: "adb".to_string(),
-            connection_info: conn,
-        };
-        let resp = command.execute().unwrap();
-        println!("{:?}", resp)
-    }
-}

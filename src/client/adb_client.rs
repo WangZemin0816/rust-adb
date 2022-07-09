@@ -6,7 +6,6 @@ use crate::adb_host::{
     connect, read_response_content, read_response_length, AsyncHostCommand, HostConnectionInfo,
     SyncHostCommand,
 };
-use log::{info, trace};
 
 use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
 use crate::adb_host::host_kill::AdbHostKillCommand;
@@ -99,7 +98,6 @@ impl AdbClient for AdbClientImpl {
                 });
                 continue;
             }
-            info!("find client line not contains 7 item: content={}", line)
         }
         Ok(devices)
     }
@@ -121,7 +119,6 @@ impl AdbClient for AdbClientImpl {
                     return;
                 }
             };
-            trace!("[track_devices]response length: length={}", length);
 
             let content = match read_response_content(&mut tcp_stream, length) {
                 Ok(content) => content,
@@ -130,8 +127,7 @@ impl AdbClient for AdbClientImpl {
                     return;
                 }
             };
-            trace!("[track_devices]response content: content={}", content);
-            let mut devices = vec![];
+             let mut devices = vec![];
             for line in content.lines() {
                 let contents: Vec<&str> = line.trim().split_whitespace().collect();
                 if contents.len() >= 2 {
@@ -144,77 +140,5 @@ impl AdbClient for AdbClientImpl {
             on_change(devices)
         });
         Ok(handler)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use std::thread;
-    use std::time::Duration;
-
-    use log::info;
-
-    use crate::client::adb_client::AdbClientImpl;
-    use crate::client::{AdbClient, Device};
-    use crate::error::adb::AdbError;
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("log4rs.yml", Default::default());
-        let mut client = AdbClientImpl {
-            host: String::from("127.0.0.1"),
-            port: 5037,
-            bin_path: String::from(""),
-        };
-        println!("version: {:?}", client.get_version());
-        match client.list_devices() {
-            Ok(devices) => {
-                for device in devices {
-                    println!("devices: {:?}", device)
-                }
-            }
-            Err(error) => {
-                println!("{:?}", error)
-            }
-        }
-
-        match client.list_devices_with_path() {
-            Ok(devices) => {
-                for device in devices {
-                    println!("devices: {:?}", device)
-                }
-            }
-            Err(error) => {
-                println!("{:?}", error)
-            }
-        }
-
-        // match client.kill() {
-        //     Ok(_) => {
-        //         println!("kill success")
-        //     }
-        //     Err(error) => {
-        //         println!("{:?}", error)
-        //     }
-        // }
-
-        // match client.list_devices_with_path() {
-        //     Ok(_devices) => {}
-        //     Err(error) => {
-        //         println!("{:?}", error)
-        //     }
-        // }
-
-        let onchange = |devices: Vec<Device>| info!("on change {:?}", devices);
-        let onerror = |err: AdbError| info!("on error {:?}", err);
-
-        match client.track_devices(onchange, onerror) {
-            Ok(..) => {}
-            Err(error) => {
-                info!("{:?}", error)
-            }
-        }
-        thread::sleep(Duration::from_secs(2000));
-        // println!("devices {}",client.list_devices());
     }
 }

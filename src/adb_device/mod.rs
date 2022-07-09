@@ -2,7 +2,6 @@ use crate::adb_host::{
     read_response_content, read_response_length, read_response_status, write_command,
     AsyncHostCommand,
 };
-use log::trace;
 use std::io::Read;
 use std::net::TcpStream;
 use std::time::Duration;
@@ -90,13 +89,10 @@ fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<Tc
 pub fn exec_device_command_sync(
     mut tcp_stream: TcpStream, command: String,
 ) -> Result<AsyncDeviceProtocol, AdbError> {
-    trace!("[exec_command_sync]exec command: command={}", command);
 
     write_command(&mut tcp_stream, &command)?;
-    trace!("[exec_command_sync]write command: command={}", command);
 
     let status = read_response_status(&mut tcp_stream)?;
-    trace!("[exec_command_sync]response status: status={}", status);
 
     if status == "OKAY" {
         return Ok(AsyncDeviceProtocol { tcp_stream });
@@ -104,10 +100,8 @@ pub fn exec_device_command_sync(
 
     if status == "FAIL" {
         let length = read_response_length(&mut tcp_stream)?;
-        trace!("[exec_command_sync]response length: length={}", length);
 
         let content = read_response_content(&mut tcp_stream, length)?;
-        trace!("[exec_command_sync]response content: content={}", content);
         return Err(AdbError::ResponseStatusError { content });
     }
 
@@ -119,17 +113,13 @@ pub fn exec_device_command_sync(
 pub fn exec_device_command(
     tcp_stream: &mut TcpStream, command: String,
 ) -> Result<SyncDeviceProtocol, AdbError> {
-    trace!("[exec_device_command]exec command: command={}", command);
 
     write_command(tcp_stream, &command)?;
-    trace!("[exec_device_command]write command: command={}", command);
 
     let status = read_response_status(tcp_stream)?;
-    trace!("[exec_device_command]response status: status={}", status);
 
     if status == "OKAY" {
         let content = read_response_all_content(tcp_stream)?;
-        trace!("[exec_device_command]response content: content={}", content);
 
         return Ok(SyncDeviceProtocol {
             length: content.len(),
@@ -139,11 +129,9 @@ pub fn exec_device_command(
 
     if status == "FAIL" {
         let length = read_response_length(tcp_stream)?;
-        trace!("[exec_command_sync]response length: length={}", length);
 
         let content = read_response_content(tcp_stream, length)?;
-        trace!("[exec_command_sync]response content: content={}", content);
-        return Err(AdbError::ResponseStatusError { content });
+         return Err(AdbError::ResponseStatusError { content });
     }
 
     Err(AdbError::ResponseStatusError {
@@ -156,8 +144,7 @@ pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, A
     match tcp_stream.read_to_end(&mut response_content) {
         Ok(_) => {}
         Err(error) => {
-            trace!("[read_response_all_content]read content failed: error={}", error);
-            return Err(AdbError::TcpReadError {
+           return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
         }
@@ -165,17 +152,9 @@ pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, A
 
     match String::from_utf8(Vec::from(response_content)) {
         Ok(content_string) => {
-            trace!(
-                "[read_response_all_content]read command content success: content={}",
-                &content_string
-            );
             Ok(content_string)
         }
         Err(error) => {
-            trace!(
-                "[read_response_all_content]parse command content to utf-8 failed: error={}",
-                &error
-            );
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
             });

@@ -22,21 +22,3 @@ impl AdbHostListDeviceLCommand {
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::adb_host::host_list_device_l::AdbHostListDeviceLCommand;
-    use crate::adb_host::HostConnectionInfo;
-    use crate::adb_host::SyncHostCommand;
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
-        let conn = HostConnectionInfo::new(&String::from("127.0.0.1"), &5037);
-        let mut command = AdbHostListDeviceLCommand {
-            connection_info: conn,
-        };
-        let resp = command.execute().unwrap();
-        println!("{:?}", resp)
-    }
-}

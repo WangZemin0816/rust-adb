@@ -9,8 +9,6 @@ use crate::error::adb::AdbError;
 
 mod adb_client;
 mod device_client;
-mod tests;
-
 fn new_adb_client(host: &String, port: i32, bin_path: String) -> Box<dyn AdbClient> {
     Box::new(AdbClientImpl {
         host: host.clone(),

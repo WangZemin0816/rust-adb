@@ -30,22 +30,3 @@ impl AdbHostDisconnectCommand {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::adb_host::host_disconnect::AdbHostDisconnectCommand;
-    use crate::adb_host::AsyncHostCommand;
-
-    use crate::adb_host::HostConnectionInfo;
-
-    #[test]
-    fn read_commands() {
-        let _ = log4rs::init_file("../../log4rs.yml", Default::default());
-        let conn = HostConnectionInfo::new(&String::from("127.0.0.1"), &5037);
-        let mut command = AdbHostDisconnectCommand {
-            connection_info: conn,
-            host: String::from("127.0.0.1"),
-            port: 5037,
-        };
-        let _resp = command.execute().unwrap();
-    }
-}
