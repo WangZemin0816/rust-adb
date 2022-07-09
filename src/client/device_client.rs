@@ -6,9 +6,12 @@ use crate::error::adb::AdbError;
 use std::collections::HashMap;
 use std::fs::File;
 use std::net::TcpStream;
+use std::thread;
+use std::thread::JoinHandle;
 use crate::adb_device::device_get_features::DeviceGetFeaturesCommand;
 use crate::adb_device::device_get_packages::DeviceGetPackagesCommand;
 use crate::adb_device::device_get_properties::DeviceGetPropertiesCommand;
+use crate::adb_device::device_logcat::{DeviceLogcatCommand, read_next_entry};
 
 pub struct DeviceClientImpl {
     pub host: String,
@@ -98,7 +101,7 @@ impl DeviceService for DeviceClientImpl {
         let mut properties = HashMap::new();
         let lines: Vec<&str> = content.split("\n").collect();
         for line in lines {
-            let replace_item = line.replace("[", "").replace("]","");
+            let replace_item = line.replace("[", "").replace("]", "");
             let line_item: Vec<&str> = replace_item.trim().split(":").collect();
             if line_item.len() < 2 {
                 continue;
@@ -108,9 +111,26 @@ impl DeviceService for DeviceClientImpl {
         Ok(properties)
     }
 
-    fn logcat(
-        &mut self, _params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError),
-    ) -> Result<(), AdbError> {
-        todo!()
+    fn logcat(&mut self, params: &String, consumer: fn(LogEntry), error_handler: fn(AdbError))
+              -> Result<JoinHandle<()>, AdbError> {
+        let mut command = DeviceLogcatCommand::new(
+            &self.host, &self.port, &self.serial_no, &params);
+        let mut tcp_stream = match command.execute() {
+            Ok(response) => { response.tcp_stream }
+            Err(error) => { return Err(error); }
+        };
+        let handler = thread::spawn(move|| {
+            loop {
+                let log_entry = match read_next_entry(&mut tcp_stream) {
+                    Ok(response) => { response }
+                    Err(error) => {
+                        error_handler(error);
+                        break;
+                    }
+                };
+                consumer(log_entry)
+            }
+        });
+        Ok(handler)
     }
 }

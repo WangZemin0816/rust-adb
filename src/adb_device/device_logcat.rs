@@ -20,6 +20,15 @@ impl AsyncDeviceCommand for DeviceLogcatCommand {
     }
 }
 
+impl DeviceLogcatCommand {
+    pub fn new(host: &String, port: &i32, serial_no: &String, params: &String) -> DeviceLogcatCommand {
+        DeviceLogcatCommand {
+            params: params.clone(),
+            connection_info: DeviceConnectionInfo::new(host, port, serial_no),
+        }
+    }
+}
+
 pub fn read_next_entry(tcp_stream: &mut TcpStream) -> Result<LogEntry, AdbError> {
     skip_un_use_bytes(tcp_stream)?;
     let length = read_next_uint16le(tcp_stream)?;
