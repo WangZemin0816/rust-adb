@@ -9,13 +9,6 @@ use crate::error::adb::AdbError;
 
 mod adb_client;
 mod device_client;
-fn new_adb_client(host: &String, port: i32, bin_path: String) -> Box<dyn AdbClient> {
-    Box::new(AdbClientImpl {
-        host: host.clone(),
-        port: port.clone(),
-        bin_path: bin_path.clone(),
-    })
-}
 
 pub trait AdbClient {
     fn start_server(&mut self) -> Result<(), AdbError>;
