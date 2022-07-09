@@ -3,6 +3,7 @@
 mod tests {
     use std::thread;
     use std::time::Duration;
+    use log::trace;
     use crate::adb_host::host_device_status::HostDeviceStatusCommand;
     use crate::adb_host::HostConnectionInfo;
     use crate::adb_host::SyncHostCommand;
@@ -56,15 +57,15 @@ mod tests {
             serial_no: "emulator-5554".to_string()
         };
         let log_consumer = |entry:LogEntry|{
-            println!("========= {:#?}", String::from_utf8_lossy(&*entry.log))
+            trace!("========= {:#?}", String::from_utf8_lossy(&*entry.log))
         };
 
         let error_handler = |err:AdbError|{
-            println!("AdbError {:#?}", err)
+            trace!("AdbError {:#?}", err)
         };
 
         let resp =conn.logcat(&"".to_string(),log_consumer,error_handler);
-        println!("========= {:#?}", resp);
+        trace!("========= {:#?}", resp);
         thread::sleep(Duration::from_secs(2000));
     }
 }

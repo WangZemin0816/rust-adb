@@ -1,6 +1,7 @@
 use std::io::Read;
 
 use std::net::TcpStream;
+use std::time::Duration;
 
 use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 
@@ -24,7 +25,13 @@ impl DeviceLogcatCommand {
     pub fn new(host: &String, port: &i32, serial_no: &String, params: &String) -> DeviceLogcatCommand {
         DeviceLogcatCommand {
             params: params.clone(),
-            connection_info: DeviceConnectionInfo::new(host, port, serial_no),
+            connection_info: DeviceConnectionInfo{
+                host:host.clone(),
+                port:port.clone(),
+                serial_no: serial_no.clone(),
+                read_timeout: None,
+                write_timeout: Option::from(Duration::from_millis(1000)),
+            },
         }
     }
 }
