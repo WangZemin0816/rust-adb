@@ -5,4 +5,3 @@ mod adb_host;
 
 pub mod client;
 pub mod error;
-

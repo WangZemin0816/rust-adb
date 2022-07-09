@@ -127,7 +127,7 @@ impl AdbClient for AdbClientImpl {
                     return;
                 }
             };
-             let mut devices = vec![];
+            let mut devices = vec![];
             for line in content.lines() {
                 let contents: Vec<&str> = line.trim().split_whitespace().collect();
                 if contents.len() >= 2 {

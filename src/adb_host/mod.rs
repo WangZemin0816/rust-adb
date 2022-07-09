@@ -94,7 +94,6 @@ pub fn connect(connection_info: &HostConnectionInfo) -> Result<TcpStream, AdbErr
 pub fn exec_command_sync(
     mut tcp_stream: TcpStream, command: String,
 ) -> Result<AsyncHostResponse, AdbError> {
-
     write_command(&mut tcp_stream, &command)?;
 
     let status = read_response_status(&mut tcp_stream)?;
@@ -118,7 +117,6 @@ pub fn exec_command_sync(
 pub fn exec_command(
     tcp_stream: &mut TcpStream, command: String,
 ) -> Result<SyncHostResponse, AdbError> {
-
     write_command(tcp_stream, &command)?;
 
     let status = read_response_status(tcp_stream)?;
@@ -142,11 +140,9 @@ pub fn write_command(tcp_stream: &mut TcpStream, command: &String) -> Result<(),
     let full_command = add_command_length_prefix(command.clone());
     match tcp_stream.write_all(full_command.as_ref()) {
         Ok(_) => Ok(()),
-        Err(error) => {
-            Err(AdbError::TcpWriteError {
-                source: Box::new(error),
-            })
-        }
+        Err(error) => Err(AdbError::TcpWriteError {
+            source: Box::new(error),
+        }),
     }
 }
 
@@ -164,10 +160,7 @@ pub fn read_response_content(
     };
 
     match String::from_utf8(Vec::from(response_content)) {
-        Ok(content_string) => {
-
-            Ok(content_string)
-        }
+        Ok(content_string) => Ok(content_string),
         Err(error) => {
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
@@ -187,18 +180,12 @@ pub fn read_response_length(tcp_stream: &mut TcpStream) -> Result<usize, AdbErro
         }
     }
     match String::from_utf8(Vec::from(content_length)) {
-        Ok(response) => {
-            match usize::from_str_radix(&*response, 16) {
-                Ok(size) => {
-                    Ok(size)
-                }
-                Err(error) => {
-                    Err(AdbError::ParseResponseError {
-                        source: Box::new(error),
-                    })
-                }
-            }
-        }
+        Ok(response) => match usize::from_str_radix(&*response, 16) {
+            Ok(size) => Ok(size),
+            Err(error) => Err(AdbError::ParseResponseError {
+                source: Box::new(error),
+            }),
+        },
         Err(error) => {
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
@@ -219,11 +206,9 @@ pub fn read_response_status(tcp_stream: &mut TcpStream) -> Result<String, AdbErr
     }
     match String::from_utf8(Vec::from(is_ok_buffer)) {
         Ok(response_status) => Ok(response_status),
-        Err(error) => {
-            Err(AdbError::ParseResponseError {
-                source: Box::new(error),
-            })
-        }
+        Err(error) => Err(AdbError::ParseResponseError {
+            source: Box::new(error),
+        }),
     }
 }
 

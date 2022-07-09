@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::fs::File;
 
+use crate::client::adb_client::AdbClientImpl;
 use std::net::TcpStream;
 use std::thread::JoinHandle;
-use crate::client::adb_client::AdbClientImpl;
 
 use crate::error::adb::AdbError;
 
@@ -17,7 +17,6 @@ pub fn new_adb_client(host: &String, port: i32, bin_path: String) -> Box<dyn Adb
         bin_path: bin_path.clone(),
     })
 }
-
 
 pub trait AdbClient {
     fn start_server(&mut self) -> Result<(), AdbError>;

@@ -89,7 +89,6 @@ fn device_connection(device_connection_info: &DeviceConnectionInfo) -> Result<Tc
 pub fn exec_device_command_sync(
     mut tcp_stream: TcpStream, command: String,
 ) -> Result<AsyncDeviceProtocol, AdbError> {
-
     write_command(&mut tcp_stream, &command)?;
 
     let status = read_response_status(&mut tcp_stream)?;
@@ -113,7 +112,6 @@ pub fn exec_device_command_sync(
 pub fn exec_device_command(
     tcp_stream: &mut TcpStream, command: String,
 ) -> Result<SyncDeviceProtocol, AdbError> {
-
     write_command(tcp_stream, &command)?;
 
     let status = read_response_status(tcp_stream)?;
@@ -131,7 +129,7 @@ pub fn exec_device_command(
         let length = read_response_length(tcp_stream)?;
 
         let content = read_response_content(tcp_stream, length)?;
-         return Err(AdbError::ResponseStatusError { content });
+        return Err(AdbError::ResponseStatusError { content });
     }
 
     Err(AdbError::ResponseStatusError {
@@ -144,16 +142,14 @@ pub fn read_response_all_content(tcp_stream: &mut TcpStream) -> Result<String, A
     match tcp_stream.read_to_end(&mut response_content) {
         Ok(_) => {}
         Err(error) => {
-           return Err(AdbError::TcpReadError {
+            return Err(AdbError::TcpReadError {
                 source: Box::new(error),
             });
         }
     };
 
     match String::from_utf8(Vec::from(response_content)) {
-        Ok(content_string) => {
-            Ok(content_string)
-        }
+        Ok(content_string) => Ok(content_string),
         Err(error) => {
             return Err(AdbError::ParseResponseError {
                 source: Box::new(error),
