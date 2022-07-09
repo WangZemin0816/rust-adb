@@ -4,10 +4,10 @@ mod tests {
     use std::thread;
     use std::time::Duration;
     use log::trace;
-    use crate::adb_host::host_device_status::HostDeviceStatusCommand;
-    use crate::adb_host::HostConnectionInfo;
-    use crate::adb_host::SyncHostCommand;
-    use crate::client::adb_client::AdbClientImpl;
+    
+    
+    
+    
     use crate::client::device_client::DeviceClientImpl;
     use crate::client::{DeviceService, LogEntry};
     use crate::error::adb::AdbError;

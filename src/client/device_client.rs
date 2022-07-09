@@ -1,6 +1,6 @@
 use crate::adb_device::device_shell_async::DeviceAsyncShellCommand;
 use crate::adb_device::device_shell_sync::DeviceSyncShellCommand;
-use crate::adb_device::{AsyncDeviceCommand, SyncDeviceCommand, SyncDeviceProtocol};
+use crate::adb_device::{AsyncDeviceCommand, SyncDeviceCommand};
 use crate::client::{DeviceService, LogEntry};
 use crate::error::adb::AdbError;
 use std::collections::HashMap;
@@ -55,7 +55,7 @@ impl DeviceService for DeviceClientImpl {
     fn get_packages(&mut self, params: &String) -> Result<Vec<String>, AdbError> {
         let mut command = DeviceGetPackagesCommand::new(
             &self.host, &self.port, &self.serial_no, &params);
-        let mut content = match command.execute() {
+        let content = match command.execute() {
             Ok(response) => { response.content }
             Err(error) => { return Err(error); }
         };
@@ -73,7 +73,7 @@ impl DeviceService for DeviceClientImpl {
 
     fn get_features(&mut self) -> Result<HashMap<String, String>, AdbError> {
         let mut command = DeviceGetFeaturesCommand::new(&self.host, &self.port, &self.serial_no);
-        let mut content = match command.execute() {
+        let content = match command.execute() {
             Ok(response) => { response.content.clone() }
             Err(error) => { return Err(error); }
         };
@@ -94,7 +94,7 @@ impl DeviceService for DeviceClientImpl {
     fn get_properties(&mut self, params: &String) -> Result<HashMap<String, String>, AdbError> {
         let mut command = DeviceGetPropertiesCommand::new(
             &self.host, &self.port, &self.serial_no, &params);
-        let mut content = match command.execute() {
+        let content = match command.execute() {
             Ok(response) => { response.content.clone() }
             Err(error) => { return Err(error); }
         };
